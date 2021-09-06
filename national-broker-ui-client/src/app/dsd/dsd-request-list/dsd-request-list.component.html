@@ -1,0 +1,41 @@
+<app-search-table
+  [style]="'position:absolute;top:5px;bottom:5px;right:5px;left:5px'"
+  page_id="DSD-request-update-list_id"
+  [title]="'HTTP requests list'"
+  [icon]="'public'"
+  [columnPicker]="columnPicker"
+  [urlQuery]="messagesUrlQuery"
+  [additionalToolButtons]="additionalToolButtons"
+  [searchPanel]="searchPanel"
+  [searchTableController]="dsdRequestListController"
+  [showSearchPanel]="true"
+  [filter]="filter"
+  [sort]="'-id'"
+  [allowNewItems]="false"
+  [allowDeleteItems]="false"
+  [showActionButtons]="true"
+
+>
+  <ng-template #searchPanel>
+    <mat-form-field>
+      <input matInput placeholder="messageId" name="Message ID"
+             [(ngModel)]="filter.messageId"
+             #messageId="ngModel" id="DsdRequestService">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Request Service" name="Dsd Request Service"
+             [(ngModel)]="filter.service"
+             #messageId="ngModel" id="DsdRequestService">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Request Action" name="Dsd Request Action"
+             [(ngModel)]="filter.action"
+             #messageId="ngModel" id="DsdRequestAction">
+    </mat-form-field>
+  </ng-template>
+  <ng-template #additionalToolButtons>
+  </ng-template>
+  <ng-template #searchPanel>
+  </ng-template>
+</app-search-table>
+

@@ -1,0 +1,54 @@
+<app-search-table
+  [style]="'position:absolute;top:5px;bottom:5px;right:5px;left:5px'"
+  page_id="dataset-list_id"
+  [title]="'Dataset DSD Update requests'"
+  [icon]="'playlist_add_check'"
+  [columnPicker]="columnPicker"
+  [urlQuery]="datasetUrlQuery"
+  [urlManage]="organizationManageUrlQuery"
+  [additionalToolButtons]="additionalToolButtons"
+  [searchPanel]="searchPanel"
+  [searchTableController]="datasetListController"
+  [showSearchPanel]="true"
+  [filter]="filter"
+  [sort]="'+organizationIdentifier,+datasetType'"
+  [allowNewItems]="true"
+  [allowDeleteItems]="true"
+  [showActionButtons]="true"
+>
+  <ng-template #searchPanel>
+
+    <mat-form-field>
+      <input matInput placeholder="Organization identifier" name="Organization identifier"
+             [(ngModel)]="filter.organizationIdentifier"
+              id="organizationIdentifier">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Dataset type" name="Dataset type"
+             [(ngModel)]="filter.datasetType"
+             id="datasetType">
+    </mat-form-field>
+
+<!--
+    <editable-list matInput [dataSource]="testStringList" title="This is string demo component"></editable-list>
+    <editable-list matInput [dataSource]="testRelationshipList"
+                   [listTemplate]="relationshipListTemplate"
+                   [displayedColumns] = "['relation','hadRole', 'edit']"
+                   [dataSchema] = "{'relation': 'text','hadRole': 'text' }"
+                   title="This is object demo component"></editable-list>
+
+    <details-list matInput [dataSource]="testRelationshipList"
+                   [listTemplate]="relationshipListTemplate"
+                   [displayedColumns] = "['relation','hadRole', 'edit']"
+                   [dataSchema] = "{'relation': 'text','hadRole': 'text' }"
+                   title="This is object demo component"></details-list>
+-->
+  </ng-template>
+  <ng-template #additionalToolButtons>
+  </ng-template>
+  <ng-template #searchPanel>
+  </ng-template>
+</app-search-table>
+
+<ng-template #relationshipListTemplate let-value="value">{{value.relation+ "("+ value.hadRole+")"}}</ng-template>

@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>oop_rest_api_pilot</artifactId>
+        <groupId>eu.europa.ec.isa2.oop.restapi.pilot</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>dsd-mock</artifactId>
+    <packaging>war</packaging>
+
+    <name>dsd-mock</name>
+    <properties>
+        <junit.version>4.13.2</junit.version>
+    </properties>
+
+    <dependencies>
+        <!-- OOP pilot project dependencies -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>oop-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>isa2-messaging-profile-impl</artifactId>
+        </dependency>
+
+        <!-- Spring framework -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-core</artifactId>
+        </dependency>
+        <!--<dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-client</artifactId>
+        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-resource-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-jose</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-rs-security-jose -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-security-jose</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-security-jose-jaxrs</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-ext-jdk15on</artifactId>
+        </dependency>
+
+        <!-- End OpenApi documentation generation  -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+
+        <!-- persistence -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>javax.persistence-api</artifactId>
+        </dependency>
+
+        <!-- H2 database Mainly to register org.h2.server.web.WebServlet for demo and developing
+        this is not needed for other databases
+        -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--Apache libraries-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+
+        <!-- Logging framework SLF4J + Logback -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-ext</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+        </dependency>
+        <!-- End  Logging framework SLF4J + Logback -->
+        <!--JWT-->
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+        </dependency>
+        <!--End JWT-->
+
+        <dependency>
+            <!-- test dependencies-->
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <!-- "ant/run" to generate open api document for the national broker -->
+                    <execution>
+                        <id>generate-open-api</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!--ANT Task definition
+                                Class generates OpenApi document. The OpenApi documents are used by the national-broker
+                                for generating "Client" code for national-broker -> DSD mock integration
+                                    1. Parameter: comma separated hibernate database dialects
+                                    2. script version
+                                    3. export scripts.
+                                    4. reference type. One of the values INLINE,  DOCUMENT_COMPONENTS, MESSAGING_API_COMPONENTS, MESSAGING_API_OBJECT;
+                                    5. The Url of published Messaging API parameter and schema definitions for the reference type:  MESSAGING_API, MESSAGING_API_OBJECT;
+                                    -->
+                                <java classname="eu.europa.ec.isa2.restapi.profile.generator.OpenApiWriter" fork="true" failonerror="true">
+                                    <arg value="eu.europa.ec.isa2.oop.restapi.docsapi.DSDDatasetApi,
+                                                eu.europa.ec.isa2.oop.restapi.docsapi.DSDOrganizationApi" />
+                                    <arg value="${project.basedir}/../national-broker/src/main/openapi/" />
+                                    <!-- Because in subproject  national-broker ->  io.swagger.codegen.v3:swagger-codegen-maven-plugin:3.0.26
+                                    does not work with version 3.1.0 change  version to 3.0.99 for the client generation -->
+                                    <arg value="3.0.99" />
+                                    <!-- During the pilot implementation  io.swagger.codegen.v3:swagger-codegen-maven-plugin:3.0.26
+                                    did not parse OK the mode MESSAGING_API_COMPONENTS, use MESSAGING_API_OBJECT if external references are needed
+                                     -->
+                                    <arg value="DOCUMENT_COMPONENTS" />
+                                    <arg value="https://raw.githubusercontent.com/isa2-api4ips/rest-api-profile/main" />
+                                    <!-- document version API -->
+                                    <arg value="v1" />
+                                    <!--  properties file -->
+                                    <arg value="${project.basedir}/src/main/resources/dsd.properties" />
+                                    <!-- reference to the passed-in classpath reference -->
+                                    <classpath refid="maven.compile.classpath" />
+                                </java>
+                            </target>
+                        </configuration>
+                    </execution>
+
+                    <!-- "ant/run" to generate database model -->
+                    <execution>
+                        <id>generate-ddl</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!--ANT Task definition
+                                Class generates ddl scripts
+                                    1. Parameter: comma separated hibernate database dialects
+                                    2. script version
+                                    3. export scripts.-->
+                                <java classname="eu.europa.ec.isa2.oop.restapi.dao.utils.DSDSchemaGenerator" fork="true" failonerror="true">
+                                    <arg value="org.hibernate.dialect.Oracle10gDialect,
+                                                org.hibernate.dialect.MySQLDialect,
+                                                org.hibernate.dialect.H2Dialect" />
+                                    <arg value="eu.europa.ec.isa2.oop.dsd.dao.entities" />
+                                    <arg value="${project.groupId}:${project.artifactId}:${project.version}" />
+                                    <arg value="${project.basedir}/src/main/setup/database-scripts" />
+                                    <!-- reference to the passed-in classpath reference -->
+                                    <classpath refid="maven.compile.classpath" />
+                                </java>
+                            </target>
+                        </configuration>
+
+                    </execution>
+
+                </executions>
+            </plugin>
+            <!-- generate client for webhooks. -->
+            <plugin>
+                <groupId>io.swagger.codegen.v3</groupId>
+                <artifactId>swagger-codegen-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>DSDDatasetWebhookApi</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/../national-broker/src/main/openapi/DSDDatasetApi-server.json</inputSpec>
+                            <language>java</language>
+                            <modelPackage>eu.europa.eu.broker.gen.dataset.model</modelPackage>
+                            <apiPackage>eu.europa.eu.broker.gen.dataset.api</apiPackage>
+                            <invokerPackage>eu.europa.eu.broker.gen.dataset.invoker</invokerPackage>
+                            <generateApiTests>false</generateApiTests>
+                            <generateApiDocumentation>false</generateApiDocumentation>
+                            <output>${project.build.directory}/generated-sources</output>
+                            <configOptions>
+                                <groupId>${project.groupId}</groupId>
+                                <artifactId>${project.artifactId}</artifactId>
+                                <artifactVersion>${project.version}</artifactVersion>
+                                <library>resttemplate</library>
+                                <java8>true</java8>
+                                <dateLibrary>java8</dateLibrary>
+                                <licenseName>Apache 2.0</licenseName>
+                                <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+
+                </executions>
+            </plugin>
+        </plugins>
+
+    </build>
+</project>

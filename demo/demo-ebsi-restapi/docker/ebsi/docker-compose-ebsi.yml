@@ -1,0 +1,165 @@
+#
+# Docker compose project used to startup the test environment.
+#
+# Usage:
+#     Start:    docker-compose up -d
+#     Shutdown: docker-compose down
+#     Logs:     docker-compose logs
+#
+# Configuration:
+#   This file represents the architecture of the Domibus Tomcat MySQL (Corner 2)
+#   and Wildfly MySQL (Corner 3) test environment:
+#
+#   Corner 2 (C2)
+#     - mysqlc2:  MySQL Database with Domibus schema
+#     - tomcatc2: Tomcat Server (with domibus.war deployed)
+#
+#   Corner 3 (C3)
+#     - mysqlc3:   MySQL Database with Domibus schema
+#     - wildflyc3: Wildfly server
+#
+
+version: '3.2'
+services:
+
+
+  ##
+  ## Debug Proxy
+  ##
+#  mitmproxy:
+#    image: mitmproxy/mitmproxy
+#    ports:
+#      - "18080:8080"
+#      - "18081:8081"
+#    command: mitmweb --web-host 0.0.0.0
+
+  ##
+  ## Corner 2 - Domibus Tomcat MySQL Blue Configuration
+  ##
+  mysqlc2:
+    image: ${IMAGE_TAG:-domibustest}/domibus-mysql8:4.2.1-EBSI-SNAPSHOT
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=domibus
+      - MYSQL_USER=edelivery
+      - MYSQL_PASSWORD=edelivery
+#    volumes:
+#      - /var/lib/mysql
+    security_opt:
+      - seccomp:unconfined
+    networks:
+      ebsi-net:
+        ipv4_address: 172.70.1.15    
+    #ports:
+    #  - "3406:3306"
+  tomcatBluec2:
+    image: ${IMAGE_TAG:-domibustest}/domibus-tomcat9:4.2.1-EBSI-SNAPSHOT
+    environment:
+       - DB_TYPE=MySQL
+       - DB_HOST=mysqlc2
+       - DB_PORT=3306
+       - DB_USER=edelivery
+       - DB_PASS=edelivery
+       - CHECK_DEFAULT_PASSWD=false
+       - ENABLE_JACOCO
+       - CERT_ALIAS=blue_gw
+       - LOGGER_LEVEL_EU_DOMIBUS=INFO 
+       - LOGGER_LEVEL_ORG_APACHE_CXF=INFO 
+       # custom parameters
+       - domibus.msh.pull.cron=0 0 0/1 * * ?
+       - domibus.jms.connectionFactory.session.cache.size=1
+       - domibus.alert.sender.smtp.url=smtp-server
+       - domibus.alert.sender.smtp.port=2500
+       - domibus.alert.sender.email=noreply-c2@localhost
+       - domibus.alert.receiver.email=admin-c2@localhost
+      # ebsi parameters
+       - domibus.sendMessage.success.delete.payload=false
+       - domibus.extension.interceptor.out.classes=eu.domibus.ebsi.ebms3.interceptor.EBSISignatureTimestampOutInterceptor
+       - domibus.extension.interceptor.in.classes=eu.domibus.ebsi.ebms3.interceptor.EBSISignatureTimestampInInterceptor
+       - eu.domibus.ebsi.ebms3.interceptor.EBSISignatureTimestampInInterceptor
+       - domibus.ebsi.timestamp.message.direction=SENT_MESSAGES
+       - domibus.ebsi.timestamp.message.type=USER_MESSAGES
+       - domibus.ebsi.timestamp.asynchronous=false
+    ports:
+      - "8782:8080"
+    #  - "6401:6400"
+    volumes:
+      - ./c2/conf/domibus:/data/tomcat/conf/domibus
+      - ./c2/webapps:/data/tomcat/webapps
+    command: dockerize -wait tcp:/mysqlc2:3306 -timeout 20s
+    networks:
+      ebsi-net:
+        ipv4_address: 172.70.1.5
+    depends_on:
+      - mysqlc2
+  ##
+  ## Corner 3 - Domibus Wildfly MySQL Red Configuration
+  ##
+  mysqlc3:
+    image: ${IMAGE_TAG:-domibustest}/domibus-mysql8:4.2.1-EBSI-SNAPSHOT
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=domibus
+      - MYSQL_USER=edelivery
+      - MYSQL_PASSWORD=edelivery
+#    volumes:
+#      - /var/lib/mysql
+    security_opt:
+      - seccomp:unconfined
+    networks:
+       ebsi-net:
+        ipv4_address: 172.70.1.16       
+    #ports:
+    #  - "3506:3306"
+
+  tomcatRedc3:
+    image: ${IMAGE_TAG:-domibustest}/domibus-tomcat9:4.2.1-EBSI-SNAPSHOT
+    environment:
+       - DB_TYPE=MySQL
+       - DB_HOST=mysqlc3
+       - DB_PORT=3306
+       - DB_USER=edelivery
+       - DB_PASS=edelivery
+       - CHECK_DEFAULT_PASSWD=false
+       - ENABLE_JACOCO
+       - CERT_ALIAS=red_gw
+       - LOGGER_LEVEL_EU_DOMIBUS=INFO 
+       - LOGGER_LEVEL_ORG_APACHE_CXF=INFO 
+       # custom parameters
+       - domibus.msh.pull.cron=0 0 0/1 * * ?
+       - domibus.jms.connectionFactory.session.cache.size=1
+       - domibus.alert.sender.smtp.url=smtp-server
+       - domibus.alert.sender.smtp.port=2500
+       - domibus.alert.sender.email=noreply-c3@localhost
+       - domibus.alert.receiver.email=admin-c3@localhost
+      # ebsi parameters
+       - domibus.sendMessage.success.delete.payload=false
+       - domibus.extension.interceptor.out.classes=eu.domibus.ebsi.ebms3.interceptor.EBSISignatureTimestampOutInterceptor
+       - domibus.extension.interceptor.in.classes=eu.domibus.ebsi.ebms3.interceptor.EBSISignatureTimestampInInterceptor
+       - eu.domibus.ebsi.ebms3.interceptor.EBSISignatureTimestampInInterceptor
+       - domibus.ebsi.timestamp.message.direction=SENT_MESSAGES
+       - domibus.ebsi.timestamp.message.type=ALL_MESSAGES
+       - domibus.ebsi.timestamp.asynchronous=true
+    ports:
+      - "8783:8080"
+    #  - "6401:6400"
+    volumes:
+      - ./c3/conf/domibus:/data/tomcat/conf/domibus
+      - ./c3/webapps:/data/tomcat/webapps
+    command: dockerize -wait tcp:/mysqlc3:3306 -timeout 20s
+    networks:
+      ebsi-net:
+        ipv4_address: 172.70.1.6
+    depends_on:
+      - mysqlc3
+
+  
+
+
+networks:
+  ebsi-net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet:  172.70.1.0/24    

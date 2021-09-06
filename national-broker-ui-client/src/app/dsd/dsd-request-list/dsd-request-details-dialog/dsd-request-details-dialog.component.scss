@@ -1,0 +1,16 @@
+.truncateLargeText {
+  white-space: nowrap !important;
+  overflow: hidden !important; /* <- this does seem to be required */
+  text-overflow: ellipsis !important;
+
+}
+
+
+.datatable-body {
+  height: 100% !important;
+  overflow-y: auto;
+}
+
+:host ::ng-deep .CodeMirror{
+  height:100%
+}

@@ -1,0 +1,154 @@
+<h1 id="{{id}}_header_id">
+  <mat-icon matTooltip="{{tooltip}}" matTooltipDisabled="{{title}}"
+            [matTooltipPosition]="'right'">{{icon}}</mat-icon>
+  <span>{{title}}</span>
+</h1>
+<mat-spinner *ngIf="showSpinner" [diameter]="150" mode="indeterminate"></mat-spinner>
+<div *ngIf="showSearchPanel"  class="selectionCriteria broker-panel"
+     [style]="'padding:5px;margin-bottom: 5px'">
+  <form name="filterForm" #filterForm="ngForm" (ngSubmit)="search()">
+    <fieldset>
+      <legend [class]="'broker-panel-legend'">Search parameters</legend>
+      <ng-container *ngTemplateOutlet="searchPanel"></ng-container>
+      <div class="searchArea">
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<div class="broker-panel"
+     [style]="'display: flex; flex-wrap: nowrap; flex-direction: column;position: absolute;top:'+(showSearchPanel?(searchPanelHeight+10):55)+'px;bottom:0;left:0;right:0'">
+  <div class="toolbar-panel" *ngIf=showActionButtons>
+    <ng-container *ngIf="showSearchPanel">
+
+      <button mat-raised-button color="primary" id="searchbutton_id" (click)="search()">
+        <mat-icon>search</mat-icon>
+        <span>Search</span>
+      </button>
+
+      <!-- button mat-raised-button color="primary" id="clearsearchbutton_id" (click)="clearFilterValues()">
+        <mat-icon>clear</mat-icon>
+        <span>Clear</span>
+      </button -->
+
+      <span [class]="'toolbar-divider'">&nbsp;</span>
+    </ng-container>
+    <ng-container>
+      <!-- if  *ngIf="immediateRowManageAction" then no need to use cancel and save button because they are updated
+       on dialog/delete event -->
+      <button *ngIf="!immediateRowManageAction" id="cancelButton" mat-raised-button (click)="onCancelButtonClicked()"
+              color="primary"
+              [disabled]="!submitButtonsEnabled">
+        <mat-icon>cancel</mat-icon>
+        <span>Cancel</span>
+      </button>
+      <button *ngIf="!immediateRowManageAction" id="saveButton" mat-raised-button (click)="onSaveButtonClicked(false)"
+              color="primary"
+              [disabled]="!submitButtonsEnabled">
+        <mat-icon>save</mat-icon>
+        <span>Save</span>
+      </button>
+      <span *ngIf="!immediateRowManageAction" [class]="'toolbar-divider'">&nbsp;</span>
+      <!-- new button enabled -->
+      <button *ngIf="allowNewItems" id="newButton" mat-raised-button (click)="onNewButtonClicked()"
+              [disabled]="loading || !allowNewItems" color="primary">
+        <mat-icon>add</mat-icon>
+        <span>New</span>
+      </button>
+      <button *ngIf="allowEditItems" id="editButton" mat-raised-button (click)="onEditButtonClicked()"
+              [disabled]="!editButtonEnabled || loading" color="primary">
+        <mat-icon>edit</mat-icon>
+        <span>Edit</span>
+      </button>
+      <button *ngIf="allowDeleteItems" id="deleteButton" mat-raised-button (click)="onDeleteButtonClicked()"
+              [disabled]="!deleteButtonEnabled || loading || !allowDeleteItems" color="primary">
+        <mat-icon>delete</mat-icon>
+        <span>Delete</span>
+      </button>
+    </ng-container>
+    <ng-container *ngTemplateOutlet="additionalToolButtons"></ng-container>
+  </div>
+
+  <div class="group-filter-button"
+       [style]="'flex-grow:0'">
+      <span>
+        <app-row-limiter [pageSizes]="rowLimiter.pageSizes"
+                         (onPageSizeChanged)="changePageSize($event.value)"></app-row-limiter>
+      </span>
+    <span class="column-filter-button">
+      <app-column-picker [allColumns]="columnPicker.allColumns" [selectedColumns]="columnPicker.selectedColumns"
+                         (onSelectedColumnsChanged)="columnPicker.changeSelectedColumns($event)"></app-column-picker>
+    </span>
+  </div>
+  <ngx-datatable #searchTable id="searchTable"
+                 [style]="'flex-grow:1'"
+                 class="material striped"
+                 [rowClass]="getRowClass"
+                 [rows]="rows"
+                 [columns]="columnPicker.selectedColumns"
+                 [columnMode]="'force'"
+                 [headerHeight]="50"
+                 [footerHeight]="50"
+                 [rowHeight]="'auto'"
+                 [scrollbarH]="true"
+                 [scrollbarV]="true"
+                 [virtualization]="false"
+                 [externalPaging]="true"
+                 [externalSorting]="true"
+                 [loadingIndicator]="loading"
+                 [count]="count"
+                 [offset]="currentPage"
+                 [limit]="rowLimiter.limit"
+                 (page)="onPage($event)"
+                 (sort)="onSort($event)"
+                 [selected]="selected"
+                 [selectionType]="'single'"
+                 (activate)="onActivate($event)"
+                 (select)="onSelect($event)"
+  >
+    <!-- Row Detail Template -->
+
+
+    <ngx-datatable-row-detail id="rowDetail" [rowHeight]="'auto'"
+                              (toggle)="onDetailToggle($event)">
+      <ng-template let-row="row" let-expanded="expanded" let-enabled="enabled" ngx-datatable-row-detail-template>
+        <ng-container [ngTemplateOutlet]="tableRowDetailContainer"
+                      [ngTemplateOutletContext]="{row:row}"></ng-container>
+      </ng-template>
+    </ngx-datatable-row-detail>
+  </ngx-datatable>
+
+  <ng-template #rowIndex let-row="row" ngx-datatable-cell-template>
+    <span>{{row.index + 1}}</span>
+  </ng-template>
+
+  <!-- ng-template #rowActions let-row="row" ngx-datatable-cell-template>
+    <div>
+      <ng-container [ngTemplateOutlet]="additionalRowActionButtons"
+                    [ngTemplateOutletContext]="{row:row}"></ng-container>
+
+      <button mat-icon-button color="primary" [disabled]="row.deleted || loading"
+              (click)="editSearchTableEntityRow(row)" matTooltip="Edit">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button *ngIf="allowDeleteItems" mat-icon-button color="primary" [disabled]="row.deleted || loading"
+              (click)="onDeleteRowActionClicked(row)" matTooltip="Delete">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </ng-template -->
+
+  <ng-template #rowExpand let-row="row" let-expanded="expanded" let-disabled="disabled" ngx-datatable-cell-template>
+    <span *ngIf="isRowExpanderDisabled(row, disabled)">()</span>
+    <a *ngIf="!isRowExpanderDisabled(row, disabled)" class="table-button-expand"
+       href="javascript:void(0)"
+       title="Expand/Collapse Row"
+       (click)="toggleExpandRow(row)">{{expanded ? '(-)' : '(+)'}}
+    </a>
+  </ng-template>
+  <div class="details-panel " *ngIf=tableBottomDetailContainer>
+    <ng-container *ngTemplateOutlet="tableBottomDetailContainer"></ng-container>
+  </div>
+</div>
+
+

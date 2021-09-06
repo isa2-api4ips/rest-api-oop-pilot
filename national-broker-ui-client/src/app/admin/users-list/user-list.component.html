@@ -1,0 +1,27 @@
+<app-search-table
+  [style]="'position:absolute;top:5px;bottom:5px;right:5px;left:5px'"
+  #Organization list
+  page_id="User-list_id"
+  [title]="'User administration'"
+  [icon]="'people'"
+  [columnPicker]="columnPicker"
+  [urlQuery]="usersUrlQuery"
+  [additionalToolButtons]="additionalToolButtons"
+  [searchPanel]="searchPanel"
+  [searchTableController]="userListController"
+  [showSearchPanel]="false"
+  [filter]=null
+  [allowNewItems]="true"
+  [allowDeleteItems]="true"
+  [showActionButtons]="true"
+  [showIndexColumn]="true"
+>
+
+
+
+  <ng-template #additionalToolButtons>
+  </ng-template>
+
+  <ng-template #searchPanel>
+  </ng-template>
+</app-search-table>

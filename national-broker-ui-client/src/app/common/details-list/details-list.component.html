@@ -1,0 +1,60 @@
+<div class="toolbar-panel">
+  <ng-container >
+
+    <button mat-raised-button color="primary"  (click)="drawer.toggle()">Show/hide list</button>
+    <span [class]="'toolbar-divider'">&nbsp;</span>
+
+    <button mat-raised-button color="primary"  (click)="addNewItem()" >
+      <mat-icon>add</mat-icon>
+      <span>Add</span>
+    </button>
+
+    <button  mat-raised-button color="primary" [disabled]="!removeButtonEnabled" (click)="removeSelectedItem()" >
+      <mat-icon>clear</mat-icon>
+      <span>Delete</span>
+    </button>
+
+  </ng-container>
+</div>
+<mat-drawer-container class="broker-panel" autosize="true" >
+  <mat-drawer #drawer [mode]="'side'" [opened]="true">
+    <mat-table [dataSource]="_dataSource" [class]="'details-list'">
+      <ng-container [matColumnDef]="col" *ngFor="let col of displayedColumns">
+        <th mat-header-cell *matHeaderCellDef>
+          <span *ngIf="col !== 'edit'" style="flex-grow:1 ">{{col}}</span>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngIf="!element.isEdit">
+            <div class="btn-edit" *ngIf="col === 'edit'; ">
+              <button mat-button (click)="element.isEdit = !element.isEdit">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+            <span #spanHeader style="width: 100%;height: 28px;margin:3px;">{{element[col]}}</span>
+          </div>
+          <div *ngIf="element.isEdit">
+            <div class="btn-edit" *ngIf="col === 'edit'; else dataField">
+              <button mat-button (click)="element.isEdit = !element.isEdit">
+                <mat-icon>done</mat-icon>
+              </button>
+            </div>
+            <ng-template #dataField>
+              <input [type]="dataSchema[col]" matInput [(ngModel)]="element[col]"
+                     style="width: 100%;height: 24px;margin:2px;border:1px solid gray; border-bottom:1px solid blue;">
+            </ng-template>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectRow(row)"
+          [ngClass]="{'highlightTableColor': isRowSelected(row)}"></tr>
+    </mat-table>
+  </mat-drawer>
+  <mat-drawer-content>
+    <ng-container *ngTemplateOutlet="(dataTemplate ? dataTemplate: defaultListTemplate);context:{value:selected}" > </ng-container>
+  </mat-drawer-content>
+</mat-drawer-container>
+
+
+
+<ng-template #defaultListTemplate let-value="value">{{value}}</ng-template>

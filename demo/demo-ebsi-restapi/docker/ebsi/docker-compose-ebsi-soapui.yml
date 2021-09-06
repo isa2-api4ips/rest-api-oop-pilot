@@ -1,0 +1,43 @@
+version: '3.2'
+services:
+  ##
+  ## Integration Tests
+  ##
+  testws:
+    image: ${IMAGE_TAG:-domibustest}/domibus-soapui:4.2.1-EBSI-SNAPSHOT
+    environment:
+      - LOCAL_SERVICE=tomcatBluec2
+      - LOCAL_PORT=8080
+      - REMOTE_SERVICE=tomcatRedc3
+      - REMOTE_PORT=8080
+      - JDBC_URL_BLUE=jdbc:mysql://mysqlc2:3306/domibus?useSSL=false&serverTimezone=${DB_MYSQL_TIMEZONE:-Europe/Brussels}
+      - JDBC_URL_RED=jdbc:mysql://mysqlc3:3306/domibus?useSSL=false&serverTimezone=${DB_MYSQL_TIMEZONE:-Europe/Brussels}
+      - DRIVER_BLUE=com.mysql.cj.jdbc.Driver
+      - DRIVER_RED=com.mysql.cj.jdbc.Driver
+      - DATABASE_BLUE=mysql
+      - DATABASE_RED=mysql
+      - BLUE_DB_USER=root
+      - BLUE_DB_PASSWORD=123456
+      - RED_DB_USER=root
+      - RED_DB_PASSWORD=123456
+      - WAIT_RETRIES=40
+      - LOCAL_ADMIN_PASSWORD=blue#!Kq4DkXj46
+      - REMOTE_ADMIN_PASSWORD=red#!SFq5DkRj42
+      - SMTP_URL=http://smtp-server:9000
+      - SOAPUI_PROJECT_PATH=domibus/Domibus-MSH-soapui-tests/src/main/soapui/AS4-domibus-WS-soapui-ebsi.xml
+      - TEST_SUITE=WS-EBSI-for-Bamboo
+      - TEST_CASE=TestCaseNotExistJustToStartInitialization
+#      - TEST_CASE=EBSIO01-Submit Message-ASYNC-OnlyRequest
+    volumes:
+      # Avoid download the soapui maven plugin dependencies
+      # https://hub.docker.com/_/maven/
+      - type: bind
+        source: /home/edelivery/.m2/repository/
+        target: /root/.m2/repository
+        read_only: false
+    networks:
+      - testebsi_default
+networks:
+  testebsi_default:
+    external:
+      name: ebsi_ebsi-net

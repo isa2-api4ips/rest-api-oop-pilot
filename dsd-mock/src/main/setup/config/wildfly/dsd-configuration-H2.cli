@@ -1,0 +1,32 @@
+embed-server --server-config=standalone-full.xml
+
+# -------------------------------------------
+#  add datasource with JNDI java:/jdbc/NationalBrokerDS
+data-source add \
+--name=DsdMockDS \
+--user-name=DsdMock \
+--password=DsdMock \
+--driver-name=h2 \
+--jndi-name=java:/jdbc/DsdMockDS \
+--connection-url=jdbc:h2:${jboss.home.dir}/standalone/data/DsdMockDB;AUTO_SERVER=TRUE;AUTO_SERVER_PORT=13012;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE \
+--use-ccm=true \
+--background-validation=true \
+--min-pool-size=5 \
+--initial-pool-size=1 \
+--max-pool-size=100 \
+--enabled=true \
+--use-java-context=true \
+--statistics-enabled=true
+
+# -------------------------------------------
+# configure logging
+/subsystem=logging/logger=org.h2:add(level="DEBUG")
+
+# -------------------------------------------
+# configure JMS connection factory
+#/subsystem=messaging-activemq/server=default/connection-factory=isa2DSDConnectionFactory:add(connectors=[in-vm],entries=["java:/jms/ConnectionFactory"], compress-large-messages=false, failover-on-initial-connection=false, use-global-pools=true)
+#/subsystem=messaging-activemq/server=default/connection-factory=isa2DSDRemoteConnectionFactory:add(connectors=[http-connector],entries=["java:jboss/exported/jms/ConnectionFactory"], compress-large-messages=false, failover-on-initial-connection=false, use-global-pools=true)
+
+
+exit
+

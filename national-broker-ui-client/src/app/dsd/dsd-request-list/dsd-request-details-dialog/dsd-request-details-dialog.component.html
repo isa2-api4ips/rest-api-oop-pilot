@@ -1,0 +1,250 @@
+<h2 mat-dialog-title>{{formTitle}}</h2>
+<form [formGroup]="dialogForm">
+  <mat-dialog-content style="height:900px;width:1500px">
+
+    <div fxLayout="column">
+      <fieldset [class]="'broker-panel'">
+        <legend [class]="'broker-panel-legend'">DSD request details</legend>
+        <div style="  display: flex; flex-flow: row wrap;">
+          <mat-form-field style="flex-grow: 1">
+            <input matInput placeholder="Message id"
+                   [formControlName]="'messageId'"
+                   id="messageId">
+          </mat-form-field>
+          <mat-form-field style="flex-grow: 1">
+            <input matInput placeholder="Status" readonly="true"
+                   [formControlName]="'dsdStatus'"
+                   id="dsdStatus">
+          </mat-form-field>
+
+        </div>
+        <div style=" display: flex; flex-flow: row wrap;">
+          <mat-form-field style="width: 180px;flex-grow: 0">
+            <input matInput placeholder="Request on" readonly="true"
+                   [formControlName]="'requestOn'"
+                   id="requestOn">
+          </mat-form-field>
+          <mat-form-field style="flex-grow: 1">
+            <input matInput placeholder="Request file" readonly="true"
+                   [formControlName]="'requestStoragePath'"
+                   id="requestStoragePath">
+          </mat-form-field>
+          <mat-form-field style="width: 180px;flex-grow: 0">
+            <input matInput placeholder="Response on" readonly="true"
+                   [formControlName]="'responseOn'"
+                   id="responseOn">
+          </mat-form-field>
+          <mat-form-field style="flex-grow: 1">
+            <input matInput placeholder="Response file" readonly="true"
+                   [formControlName]="'responseStoragePath'"
+                   id="responseStoragePath">
+          </mat-form-field>
+        </div>
+
+        <div style=" display: flex; flex-flow: row wrap;">
+          <mat-form-field style="width: 180px;flex-grow: 0">
+            <input matInput placeholder="Http Method" readonly="true"
+                   [formControlName]="'httpMethod'"
+                   id="responseOn">
+          </mat-form-field>
+          <mat-form-field style="flex-grow: 1">
+            <input matInput placeholder="Http Path" readonly="true"
+                   [formControlName]="'httpPath'"
+                   id="httpPath">
+          </mat-form-field>
+        </div>
+      </fieldset>
+
+      <mat-tab-group
+        (selectedTabChange)="tabChanged($event)">
+        <mat-tab >
+          <ng-template mat-tab-label>
+            <mat-icon >keyboard_arrow_up</mat-icon>
+            Request
+          </ng-template>
+          <div class="broker-panel-slim">
+            <div class="toolbar-panel">
+              <button mat-button id="DownloadRequestMessage" (click)="downloadMessageType('request')">
+                <mat-icon matTooltip="Download request message" [matTooltipPosition]="'right'">mail_outline</mat-icon>
+                Download message
+              </button>
+              <button mat-button id="DownloadRequestSignatureReport" (click)="downloadMessageType('requestSignatureReport')">
+                <mat-icon matTooltip="Download request signature report" [matTooltipPosition]="'right'">check_box</mat-icon>
+                Download signature report
+              </button>
+            </div>
+            <mat-accordion>
+              <mat-expansion-panel (opened)="requestHeaderOpen = true"
+                                   (closed)="requestHeaderOpen = false">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Message headers
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    {{requestHeaderOpen ? '' : 'Click to expand: '}} Request message http headers
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <div style="overflow: auto ;position:relative;left: 0;top: 0;bottom: 0;right: 0;height: 400px">
+                  <ngx-datatable
+
+                    class='inner-table material striped'
+                    [rows]="this.dialogForm.controls['requestHeaders'].value"
+                    [columnMode]='"force"'
+                    [headerHeight]='40'
+                    [footerHeight]='0'
+                    [rowHeight]='"auto"'
+                    [sorts]="[{prop: 'name', dir: 'asc'}]"
+                  >
+
+                    <ngx-datatable-column prop="name" name="Header name" maxWidth="200"
+                    ></ngx-datatable-column>
+                    <ngx-datatable-column prop="value" name="Header value" sortable="false">
+                      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        <div style="display: flex;flex-direction: row;width: 100%">
+                          <div [class]="'truncateLargeText'">{{value}}</div>
+                          <button style="width:80px;flex-grow: 0" *ngIf="row.name.toLowerCase()=='edel-message-sig'" mat-raised-button                                  (click)='showSignature(row)'
+                                  >
+                            <mat-icon>security</mat-icon>
+                          </button>
+                          <button style="width:80px;flex-grow: 0" *ngIf="row.name.toLowerCase()=='original-sender'" mat-raised-button                                  (click)='showSignature(row)'
+                          >
+                            <mat-icon>security</mat-icon>
+                          </button>
+                          <button style="width:80px;flex-grow: 0" *ngIf="row.name.toLowerCase()=='authorization'" mat-raised-button                                  (click)='showSignature(row)'
+                          >
+                            <mat-icon>security</mat-icon>
+                          </button>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                  </ngx-datatable>
+                </div>
+
+              </mat-expansion-panel >
+              <mat-expansion-panel [expanded]="true"  (opened)="requestBodyOpen = true"
+                                   (closed)="requestBodyOpen = false">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Message body
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    {{requestBodyOpen ? '' : 'Click to expand: '}} Request message http body
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div style="width: 1450px;height: 400px">
+                  <ngx-codemirror
+                    [formControlName]="'requestBody'"
+                    [options]="{
+                lineNumbers: true,
+                lineWrapping: true,
+                autoRefresh:true,
+                theme: 'material',
+                mode: 'application/json'
+              }"
+                  ></ngx-codemirror>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </mat-tab>
+        <mat-tab label="Response">
+          <ng-template mat-tab-label>
+            <mat-icon >keyboard_arrow_down</mat-icon>
+            Response
+          </ng-template>
+
+          <div class="broker-panel-slim">
+            <div class="toolbar-panel">
+              <button mat-button id="DownloadResponseMessage" (click)="downloadMessageType('response')">
+                <mat-icon matTooltip="Download response message" [matTooltipPosition]="'right'">mail_outline</mat-icon>
+                Download message
+              </button>
+              <button mat-button id="DownloadResponseSignatureReport" (click)="downloadMessageType('responseSignatureReport')">
+                <mat-icon matTooltip="Download response signature report" [matTooltipPosition]="'right'">check_box</mat-icon>
+                Download signature report
+              </button>
+            </div>
+            <mat-accordion>
+              <mat-expansion-panel (opened)="responseHeaderOpen = true"
+                                   (closed)="responseHeaderOpen = false">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Message headers
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    {{responseHeaderOpen ? '' : 'Click to expand: '}} Response message http headers
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <div style="overflow: auto ;position:relative;left: 0;top: 0;bottom: 0;right: 0;height: 400px">
+                  <ngx-datatable
+                    class='small-table material striped'
+                    [rows]="this.dialogForm.controls['responseHeaders'].value"
+                    [columnMode]='"force"'
+                    [headerHeight]='40'
+                    [footerHeight]='0'
+                    [rowHeight]='"auto"'
+                    [sorts]="[{prop: 'name', dir: 'asc'}]"
+                  >
+                    <ngx-datatable-column prop="name" name="Header name" maxWidth="200"
+                                          sortable="false"></ngx-datatable-column>
+                    <ngx-datatable-column prop="value" name="Header value" sortable="false">
+                      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        <div style="display: flex;flex-direction: row;width: 100%">
+                          <div [class]="'truncateLargeText'">{{value}}</div>
+                          <button *ngIf="row.name.toLowerCase()=='edel-message-sig'" mat-raised-button
+                                  (click)='showSignature(row)'
+                                  style="width:80px ">
+                            <mat-icon>security</mat-icon>
+                          </button>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                  </ngx-datatable>
+                </div>
+
+              </mat-expansion-panel>
+              <mat-expansion-panel [expanded]="true"  (opened)="responseBodyOpen = true"
+                                   (closed)="responseBodyOpen = false">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Message body
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    {{responseBodyOpen ? '' : 'Click to expand: '}} Request message http body
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div style="width: 1450px;height: 400px">
+                  <ngx-codemirror
+
+                    [formControlName]="'responseBody'"
+                    [options]="{
+                lineNumbers: true,
+                lineWrapping: true,
+                autoRefresh:true,
+               theme: 'material',
+                mode: 'application/json'
+              }"
+                  ></ngx-codemirror>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </mat-dialog-content>
+</form>
+<mat-dialog-actions>
+  <div class="group-action-button">
+
+    <button mat-raised-button color="primary" mat-dialog-close>
+      <mat-icon>cancel</mat-icon>
+      <span>Cancel</span>
+    </button>
+  </div>
+</mat-dialog-actions>
+<div style="text-align: right; font-size: 70%">* required fields</div>

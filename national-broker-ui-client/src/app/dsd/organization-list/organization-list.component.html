@@ -1,0 +1,86 @@
+<app-search-table
+  #searchTable
+  [style]="'position:absolute;top:5px;bottom:5px;right:5px;left:5px'"
+  page_id="organization-list_id"
+  [title]="'DSD organization list'"
+  [icon]="'account_tree'"
+  [columnPicker]="columnPicker"
+  [urlQuery]="organizationUrlQuery"
+  [urlManage]="organizationManageUrlQuery"
+  [additionalToolButtons]="additionalToolButtons"
+  [searchPanel]="searchPanel"
+  [searchTableController]="organizationListController"
+  [showSearchPanel]="true"
+  [filter]="filter"
+  [sort]="'+identifier'"
+  [allowNewItems]="false"
+  [allowDeleteItems]="false"
+  [showActionButtons]="true"
+  [tableBottomDetailContainer]="tableBottomDetailContainer"
+>
+  <ng-template #additionalToolButtons>
+    <span [class]="'toolbar-divider'">&nbsp;</span>
+    <button id="editButton" mat-raised-button  [routerLink]="['/dsd/datasets', selectedIdentifier]"
+            [disabled]="!selectedIdentifier" color="primary">
+      <mat-icon>playlist_add_check</mat-icon>
+      <span>DSD Datasets</span>
+    </button>
+  </ng-template>
+
+  <ng-template #searchPanel>
+
+    <mat-form-field>
+      <input matInput placeholder="Partial Organization Identifier" name="OrganizationId"
+             [(ngModel)]="filter.identifierLike"
+             id="identifierLike">
+    </mat-form-field>
+
+    <!-- mat-form-field>
+      <input matInput placeholder="Partial Organization name" name="Organization name"
+             [(ngModel)]="filter.organizationNameLike"
+             id="prefLabel">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Address level</mat-label>
+      <input type="text"
+             matInput
+             formControlName="stateGroup"
+             [matAutocomplete]="autoGroup">
+      <mat-autocomplete #autoGroup="matAutocomplete">
+        <mat-optgroup *ngFor="let group of stateGroupOptions | async" [label]="group.letter">
+          <mat-option *ngFor="let name of group.names" [value]="name">
+            {{name}}
+          </mat-option>
+        </mat-optgroup>
+      </mat-autocomplete>
+    </mat-form-field -->
+  </ng-template>
+
+  <ng-template #tableBottomDetailContainer>
+    <fieldset>
+      <legend [class]="'broker-panel-legend'">DSD Organization update requests</legend>
+      <div style="overflow: auto;position:relative;left: 0;top: 0;bottom: 0;right: 0;height: 200px" >
+        <ngx-datatable
+          class='inner-table material striped'
+          [rows]='organizationListController.currentOrganization?.updateRequests'
+          [columnMode]='"force"'
+          [headerHeight]='40'
+          [footerHeight]='0'
+          [rowHeight]='"auto"'
+        >
+          <ngx-datatable-column prop="updateRequestId" name="Request Id" sortable="false"></ngx-datatable-column>
+          <ngx-datatable-column prop="updateRequestOn" name="Request On"
+                                maxWidth="200" sortable="false"></ngx-datatable-column>
+          <ngx-datatable-column prop="updateResponseId" name="Response Id" sortable="false"
+          ></ngx-datatable-column>
+          <ngx-datatable-column prop="updateConfirmedOn" name="Update Confirmed On" sortable="false"
+                                maxWidth="updateResponseId"></ngx-datatable-column>
+          <ngx-datatable-column prop="username" name="Username" sortable="false"
+                                maxWidth="250"></ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </fieldset>
+
+  </ng-template>
+
+</app-search-table>

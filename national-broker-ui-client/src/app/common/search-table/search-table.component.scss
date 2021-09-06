@@ -1,0 +1,77 @@
+/* --- Select ---*/
+/* --- Select ---*/
+.mat-select{
+  padding:20px 0;
+}
+
+/* --- Button  ---*/
+.group-btn {
+   margin-top:20px;
+ }
+
+#hiddenButtonId {
+  position: fixed;
+}
+
+.datatable-body {
+  overflow-y: scroll;
+}
+
+:host
+::ng-deep .deleted span[title] {
+  text-decoration: line-through !important;
+  font-weight: bold;
+}
+
+:host
+::ng-deep .table-row-new span[title] {
+
+  color: darkgreen !important;
+  font-weight: bold;
+}
+
+:host
+::ng-deep .table-row-updated span[title] {
+  font-weight: bold;
+}
+
+:host
+::ng-deep .table-row span[title] {
+  font-weight: normal;
+}
+
+.group-action-button {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+}
+.table-button-expand {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+h1 {
+  padding: 5px 5px 5px 0 !important;
+  margin-bottom: 5px !important;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  background: linear-gradient(to right, #00A3F2, #ffffff00);
+  text-shadow: 2px 2px #2d2d2d;
+  color: #f5f5f5;
+  font-size: 32px;
+  height: 38px;
+  box-shadow: 2px 2px 10px #9B9B9B;
+  border: #9b9b9b solid 1px;
+
+}
+h1 .mat-icon{
+  margin-left: 0.5em !important;
+  margin-right: 0.8em !important;
+  margin-top: -0.6em !important;
+  font-size: 1.5em;
+}
+
+
+
+

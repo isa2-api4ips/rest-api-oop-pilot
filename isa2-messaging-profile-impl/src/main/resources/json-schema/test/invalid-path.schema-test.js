@@ -1,0 +1,30 @@
+const fs = require("fs");
+const JsonSchema = require("@hyperjump/json-schema");
+
+describe('Testing info.x-edel-lifecycle ', () => {
+    let schema;
+
+    beforeEach( async () => {
+        JsonSchema.setShouldMetaValidate(true);
+        schema = await JsonSchema.get("file://./schemas/messaging-schema.json");
+    });
+
+    it('Missing required object', async () => {
+        let data = JSON.parse(fs.readFileSync('./examples/messaging-invalid-path.json'));
+        const output = await JsonSchema.validate(schema, data, JsonSchema.BASIC);
+
+        // console.log(JSON.stringify(output, null, "  "));
+        expect(output).toBeDefined();
+        expect(output.valid).toBe(false);
+        expect(output.errors.length).not.toBe(0);
+        expect(output.errors).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    keyword: 'https://json-schema.org/draft/2020-12/schema#validate',
+                    instanceLocation: '#/paths/~1organization~1'
+                })
+            ])
+        )
+
+    });
+});

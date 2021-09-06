@@ -1,0 +1,25 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Messaging Example",
+    "version": "1.0.0",
+    "x-edel-publisher": {
+      "name": "The API Publishing Organisation",
+      "url": "http://www.organisation.org/"
+    },
+    "x-edel-lifecycle": {
+      "maturity": "development"
+    }
+  },
+  "paths": {
+    "/v1/messaging/organization/search/{messageId}/response": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Return a 200 status to indicate that the data was received successfully"
+          }
+        }
+      }
+    }
+  }
+}

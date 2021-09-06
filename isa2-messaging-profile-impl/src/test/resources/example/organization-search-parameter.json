@@ -1,0 +1,7 @@
+{
+  "country": "BE",
+  "name": "Company name",
+  "limit": 100,
+  "offset": 5,
+  "sort": "+name,-country"
+}
