@@ -1,0 +1,32 @@
+.list-editor-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.mat-cell {
+  overflow: hidden;
+  width:auto;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+}
+th {
+  background: lightgrey;
+  padding: 1px;
+  font-size: 1.1em;
+}
+
+th, td {
+  border: lightsteelblue solid 1px;
+  padding: 1px;
+  height: 2em;
+
+}
+
+#editCell {
+  width: 60px;
+  background: whitesmoke;
+}
+.highlightTableColor{
+  background-color: #82D2FF;
+}

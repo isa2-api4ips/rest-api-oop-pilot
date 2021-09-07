@@ -1,0 +1,10 @@
+
+shutdown databse 
+
+sqlplus / as sysdba
+and then
+SQL> SHUTDOWN IMMEDIATE
+
+
+
+kill all weblogic instances if if they are running

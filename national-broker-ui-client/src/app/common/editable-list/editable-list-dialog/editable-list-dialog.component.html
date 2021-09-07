@@ -1,0 +1,69 @@
+<mat-dialog-content style="height:385px;width:1200px; padding: 0; margin: 0">
+  <div fxLayout="column">
+    <fieldset [class]="'broker-panel'">
+      <legend [class]="'broker-panel-legend'">{{title}}</legend>
+
+      <div class="toolbar-panel">
+        <button mat-raised-button color="primary" (click)="addNewItem()">Add</button>
+        <button mat-raised-button color="primary" [disabled]="!removeButtonEnabled" (click)="removeSelectedItem()">
+          Remove
+        </button>
+      </div>
+
+      <table mat-table [dataSource]="dataSource" [class]="'list-editor-table'">
+        <ng-container [matColumnDef]="col" *ngFor="let col of displayedColumns">
+          <th mat-header-cell *matHeaderCellDef  [id]="col === 'edit'?'editCell':''">
+            <span *ngIf="col !== 'edit'">{{col}}</span>
+          </th>
+          <td mat-cell *matCellDef="let element" [id]="col === 'edit'?'editCell':''">
+
+            <button mat-button *ngIf="!element.isEdit && col === 'edit'; " (click)="element.isEdit = !element.isEdit">
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <span *ngIf="!element.isEdit" class="cellLabel"
+                  matTooltip="{{element[col]}}"
+                  matTooltipPosition="below"
+                  matTooltipShowDelay="1000ms"
+                  >{{element[col]}}</span>
+
+            <div *ngIf="element.isEdit">
+              <div class="btn-edit" *ngIf="col === 'edit'; else dataField">
+                <button mat-button (click)="element.isEdit = !element.isEdit">
+                  <mat-icon>done</mat-icon>
+                </button>
+              </div>
+              <ng-template #dataField>
+                <input [type]="dataSchema[col]" matInput [(ngModel)]="element[col]"
+                       style="width: 95%;height: 24px;margin:2px;border:1px solid gray; border-bottom:1px solid blue;">
+              </ng-template>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectRow(row)"
+            [ngClass]="{'highlightTableColor': isRowSelected(row)}"></tr>
+
+      </table>
+    </fieldset>
+
+
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions style="padding: 5px;margin:5px;">
+  <div class="group-action-button">
+    <button mat-raised-button color="primary" (click)="submitForm()"
+    >
+      <mat-icon>check_circle</mat-icon>
+      <span>OK</span>
+    </button>
+
+    <button mat-raised-button color="primary" mat-dialog-close>
+      <mat-icon>cancel</mat-icon>
+      <span>Cancel</span>
+    </button>
+  </div>
+</mat-dialog-actions>
+
+

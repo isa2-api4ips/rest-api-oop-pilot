@@ -1,0 +1,114 @@
+<mat-sidenav-container >
+  <mat-sidenav mode="side" opened="true" ngClass="{{menuClass}}">
+
+    <!-- sidenav content -->
+    <div id="topLogo">
+      <img src="assets/images/nb_logo_icon.svg" [attr.height]="fullMenu ? '100px' : '20px'" [attr.width]="fullMenu ? '190px' : '35px'"/>
+      <div id="topLogoText" *ngIf="fullMenu">
+        <div style="font-weight: bold;font-size: 15px;">REST API <br /><span style="font-weight: normal;font-size: 14px;padding-left: 30px">pilot project</span></div>
+      </div>
+    </div>
+
+    <!-- button mat-raised-button class="sideNavButton" [routerLink]="['/login']" id="sidebar_search_id">
+      <mat-icon matTooltip="login" matTooltipDisabled="{{fullMenu}}" [matTooltipPosition]="'right'">login</mat-icon>
+      <span>Login</span>
+    </button -->
+    <!-- out of the pilot scope
+    button mat-raised-button class="sideNavButton" [routerLink]="['/admin/users']" *ngIf="isCurrentUserAdmin()" id="sidebar_useradmin_id">
+      <mat-icon matTooltip="User administration" matTooltipDisabled="{{fullMenu}}" [matTooltipPosition]="'right'">people</mat-icon>
+      <span>User administration</span>
+    </button -->
+
+
+    <button mat-raised-button class="sideNavButton" *ngIf="isCurrentUserUser()" [routerLink]="['/dsd/organizations']" id="sidebar_dsd-organizations_id">
+      <mat-icon matTooltip="DSD Organizations" matTooltipDisabled="{{fullMenu}}" [matTooltipPosition]="'right'">account_tree</mat-icon>
+      <span>DSD Organizations</span>
+    </button>
+    <button mat-raised-button class="sideNavButton" *ngIf="isCurrentUserUser()" [routerLink]="['/dsd/datasets','']" id="sidebar_dsd-dataset_id">
+      <mat-icon matTooltip="DSD Datasets" matTooltipDisabled="{{fullMenu}}" [matTooltipPosition]="'right'">storage</mat-icon>
+      <span>DSD Datasets</span>
+    </button>
+
+    <button mat-raised-button class="sideNavButton" *ngIf="isCurrentUserUser()" [routerLink]="['/dsd/dsd-data-updates']" id="sidebar_dsd-data-updates_id">
+      <mat-icon matTooltip="DSD Updates" matTooltipDisabled="{{fullMenu}}" [matTooltipPosition]="'right'">send</mat-icon>
+      <span>DSD request status</span>
+    </button>
+
+    <button mat-raised-button class="sideNavButton" *ngIf="isCurrentUserUser()" [routerLink]="['/dsd/dsd-request-list','']" id="sidebar_dsd-request-list_id">
+      <mat-icon matTooltip="DSD Messaging API. request" matTooltipDisabled="{{fullMenu}}" [matTooltipPosition]="'right'">public</mat-icon>
+      <span>HTTP requests</span>
+    </button>
+
+
+    <div class="collapse-button">
+      <button *ngIf="fullMenu" mat-raised-button id="expand_id" (click)="toggleMenu()">
+        <mat-icon matTooltip="Collapse" [matTooltipPosition]="'right'">chevron_left</mat-icon>
+      </button>
+
+      <button *ngIf="!fullMenu" mat-raised-button id="collapse_id" (click)="toggleMenu()">
+        <mat-icon matTooltip="Expand" [matTooltipPosition]="'right'">chevron_right</mat-icon>
+      </button>
+    </div>
+
+    <div id="bottomLogo" *ngIf="fullMenu">
+      <div>
+        <img src="assets/images/EC+Logo2.png"/>
+      </div>
+      <div class="smpTextSmall"
+           style="display: flex;flex-direction: column-reverse;text-align: left;color:#004494;padding-left: 5px;">
+        <div>
+          Connecting Europe
+        </div>
+        <div style="font-size: 10pt">
+          CEF Digital
+        </div>
+      </div>
+    </div>
+
+  </mat-sidenav>
+
+  <!-- primary content -->
+  <div fxLayout="column" id=".my-content" style="position:absolute; bottom:5px; top:5px; right: 5px; left: 5px">
+
+    <alert id="alert"></alert>
+    <div  id="sandwichMenuHolder" style="z-index: 500">
+      <div id="sandwichMenu">
+        <a *ngIf="!currentUser"  (click)="securityService.loginWithPopup()" > Login   </a>
+        <span *ngIf="currentUser" >{{currentUserRoleDescription}}: {{currentUser}}  </span >
+
+        <button mat-icon-button [mat-menu-trigger-for]="settingsMenu" id="settingsmenu_id" matTooltip="Menu">
+          <mat-icon>menu</mat-icon>
+        </button>
+
+        <mat-menu x-position="before" #settingsMenu="matMenu">
+          <div *ngIf="currentUser">
+
+            <button mat-menu-item id="currentuser_id" (click)="editCurrentUser()">
+              <mat-icon>person</mat-icon>
+              <span>{{currentUser}}</span>
+            </button>
+
+            <hr/>
+
+            <button mat-menu-item (click)="securityService.logout({ returnTo: 'https://gateway-edelivery.westeurope.cloudapp.azure.com:883/demo/ui-client/' })" id="logout_id">
+              <mat-icon>power_settings_new</mat-icon>
+              <span>Logout</span>
+            </button>
+
+          </div>
+
+          <div *ngIf="!currentUser" style="text-align: center; vertical-align: middle;margin: 2px;">
+            <button mat-menu-item disabled="true">
+              <mat-icon>person_outline</mat-icon>
+              <span>Not logged in</span>
+            </button>
+          </div>
+        </mat-menu>
+      </div>
+    </div>
+
+    <div fxFill="100" fxFlex="<grow> <shrink> <basis>" id="routerHolder" style="min-height: 100%" >
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</mat-sidenav-container>

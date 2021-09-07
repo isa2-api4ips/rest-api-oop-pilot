@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "openapi-3.1.0-schema.json"
+    },
+    {
+      "properties": {
+        "info": {
+          "allOf": [
+            {
+              "$ref": "openapi-3.1.0-schema.json#/$defs/info",
+              "x-edel-publisher": {
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  }
+                }
+              },
+              "x-edel-lifecycle": {
+                "properties": {
+                  "maturity": [
+                    "development",
+                    "supported",
+                    "deprecated"
+                  ],
+                  "deprecated6_at": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "sunset_at": {
+                    "type": "string",
+                    "format": "date"
+                  }
+                },
+                "required": [
+                  "maturity"
+                ]
+              },
+              "required": [
+                "x-edel-publisher",
+                "x-edel-lifecycle"
+              ]
+            }
+          ]
+        },
+        "paths": {
+          "type": "object",
+          "anyOf": [
+            {
+              "patternProperties": {
+                "^(/v1)?/messaging(/[a-zA-z0-9-#]+(/[a-zA-z0-9-#]+(/\\{[a-zA-z]+\\})?)?)?$": {
+                  "^(get|post)$": {
+                    "$ref": "openapi-3.1.0-schema.json#/$defs/operation"
+                  }
+                }
+              }
+            },
+            {
+              "patternProperties": {
+                "^(/v1)?/messaging/[a-zA-z0-9-#]+/[a-zA-z0-9-#]+/\\{[a-zA-z]+\\}/sync$": {
+                  "^(post)$": {
+                    "$ref": "openapi-3.1.0-schema.json#/$defs/operation"
+                  }
+                }
+              }
+            },
+            {
+              "patternProperties": {
+                "^(/v1)?/messaging/[a-zA-z0-9-#]+/[a-zA-z0-9-#]+/\\{[a-zA-z]+\\}/response(/[a-zA-z0-9-#]+(/[a-zA-z0-9-#]+(/\\{[a-zA-z]+\\})?)?)?$": {
+                  "^(get|post)$": {
+                    "$ref": "openapi-3.1.0-schema.json#/$defs/operation"
+                  }
+                }
+              }
+            },{
+              "patternProperties": {
+                "^(/v1)?/messaging-webhook/\\{[a-zA-z]+\\}/response/[a-zA-z0-9-#]+/[a-zA-z0-9-#]+/\\{[a-zA-z]+\\}$": {
+                  "^(post)$": {
+                    "$ref": "openapi-3.1.0-schema.json#/$defs/operation"
+                  }
+                }
+              }
+            },{
+              "patternProperties": {
+                "^(/v1)?/messaging-webhook/\\{[a-zA-z]+\\}/response/signal$": {
+                  "^post$": {
+                    "$ref": "openapi-3.1.0-schema.json#/$defs/operation"
+                  }
+                }
+              }
+            }
+          ],
+          "$ref": "openapi-3.1.0-schema.json#/$defs/specification-extensions",
+          "unevaluatedProperties": false
+        }
+      }
+    }
+  ]
+} 

@@ -1,0 +1,145 @@
+<h2 mat-dialog-title>{{formTitle}}</h2>
+<form [formGroup]="dialogForm">
+  <mat-dialog-content style="height:600px;width:1200px">
+
+    <div fxLayout="column">
+      <mat-tab-group>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>storage</mat-icon>
+            Dataset: ({{dialogForm.controls['type'].value}})
+          </ng-template>
+          <fieldset [class]="'broker-panel'">
+            <legend [class]="'broker-panel-legend'">DSD Dataset data</legend>
+            <div>
+              <mat-form-field style="width: 200px">
+                <input matInput placeholder="Type id"
+                       [formControlName]="'type'"
+                       [disabled]="editMode"
+                       id="type_id"/>
+              </mat-form-field>
+              <!-- the identifiers are always restricted. when creating new dataset, the identifier is created by DSD -->
+              <editable-list fieldStyle="width:200px" [formControlName]="'identifiers'"
+                             title="Identifiers"
+                             [disabled]="true"
+              ></editable-list>
+              <editable-list fieldStyle="width:650px" [formControlName]="'titles'" title="Titles"></editable-list>
+              <editable-list fieldStyle="width:1135px" [formControlName]="'descriptions'"
+                             title="Descriptions"></editable-list>
+              <editable-list fieldStyle="width:1135px" [formControlName]="'qualifiedRelationships'"
+                             title="Qualified Relationships"
+                             [listTemplate]="relationshipListTemplate"
+                             [displayedColumns]="['relation','hadRole', 'edit']"
+                             [dataSchema]="{'relation': 'text','hadRole': 'text' }"
+              ></editable-list>
+              <mat-form-field style="width: 1135px">
+                <input matInput placeholder="Conforms to" [formControlName]="'conformsTo'" id="conformsTo_id"/>
+              </mat-form-field>
+
+            </div>
+          </fieldset>
+          <fieldset [class]="'broker-panel'">
+            <legend [class]="'broker-panel-legend'">Publisher data</legend>
+            <div>
+              <mat-form-field style="width: 200px">
+
+                <input matInput placeholder="Publisher identifier"
+                       [formControlName]="'publisher.identifier'"
+                       [matAutocomplete]="auto">
+
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  <mat-option *ngFor="let item of autoFilter | async" [value]="item.identifier"
+                              (onSelectionChange)="onSelectOrganization(item)">
+                    {{item.identifier}} ({{item.prefLabels[0]}})
+                  </mat-option>
+                </mat-autocomplete>
+
+              </mat-form-field>
+
+              <mat-form-field style="width: 200px">
+                <mat-label>Organization level</mat-label>
+                <mat-chip-list #chipClassificationsList>
+                  <mat-chip *ngFor="let value of dialogForm.controls['publisher.classifications'].value">
+                    {{value}}
+                  </mat-chip>
+                </mat-chip-list>
+              </mat-form-field>
+              <editable-list fieldStyle="width:680px" [formControlName]="'publisher.prefLabels'"
+                             title="Organization names"></editable-list>
+              <editable-list fieldStyle="width:1135px" [formControlName]="'publisher.altLabels'"
+                             title="Descriptions"></editable-list>
+
+            </div>
+          </fieldset>
+        </mat-tab>
+
+        <mat-tab label="Distributions">
+          <ng-template mat-tab-label>
+            <mat-icon>link</mat-icon>
+            Distributions
+          </ng-template>
+
+
+          <fieldset [class]="'broker-panel'">
+            <legend [class]="'broker-panel-legend'">Distributions</legend>
+            <div>
+              <details-list #inputDistribution
+                            matInput
+                            [disabled]="editMode"
+                            [formControlName]="'distributions'"
+                            [dataTemplate]="distributionListTemplate"
+                            [displayedColumns]="['format','mediaType','edit']"
+                            [dataSchema]="{'conformsTo': 'text','format': 'text','mediaType': 'text','accessURL': 'text' }"
+                            title="Distributions"></details-list>
+
+            </div>
+          </fieldset>
+        </mat-tab>
+
+      </mat-tab-group>
+    </div>
+  </mat-dialog-content>
+</form>
+<mat-dialog-actions>
+  <div class="group-action-button">
+    <button mat-raised-button color="primary" (click)="submitForm()"
+            [disabled]="!dialogForm.valid">
+      <mat-icon>check_circle</mat-icon>
+      <span>OK</span>
+    </button>
+
+    <button mat-raised-button color="primary" mat-dialog-close>
+      <mat-icon>cancel</mat-icon>
+      <span>Cancel</span>
+    </button>
+  </div>
+</mat-dialog-actions>
+<div style="text-align: right; font-size: 70%">* required fields</div>
+
+<ng-template #distributionListTemplate let-value="value">
+  <editable-list fieldStyle="width:100%" [dataSource]="value.descriptions"
+                 title="Descriptions"></editable-list>
+  <mat-form-field style="width: 100%">
+    <input matInput placeholder="Media type" [(ngModel)]="value.mediaType"/>
+  </mat-form-field>
+  <mat-form-field style="width: 100%">
+    <input matInput placeholder="Format" [(ngModel)]="value.format"/>
+  </mat-form-field>
+
+  <mat-form-field style="width: 100%">
+    <input matInput placeholder="Conforms to" [(ngModel)]="value.conformsTo"/>
+  </mat-form-field>
+
+  <mat-form-field style="width: 100%">
+    <input matInput placeholder="AccessURL" [(ngModel)]="value.accessURL"/>
+  </mat-form-field>
+
+  <editable-list fieldStyle="width:100%" [(dataSource)]="value.dataServices"
+                 title="Data services"
+                 [listTemplate]="datasourceListTemplate"
+                 [displayedColumns]="['title','identifier','conformsTo','endpointURL', 'edit']"
+                 [dataSchema]="{'identifier': 'text','conformsTo': 'text','title': 'text','endpointURL': 'text' }"></editable-list>
+</ng-template>
+
+<ng-template #relationshipListTemplate let-value="value">{{value?.relation + " (" + value?.hadRole + ")"}}</ng-template>
+<ng-template #datasourceListTemplate let-value="value">{{value?.title + " (" + value?.identifier + ")"}}</ng-template>

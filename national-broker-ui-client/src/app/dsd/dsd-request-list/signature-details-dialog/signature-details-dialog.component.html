@@ -1,0 +1,78 @@
+<h2 mat-dialog-title>{{formTitle}}</h2>
+<form [formGroup]="dialogForm">
+  <mat-dialog-content style="height:800px;width:1500px">
+
+    <div fxLayout="column">
+      <fieldset [class]="'broker-panel'">
+        <legend [class]="'broker-panel-legend'">Signature</legend>
+
+        <div>
+
+          <mat-form-field style="width: 100%">
+            <textarea matInput placeholder="Detached JADES signature" [rows]="10"
+                      [formControlName]="'signature'"
+                      id="signature"></textarea>
+          </mat-form-field>
+
+        </div>
+      </fieldset>
+
+          <fieldset [class]="'broker-panel'">
+            <legend [class]="'broker-panel-legend'">Headers</legend>
+            <div style="width: 1480px;height: 300px">
+              <ngx-codemirror style="height: 100%"
+                              [formControlName]="'headers'"
+                              [options]="{
+                lineNumbers: true,
+                lineWrapping: true,
+                autoRefresh:true,
+                theme: 'material',
+                mode: 'application/json'
+              }"
+              ></ngx-codemirror>
+            </div>
+          </fieldset>
+          <fieldset [class]="'broker-panel'">
+            <legend [class]="'broker-panel-legend'">Payload</legend>
+            <div style="width: 1480px;height: 300px">
+              <ngx-codemirror style="height: 100%"
+                              [formControlName]="'payload'"
+                              [options]="{
+                lineNumbers: true,
+                lineWrapping: true,
+                autoRefresh:true,
+                theme: 'material',
+                mode: 'application/json'
+              }"
+              ></ngx-codemirror>
+            </div>
+          </fieldset>
+          <fieldset [class]="'broker-panel'">
+            <legend [class]="'broker-panel-legend'">Signature data</legend>
+            <div style="width: 1480px;height: 200px">
+              <ngx-codemirror style="height: 100%"
+                              [formControlName]="'signatureData'"
+                              [options]="{
+                lineNumbers: true,
+                lineWrapping: true,
+                autoRefresh:true,
+                theme: 'material',
+                mode: 'application/json'
+              }"
+              ></ngx-codemirror>
+            </div>
+          </fieldset>
+
+    </div>
+  </mat-dialog-content>
+</form>
+<mat-dialog-actions>
+  <div class="group-action-button">
+
+    <button mat-raised-button color="primary" mat-dialog-close>
+      <mat-icon>cancel</mat-icon>
+      <span>Cancel</span>
+    </button>
+  </div>
+</mat-dialog-actions>
+<div style="text-align: right; font-size: 70%">* required fields</div>

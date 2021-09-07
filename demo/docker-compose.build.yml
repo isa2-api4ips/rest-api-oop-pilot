@@ -1,0 +1,18 @@
+#
+# Docker compose project used to build the test environment docker images.
+#
+# Usage:
+#   build all images:
+#     docker-compose -f docker-compose.build.yml build
+#   build specific image:
+#     docker-compose -f docker-compose.build.yml build [service-name]
+#
+version: '3.5'
+services:
+  rest-api-demo:
+    build:
+      context: .
+      args:
+        - VERSION
+        - JAVA_NAME
+    image: ${IMAGE_TAG:-domibustest}/rest-api-demo:1.0.0-SNAPSHOT

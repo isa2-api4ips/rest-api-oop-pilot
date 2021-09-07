@@ -1,0 +1,11 @@
+version: '3.2'
+services:
+  restWildfly:
+    image: domibustest/rest-api-demo:1.0.8-SNAPSHOT
+    ports:
+      - "8887:8080"
+#    volumes:
+#- ./rest/deployment:/opt/jboss/wildfly/standalone/deployments/
+# - ./rest/data:/opt/jboss/wildfly/standalone/data
+
+

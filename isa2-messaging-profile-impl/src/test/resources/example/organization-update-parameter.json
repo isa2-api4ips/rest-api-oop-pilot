@@ -1,0 +1,11 @@
+{
+  "identifier" : "111002",
+  "prefLabels" : [ "Munich University of Applied Sciences" ],
+  "altLabels" : [ "Munchen univeristy of Applied Sciences will provide information regarding diplomas issued by this university" ],
+  "classifications" : [ "level-5" ],
+  "address" : {
+    "adminUnitLevel" : "DE",
+    "fullAddress" : "Lothstrasse 34, 80335 Munchen"
+  }
+}
+

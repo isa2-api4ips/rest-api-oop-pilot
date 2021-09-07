@@ -1,0 +1,18 @@
+{
+  "dsd-services": {
+      "type": "string",
+      "enum": [
+        "list-organization",
+        "organization",
+        "dataset"
+      ]
+  },
+  "dsd-actions": {
+    "type": "string",
+    "enum": [
+      "get",
+      "create",
+      "update"
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "test-json-schema",
+  "version": "0.0.1",
+  "description": "Test json schema script",
+  "devDependencies": {
+    "@hyperjump/json-schema": "~0.17.1",
+    "jest": "~22.0.4"
+  },
+  "scripts": {
+    "test": "jest --config ./jest.config.json --env=node --colors --coverage test",
+    "test:watch": "npm run test -- --watch"
+  }
+}

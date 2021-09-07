@@ -1,0 +1,43 @@
+<app-search-table
+  [style]="'position:absolute;top:5px;bottom:5px;right:5px;left:5px'"
+  page_id="organization-update-list_id"
+  [title]="'DSD request status list'"
+  [icon]="'send'"
+  [columnPicker]="columnPicker"
+  [urlQuery]="organizationUpdatesUrlQuery"
+  [additionalToolButtons]="additionalToolButtons"
+  [searchPanel]="searchPanel"
+  [searchTableController]="organizationUpdateListController"
+  [showSearchPanel]="true"
+  [filter]="filter"
+  [allowNewItems]="false"
+  [allowDeleteItems]="false"
+  [allowEditItems]="false"
+  [showActionButtons]="true"
+>
+  <ng-template #searchPanel>
+
+    <mat-form-field>
+      <input matInput placeholder="Request message id" name="OrganizationId"
+             [(ngModel)]="filter.updateRequestId"
+             #messageId="ngModel" id="updateRequestId">
+    </mat-form-field>
+  </ng-template>
+  <ng-template #additionalToolButtons>
+    <span [class]="'toolbar-divider'">&nbsp;</span>
+    <button id="selectedRequestIdentifierButton" mat-raised-button  [routerLink]="['/dsd/dsd-request-list', selectedRequestIdentifier]"
+            [disabled]="!selectedRequestIdentifier" color="primary">
+      <mat-icon>keyboard_arrow_up</mat-icon>
+      <span>DSD request</span>
+    </button>
+    <span [class]="'toolbar-divider'">&nbsp;</span>
+    <button id="selectedResponseIdentifierButton" mat-raised-button  [routerLink]="['/dsd/dsd-request-list', selectedResponseIdentifier]"
+            [disabled]="!selectedResponseIdentifier" color="primary">
+      <mat-icon>keyboard_arrow_down</mat-icon>
+      <span>DSD response</span>
+    </button>
+  </ng-template>
+  <ng-template #searchPanel>
+  </ng-template>
+</app-search-table>
+

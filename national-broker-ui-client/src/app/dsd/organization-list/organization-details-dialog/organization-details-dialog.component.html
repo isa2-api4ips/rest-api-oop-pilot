@@ -1,0 +1,90 @@
+<h2 mat-dialog-title>{{formTitle}}</h2>
+<form [formGroup]="dialogForm">
+  <mat-dialog-content style="height:600px;width:1200px">
+
+    <div fxLayout="column">
+      <fieldset [class]="'broker-panel'">
+        <legend [class]="'broker-panel-legend'">Organization Data</legend>
+
+        <div>
+          <mat-form-field style="width: 100%">
+            <input matInput placeholder="Organization id"
+                   [formControlName]="'identifier'"
+                   id="subject_id"/>
+          </mat-form-field>
+
+          <mat-form-field style="width: 100%">
+            <mat-label>Organization name</mat-label>
+            <mat-chip-list #chipPrefLabelList>
+              <mat-chip *ngFor="let value of dialogForm.controls['prefLabels'].value"
+                        [selectable]="'true'"
+                        [removable]="'true'" (removed)="removeListItem(dialogForm.controls['prefLabels'].value, value)">
+                {{value}}
+                <mat-icon matChipRemove *ngIf="value">cancel</mat-icon>
+              </mat-chip>
+              <input [matChipInputFor]="chipPrefLabelList" placeholder="Add alternative name ..."
+                     (matChipInputTokenEnd)="addListItem(dialogForm.controls['prefLabels'].value,$event)"/>
+            </mat-chip-list>
+          </mat-form-field>
+
+          <mat-form-field style="width: 100%">
+            <mat-label>Description</mat-label>
+            <mat-chip-list #chipAltLabelList>
+              <mat-chip *ngFor="let value of dialogForm.controls['altLabels'].value"
+                        [selectable]="'true'"
+                        [removable]="'true'" (removed)="removeListItem(dialogForm.controls['altLabels'].value, value)">
+                {{value}}
+                <mat-icon matChipRemove *ngIf="value">cancel</mat-icon>
+              </mat-chip>
+              <input [matChipInputFor]="chipAltLabelList" placeholder="Add alternative description ..."
+                     (matChipInputTokenEnd)="addListItem(dialogForm.controls['altLabels'].value,$event)"/>
+            </mat-chip-list>
+          </mat-form-field>
+          <mat-form-field style="width: 100%">
+            <mat-label>Organization level</mat-label>
+            <mat-chip-list #chipClassificationsList>
+              <mat-chip *ngFor="let value of dialogForm.controls['classifications'].value"
+                        [selectable]="'false'"
+                        [removable]="'false'"
+                        (removed)="removeListItem(dialogForm.controls['classifications'].value, value)">
+                {{value}}
+              </mat-chip>
+
+            </mat-chip-list>
+          </mat-form-field>
+        </div>
+      </fieldset>
+
+      <fieldset [class]="'broker-panel'">
+        <legend [class]="'broker-panel-legend'">Organization Address</legend>
+
+        <div>
+          <mat-form-field style="width: 100%">
+            <input matInput placeholder="Full address" [formControlName]="'address.fullAddress'"
+                   id="fullAddress_id"/>
+          </mat-form-field>
+          <mat-form-field style="width: 100%">
+            <input matInput placeholder="Country" [readOnly]="editMode"
+                   [formControlName]="'address.adminUnitLevel'"
+                   id="adminUnitLevel_id">
+          </mat-form-field>
+        </div>
+      </fieldset>
+    </div>
+  </mat-dialog-content>
+</form>
+<mat-dialog-actions>
+  <div class="group-action-button">
+    <button mat-raised-button color="primary" (click)="submitForm()"
+            [disabled]="!dialogForm.valid">
+      <mat-icon>check_circle</mat-icon>
+      <span>OK</span>
+    </button>
+
+    <button mat-raised-button color="primary" mat-dialog-close>
+      <mat-icon>cancel</mat-icon>
+      <span>Cancel</span>
+    </button>
+  </div>
+</mat-dialog-actions>
+<div style="text-align: right; font-size: 70%">* required fields</div>

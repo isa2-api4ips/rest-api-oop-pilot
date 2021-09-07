@@ -1,0 +1,15 @@
+<mat-form-field style="{{fieldStyle}};">
+  <mat-select [(value)]="selected" placeholder="{{title}}">
+    <mat-option *ngFor="let rowValue of internalData" [value]="rowValue">
+      <ng-container *ngTemplateOutlet="listTemplate ? listTemplate: defaultListTemplate;context:{value:rowValue}" >
+      </ng-container>
+    </mat-option>
+  </mat-select>
+  <button *ngIf="!disabled" mat-button matSuffix (click)="openListEditor($event)">
+    <mat-icon>edit_note</mat-icon>
+  </button>
+</mat-form-field>
+
+<ng-template #defaultListTemplate let-value="value">{{value.value}}</ng-template>
+
+
