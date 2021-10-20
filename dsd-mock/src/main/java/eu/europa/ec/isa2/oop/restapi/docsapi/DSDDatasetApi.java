@@ -5,7 +5,8 @@ import eu.europa.ec.isa2.restapi.profile.annotation.*;
 import eu.europa.ec.isa2.restapi.profile.enums.MessageReferenceOperationType;
 import eu.europa.ec.isa2.restapi.profile.enums.MessageReferencePullOperationType;
 import eu.europa.ec.isa2.restapi.profile.model.MessageReferenceListRO;
-import io.swagger.v3.oas.annotations.security.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,10 @@ import static eu.europa.ec.isa2.oop.restapi.docsapi.DSDDatasetApi.*;
 @Tag(name = TAG_GET_MESSAGE, description = "Services for pulling ready messages ")
 @Tag(name = TAG_GET_RESPONSE_MESSAGE, description = "Services for pulling ready response messages ")
 
+@SecurityRequirements({
+        @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
+        , @SecurityRequirement(name="DSD_Http_BearerTokenAuthorization", scopes = {"ROLE_DSD"})
+})
 public interface DSDDatasetApi extends DSDOpenApiSecuritySchemes {
     String TAG_DSD_DATASET = "DSD dataset: Message submission";
     String TAG_GET_MESSAGE_LIST = "DSD dataset: Message Reference List";
@@ -54,9 +59,7 @@ public interface DSDDatasetApi extends DSDOpenApiSecuritySchemes {
                             instance = DatasetSearchResult.class,
                             example = ""
                     )
-            }, securityRequirements = {
-            @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
-    })
+            })
     DatasetSearchResult searchDatasets(String service,
                                        String action,
                                        String messageId, DatasetSearchParameters searchParameters);
@@ -78,9 +81,7 @@ public interface DSDDatasetApi extends DSDOpenApiSecuritySchemes {
                             instance = DatasetRO.class,
                             example = ""
                     )
-            }, securityRequirements = {
-            @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
-    })
+            })
     void updateDataset(String service,
                        String action,
                        String messageId,
@@ -103,9 +104,7 @@ public interface DSDDatasetApi extends DSDOpenApiSecuritySchemes {
                             instance = DatasetRO.class,
                             example = ""
                     )
-            }, securityRequirements = {
-            @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
-    })
+            })
     void createDataset(String service,
                        String action,
                        String messageId, DatasetRO datasetRO);
@@ -126,9 +125,7 @@ public interface DSDDatasetApi extends DSDOpenApiSecuritySchemes {
                             instance = DatasetRO.class,
                             example = ""
                     )
-            }, securityRequirements = {
-            @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
-    })
+            })
     void deleteDataset(String service,
                        String action,
                        String messageId, DatasetRO datasetRO);
@@ -141,10 +138,7 @@ public interface DSDDatasetApi extends DSDOpenApiSecuritySchemes {
             operationId = "GetMessageReferenceListForDataSetId",
             summary = "DSD Mock:Get Message Reference List for service Endpoint",
             description = "This endpoint returns a list of message references available for pulling for a DataSet service, " +
-                    "following the Message Reference schema.",
-            securityRequirements = {
-                    @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
-            })
+                    "following the Message Reference schema.")
     MessageReferenceListRO getDataSetServiceMessageReferenceList();
 
 
@@ -156,10 +150,7 @@ public interface DSDDatasetApi extends DSDOpenApiSecuritySchemes {
             operationId = "GetMessageReferenceListForDataSetStatusId",
             summary = "DSD Mock: Get Message Reference List for service and action Endpoint",
             description = "This endpoint returns a list of message references available for pulling for a organization/status, " +
-                    "following the Message Reference schema.",
-            securityRequirements = {
-                    @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
-            })
+                    "following the Message Reference schema.")
     MessageReferenceListRO getDataSetStatusMessageReferenceList();
 
 
@@ -170,10 +161,7 @@ public interface DSDDatasetApi extends DSDOpenApiSecuritySchemes {
             operationId = "GetDataSetResponseMessageReferenceListId",
             summary = "Get Response Message Reference List Endpoint",
             description = "This endpoint returns a list of response message references available for pulling, " +
-                    "following the Message Reference schema, representing responses to a previous message sent by the original sender",
-            securityRequirements = {
-                    @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
-            })
+                    "following the Message Reference schema, representing responses to a previous message sent by the original sender")
     MessageReferenceListRO getDataSetStatusResponseMessageReferenceList(
             @PathVariable("messageId") String messageId);
 
@@ -187,10 +175,7 @@ public interface DSDDatasetApi extends DSDOpenApiSecuritySchemes {
             operationId = "GetDataSetResponseMessageReferenceListForServiceEndpointId",
             summary = "Get Response Message Reference List for service  Endpoint",
             description = "This endpoint returns a list of response message references available for pulling for a specific service, " +
-                    "following the Message R    eference schema, representing responses to a previous message sent by the original sender. ",
-            securityRequirements = {
-                    @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
-            })
+                    "following the Message R    eference schema, representing responses to a previous message sent by the original sender. ")
     MessageReferenceListRO getDataSetStatusResponseMessageReferenceListForService(@PathVariable("messageId") String messageId);
 
 
@@ -204,10 +189,7 @@ public interface DSDDatasetApi extends DSDOpenApiSecuritySchemes {
             operationId = "GetDataSetResponseMessageReferenceListForServiceAndActionEndpointId",
             summary = "Get Response Message Reference List for service and action Endpoint",
             description = "This endpoint returns a list of response message references available for pulling for a specific service and action, " +
-                    "following the Message Reference schema, representing responses to a previous message sent by the original sender. ",
-            securityRequirements = {
-                    @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
-            })
+                    "following the Message Reference schema, representing responses to a previous message sent by the original sender. ")
     MessageReferenceListRO getDataSetStatusResponseMessageReferenceListForServiceAndAction(@PathVariable("messageId") String messageId);
 
 
@@ -228,11 +210,7 @@ public interface DSDDatasetApi extends DSDOpenApiSecuritySchemes {
                             instance = DatasetStatusResult.class,
                             example = ""
                     )
-            },
-            securityRequirements = {
-                    @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
-            }
-    )
+            })
     StatusResult<DatasetRO> getDataSetStatusMessage(@PathVariable("messageId") String messageId) throws IOException;
 
     @GetResponseMessageOperation(
@@ -254,9 +232,6 @@ public interface DSDDatasetApi extends DSDOpenApiSecuritySchemes {
                             instance = DatasetStatusResult.class,
                             example = ""
                     )
-            },
-            securityRequirements = {
-                    @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
             })
     StatusResult<DatasetRO> getDataSetStatusResponseMessage(@PathVariable("messageId") String messageId,
                                                             @PathVariable("rMessageId") String responseMessageId) throws IOException;
@@ -266,10 +241,7 @@ public interface DSDDatasetApi extends DSDOpenApiSecuritySchemes {
             operationId = "datasetSubmitSignalWebhookMethodId",
             summary = "DSD Component: Dataset update webhook ",
             description = "Asynchronous DSD dataset update request submission. Service returns message " +
-                    "acknowledgment signal. Request status can be obtained via pull dataset/status operation",
-            securityRequirements = {
-                    @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
-            })
+                    "acknowledgment signal. Request status can be obtained via pull dataset/status operation")
     // this is dummy implementation just for api generation - it must be generated by the "client server"
     default void submitSignal(String service,
                               String action,
@@ -295,9 +267,6 @@ public interface DSDDatasetApi extends DSDOpenApiSecuritySchemes {
                             instance = DatasetStatusResult.class,
                             example = ""
                     )
-            },
-            securityRequirements = {
-                    @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
             })
     default void getDataSetStatusResponseMessage(@PathVariable("messageId") String messageId,
                                                  @PathVariable("rMessageId") String responseMessageId,

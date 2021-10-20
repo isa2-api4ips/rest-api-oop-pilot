@@ -207,6 +207,8 @@
         },
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
+        }, {
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     },
@@ -371,6 +373,8 @@
         },
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
+        }, {
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     },
@@ -404,15 +408,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "bd748594-767b-4a7c-ba33-a08fc1ea80b9",
+                    "messageId" : "1610ac98-b643-4a33-a65e-f069084ee6ae",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/bd748594-767b-4a7c-ba33-a08fc1ea80b9"
+                    "href" : "/my-service/my-action/1610ac98-b643-4a33-a65e-f069084ee6ae"
                   }, {
-                    "messageId" : "f6efb297-56d1-4c5e-b06a-eb9376c20e27",
+                    "messageId" : "1b33b96f-a66a-45b0-a1b9-d501de75ae9e",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/f6efb297-56d1-4c5e-b06a-eb9376c20e27"
+                    "href" : "/my-service/my-action/1b33b96f-a66a-45b0-a1b9-d501de75ae9e"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -563,6 +567,8 @@
         },
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
+        }, {
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     },
@@ -702,6 +708,8 @@
         },
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
+        }, {
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     },
@@ -735,15 +743,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "09963dbb-d2c5-4c4e-b714-ae36996987fb",
+                    "messageId" : "8cddd0fc-ce1e-463c-9778-2775444dd38e",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/09963dbb-d2c5-4c4e-b714-ae36996987fb"
+                    "href" : "/my-service/my-action/8cddd0fc-ce1e-463c-9778-2775444dd38e"
                   }, {
-                    "messageId" : "82af3db9-bb79-4966-8260-c33d9f259a8d",
+                    "messageId" : "ec85ea30-7536-4d0a-a5d0-1d369753543b",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/82af3db9-bb79-4966-8260-c33d9f259a8d"
+                    "href" : "/my-service/my-action/ec85ea30-7536-4d0a-a5d0-1d369753543b"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -894,6 +902,8 @@
         },
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
+        }, {
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     },
@@ -1035,6 +1045,8 @@
         },
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
+        }, {
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     },
@@ -1071,15 +1083,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "03fc7348-7534-43ea-8a99-bf851fc93163",
+                    "messageId" : "d8ffc8d3-1384-44f2-ade8-7826a59add7b",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/03fc7348-7534-43ea-8a99-bf851fc93163"
+                    "href" : "/my-service/my-action/d8ffc8d3-1384-44f2-ade8-7826a59add7b"
                   }, {
-                    "messageId" : "726977dd-f466-4611-ba0a-11fe89195f04",
+                    "messageId" : "712d1675-56af-4a2b-85cb-1d858216d3d9",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/726977dd-f466-4611-ba0a-11fe89195f04"
+                    "href" : "/my-service/my-action/712d1675-56af-4a2b-85cb-1d858216d3d9"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -1230,6 +1242,8 @@
         },
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
+        }, {
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     },
@@ -1266,15 +1280,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "ad39c864-94eb-4407-ae0d-a87e4ba20460",
+                    "messageId" : "5dfb078a-1f1c-4832-a106-d1ce08867448",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/ad39c864-94eb-4407-ae0d-a87e4ba20460"
+                    "href" : "/my-service/my-action/5dfb078a-1f1c-4832-a106-d1ce08867448"
                   }, {
-                    "messageId" : "dd462f10-f8ee-4e8a-8d44-6b2d971e2b04",
+                    "messageId" : "bbae0122-1b97-4e39-82f7-529278f8a490",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/dd462f10-f8ee-4e8a-8d44-6b2d971e2b04"
+                    "href" : "/my-service/my-action/bbae0122-1b97-4e39-82f7-529278f8a490"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -1425,6 +1439,8 @@
         },
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
+        }, {
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     },
@@ -1461,15 +1477,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "c17c843a-06c5-40b3-933c-57dee4e86b90",
+                    "messageId" : "006a8dc7-b26e-4378-83b8-21eb2baddcc3",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/c17c843a-06c5-40b3-933c-57dee4e86b90"
+                    "href" : "/my-service/my-action/006a8dc7-b26e-4378-83b8-21eb2baddcc3"
                   }, {
-                    "messageId" : "c0fc5281-70d1-429a-9aa3-926b58b65b61",
+                    "messageId" : "45b38139-2893-43ca-a378-158c2a04ae37",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/c0fc5281-70d1-429a-9aa3-926b58b65b61"
+                    "href" : "/my-service/my-action/45b38139-2893-43ca-a378-158c2a04ae37"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -1620,6 +1636,8 @@
         },
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
+        }, {
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     },
@@ -1793,6 +1811,8 @@
         },
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
+        }, {
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     },
@@ -1959,6 +1979,8 @@
         },
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
+        }, {
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     }
@@ -2482,6 +2504,7 @@
     "securitySchemes" : {
       "DSD_ClientCredentials_OAuthSecurity" : {
         "type" : "oauth2",
+        "description" : "<p>Client Credentials authorization between National Broker and DSD using OKTA authorization server.<br/></p> <p><b>Important Note:</b>OKTA Oauth server does not allow client credentials authorization from web browser like when using Swagger UI. When testing the services with Swagger UI, use <b>DSD_Http_BearerTokenAuthorization</b> to provide an access token that has been obtained previously outside of Swagger UI.</p>",
         "flows" : {
           "clientCredentials" : {
             "tokenUrl" : "https://dev-24443841.okta.com/oauth2/aus1096gcr9r537Ut5d7/v1/token",
@@ -2490,6 +2513,12 @@
             }
           }
         }
+      },
+      "DSD_Http_BearerTokenAuthorization" : {
+        "type" : "http",
+        "description" : "OKTA OAuth server does not allow client credentials authorization from web browser. Hence providing Bearer Token Authorization for use in **Swagger UI**. <br/><br/>**Note:** this is only a workaround for a limitation of using Swagger UI. For system integration please use **DSD_ClientCredentials_OAuthSecurity** . <br/><br/>**Usage:** Submit an HTTPS POST request to the token url of **DSD_ClientCredentials_OAuthSecurity** with body contents **grant_type=client_credentials** and **scope=ROLE_DSD** in **x-www-form-encoded** format. As HTTP basic authorization send the **Client ID** and **Client Secret** of the National Broker. The OKTA server will return a JSON response containing an access token as a JWT.Submit the JWT in this **DSD_Http_BearerTokenAuthorization**.",
+        "scheme" : "Bearer",
+        "bearerFormat" : "Opaque"
       }
     }
   },
@@ -2655,6 +2684,8 @@
         },
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
+        }, {
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     },
@@ -2868,6 +2899,8 @@
         },
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
+        }, {
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     }

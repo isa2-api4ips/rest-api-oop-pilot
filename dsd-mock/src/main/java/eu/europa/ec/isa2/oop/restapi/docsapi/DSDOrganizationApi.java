@@ -6,7 +6,8 @@ import eu.europa.ec.isa2.restapi.profile.enums.MessageReferenceOperationType;
 import eu.europa.ec.isa2.restapi.profile.enums.MessageReferencePullOperationType;
 import eu.europa.ec.isa2.restapi.profile.model.MessageReferenceListRO;
 import eu.europa.ec.isa2.restapi.profile.model.SignalMessage;
-import io.swagger.v3.oas.annotations.security.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +26,10 @@ import static eu.europa.ec.isa2.oop.restapi.examples.OrganizationExample.*;
 @Tag(name = TAG_GET_MESSAGE, description = "Services for pulling ready messages ")
 @Tag(name = TAG_GET_RESPONSE_MESSAGE, description = "Services for pulling ready response messages ")
 
+@SecurityRequirements({
+        @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
+        , @SecurityRequirement(name="DSD_Http_BearerTokenAuthorization", scopes = {"ROLE_DSD"})
+})
 public interface DSDOrganizationApi extends DSDOpenApiSecuritySchemes {
 
     String TAG_DSD_ORGANIZATION = "DSD Organization: Message submission";
@@ -57,9 +62,6 @@ public interface DSDOrganizationApi extends DSDOpenApiSecuritySchemes {
                             instance = OrganizationSearchResult.class,
                             example = ORGANIZATION_RESULT
                     )
-            },
-            securityRequirements = {
-                    @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
             })
     OrganizationSearchResult searchOrganizations(String service,
                                                  String action,
@@ -80,9 +82,6 @@ public interface DSDOrganizationApi extends DSDOpenApiSecuritySchemes {
                             instance = OrganizationRO.class,
                             example = ORGANIZATION_UPDATE
                     )
-            },
-            securityRequirements = {
-                    @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
             })
     void updateOrganization(String service,
                             String action,
@@ -92,10 +91,7 @@ public interface DSDOrganizationApi extends DSDOpenApiSecuritySchemes {
             tags = {TAG_GET_MESSAGE_LIST},
             operationId = "GetMessageReferenceListId",
             summary = "DSD Mock: Message Reference List Endpoint",
-            description = "This endpoint returns a list of message references available for pulling, following the Message Reference schema. ",
-            securityRequirements = {
-                    @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
-            })
+            description = "This endpoint returns a list of message references available for pulling, following the Message Reference schema. ")
     MessageReferenceListRO getOrganizationMessageReferenceList();
 
 
@@ -106,10 +102,7 @@ public interface DSDOrganizationApi extends DSDOpenApiSecuritySchemes {
             operationId = "GetMessageReferenceListForOrganizationId",
             summary = "DSD Mock:Get Message Reference List for service Endpoint",
             description = "This endpoint returns a list of message references available for pulling for a Organization service, " +
-                    "following the Message Reference schema.",
-            securityRequirements = {
-                    @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
-            })
+                    "following the Message Reference schema.")
     MessageReferenceListRO getOrganizationServiceMessageReferenceList();
 
 
@@ -121,10 +114,7 @@ public interface DSDOrganizationApi extends DSDOpenApiSecuritySchemes {
             operationId = "GetMessageReferenceListForOrganizationStatusId",
             summary = "DSD Mock: Get Message Reference List for service and action Endpoint",
             description = "This endpoint returns a list of message references available for pulling for a organization/status, " +
-                    "following the Message Reference schema.",
-            securityRequirements = {
-                    @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
-            })
+                    "following the Message Reference schema.")
     MessageReferenceListRO getOrganizationStatusMessageReferenceList();
 
 
@@ -135,10 +125,7 @@ public interface DSDOrganizationApi extends DSDOpenApiSecuritySchemes {
             operationId = "GetOrganizationResponseMessageReferenceListId",
             summary = "Get Response Message Reference List Endpoint",
             description = "This endpoint returns a list of response message references available for pulling, " +
-                    "following the Message Reference schema, representing responses to a previous message sent by the original sender",
-            securityRequirements = {
-                    @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
-            })
+                    "following the Message Reference schema, representing responses to a previous message sent by the original sender")
     MessageReferenceListRO getOrganizationStatusResponseMessageReferenceList(
             @PathVariable("messageId") String messageId);
 
@@ -152,10 +139,7 @@ public interface DSDOrganizationApi extends DSDOpenApiSecuritySchemes {
             operationId = "GetOrganizationResponseMessageReferenceListForServiceEndpointId",
             summary = "Get Response Message Reference List for service  Endpoint",
             description = "This endpoint returns a list of response message references available for pulling for a specific service, " +
-                    "following the Message R    eference schema, representing responses to a previous message sent by the original sender. ",
-            securityRequirements = {
-                    @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
-            })
+                    "following the Message R    eference schema, representing responses to a previous message sent by the original sender. ")
     MessageReferenceListRO getOrganizationStatusResponseMessageReferenceListForService(@PathVariable("messageId") String messageId);
 
 
@@ -169,10 +153,7 @@ public interface DSDOrganizationApi extends DSDOpenApiSecuritySchemes {
             operationId = "GetOrganizationResponseMessageReferenceListForServiceAndActionEndpointId",
             summary = "Get Response Message Reference List for service and action Endpoint",
             description = "This endpoint returns a list of response message references available for pulling for a specific service and action, " +
-                    "following the Message Reference schema, representing responses to a previous message sent by the original sender. ",
-            securityRequirements = {
-                    @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
-            })
+                    "following the Message Reference schema, representing responses to a previous message sent by the original sender. ")
     MessageReferenceListRO getOrganizationStatusResponseMessageReferenceListForServiceAndAction(@PathVariable("messageId") String messageId);
 
 
@@ -193,9 +174,6 @@ public interface DSDOrganizationApi extends DSDOpenApiSecuritySchemes {
                             instance = OrganizationStatusResult.class,
                             example = ORGANIZATION_RESULT
                     )
-            },
-            securityRequirements = {
-                    @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
             })
     StatusResult<OrganizationRO> getOrganizationStatusMessage(@PathVariable("messageId") String messageId) throws IOException;
 
@@ -218,9 +196,6 @@ public interface DSDOrganizationApi extends DSDOpenApiSecuritySchemes {
                             instance = OrganizationStatusResult.class,
                             example = ORGANIZATION_RESULT
                     )
-            },
-            securityRequirements = {
-                    @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
             })
     StatusResult<OrganizationRO> getOrganizationStatusResponseMessage(@PathVariable("messageId") String messageId,
                                                                       @PathVariable("rMessageId") String responseMessageId) throws IOException;
@@ -231,11 +206,7 @@ public interface DSDOrganizationApi extends DSDOpenApiSecuritySchemes {
             isWebhook = false,
             operationId = "OrganizationSignalSubmissionId",
             summary = "Organization Signal Submission Endpoint ",
-            description = "The Organization Signal Submission endpoint is used for signalling the successfully pulled message or to response errors/warnings at receiving messages.",
-            securityRequirements = {
-                    @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
-            }
-    )
+            description = "The Organization Signal Submission endpoint is used for signalling the successfully pulled message or to response errors/warnings at receiving messages.")
     void signalMessageSubmission(@PathVariable("messageId") String messageId, SignalMessage signalMessage);
 
 

@@ -21,7 +21,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -609,6 +608,9 @@ public class MessagingReader {
     }
 
     private void updateOAuthFlowsProperties(OAuthFlows flows) {
+        if(flows == null){
+            return;
+        }
         updateOAuthFlowProperties(flows.getAuthorizationCode());
         updateOAuthFlowProperties(flows.getClientCredentials());
         updateOAuthFlowProperties(flows.getImplicit());
@@ -631,6 +633,7 @@ public class MessagingReader {
         if (!StringUtils.isBlank(value)
                 && StringUtils.startsWithIgnoreCase(value, PROPERTIES)) {
             String propertyName = value.substring(PROPERTIES.length());
+
             if (authorizationProperties.containsKey(propertyName)) {
                 return authorizationProperties.getProperty(propertyName);
             } else {

@@ -207,6 +207,8 @@
         },
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
+        }, {
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     },
@@ -420,6 +422,8 @@
         },
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
+        }, {
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     }
@@ -943,6 +947,7 @@
     "securitySchemes" : {
       "DSD_ClientCredentials_OAuthSecurity" : {
         "type" : "oauth2",
+        "description" : "<p>Client Credentials authorization between National Broker and DSD using OKTA authorization server.<br/></p> <p><b>Important Note:</b>OKTA Oauth server does not allow client credentials authorization from web browser like when using Swagger UI. When testing the services with Swagger UI, use <b>DSD_Http_BearerTokenAuthorization</b> to provide an access token that has been obtained previously outside of Swagger UI.</p>",
         "flows" : {
           "clientCredentials" : {
             "tokenUrl" : "https://dev-24443841.okta.com/oauth2/aus1096gcr9r537Ut5d7/v1/token",
@@ -951,6 +956,12 @@
             }
           }
         }
+      },
+      "DSD_Http_BearerTokenAuthorization" : {
+        "type" : "http",
+        "description" : "OKTA OAuth server does not allow client credentials authorization from web browser. Hence providing Bearer Token Authorization for use in **Swagger UI**. <br/><br/>**Note:** this is only a workaround for a limitation of using Swagger UI. For system integration please use **DSD_ClientCredentials_OAuthSecurity** . <br/><br/>**Usage:** Submit an HTTPS POST request to the token url of **DSD_ClientCredentials_OAuthSecurity** with body contents **grant_type=client_credentials** and **scope=ROLE_DSD** in **x-www-form-encoded** format. As HTTP basic authorization send the **Client ID** and **Client Secret** of the National Broker. The OKTA server will return a JSON response containing an access token as a JWT.Submit the JWT in this **DSD_Http_BearerTokenAuthorization**.",
+        "scheme" : "Bearer",
+        "bearerFormat" : "Opaque"
       }
     }
   },
