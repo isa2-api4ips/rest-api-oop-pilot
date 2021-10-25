@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static eu.europa.ec.isa2.restapi.profile.constants.MessagingConstants.OPENAPI_REF_PATH_PARAMETERS;
 import static eu.europa.ec.isa2.restapi.profile.constants.MessagingConstants.OPENAPI_REF_PATH_SCHEMAS;
 
 /**
@@ -264,7 +263,7 @@ public class MessagingAPIParameterGenerator {
      */
     private Parameter createMessagingParameterForType(MessagingParameterType parameterType) {
 
-        String definitionURI = pathUtils.getDefinitionURI(messagingAPIDefinitionsLocation, parameterType.getMessagingSchemaType(), MessagingConstants.OPENAPI_SUBPATH_PARAMETERS, messagingAPIURL );
+        String definitionURI = pathUtils.getDefinitionURI(messagingAPIDefinitionsLocation, parameterType.getMessagingReferenceType(), MessagingConstants.OPENAPI_SUBPATH_PARAMETERS, messagingAPIURL );
         Parameter parameter;
         switch (messagingAPIDefinitionsLocation){
             case DOCUMENT_COMPONENTS:{

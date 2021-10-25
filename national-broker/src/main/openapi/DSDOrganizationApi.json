@@ -76,15 +76,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "24bd2b10-67dc-4a05-a4f5-6a78ca79db57",
+                    "messageId" : "64b8db6b-6910-4c4f-bb7e-66800b28d588",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/24bd2b10-67dc-4a05-a4f5-6a78ca79db57"
+                    "href" : "/my-service/my-action/64b8db6b-6910-4c4f-bb7e-66800b28d588"
                   }, {
-                    "messageId" : "c999dba1-69f6-4368-bcfb-8af61602388b",
+                    "messageId" : "6b19d300-e255-4db0-a892-f2d03dc50c2c",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/c999dba1-69f6-4368-bcfb-8af61602388b"
+                    "href" : "/my-service/my-action/6b19d300-e255-4db0-a892-f2d03dc50c2c"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -236,7 +236,7 @@
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
         }, {
-          "DSD_Http_BearerTokenAuthorization" : [ ]
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     },
@@ -270,15 +270,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "d9d88e3a-4e43-445a-bb23-adb33776c4af",
+                    "messageId" : "d42602f6-3700-4b8a-81cc-5eb81cb2a9a9",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/d9d88e3a-4e43-445a-bb23-adb33776c4af"
+                    "href" : "/my-service/my-action/d42602f6-3700-4b8a-81cc-5eb81cb2a9a9"
                   }, {
-                    "messageId" : "c3a46f5b-dcc0-4638-8560-5d85f2837c30",
+                    "messageId" : "f0687969-b9d4-458e-bbc9-fe66e1bff716",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/c3a46f5b-dcc0-4638-8560-5d85f2837c30"
+                    "href" : "/my-service/my-action/f0687969-b9d4-458e-bbc9-fe66e1bff716"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -430,7 +430,7 @@
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
         }, {
-          "DSD_Http_BearerTokenAuthorization" : [ ]
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     },
@@ -571,7 +571,7 @@
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
         }, {
-          "DSD_Http_BearerTokenAuthorization" : [ ]
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     },
@@ -605,15 +605,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "a5cc8aa6-3e1e-466e-8c3e-e7c28904b7c1",
+                    "messageId" : "0540bbb8-c44d-480a-9049-a51a2d83172d",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/a5cc8aa6-3e1e-466e-8c3e-e7c28904b7c1"
+                    "href" : "/my-service/my-action/0540bbb8-c44d-480a-9049-a51a2d83172d"
                   }, {
-                    "messageId" : "fe5516ff-9c2e-455d-b77e-88a8e6147b07",
+                    "messageId" : "c8b44dda-d70a-4cad-9a6e-7fdc36c00de1",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/fe5516ff-9c2e-455d-b77e-88a8e6147b07"
+                    "href" : "/my-service/my-action/c8b44dda-d70a-4cad-9a6e-7fdc36c00de1"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -765,7 +765,7 @@
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
         }, {
-          "DSD_Http_BearerTokenAuthorization" : [ ]
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     },
@@ -908,7 +908,7 @@
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
         }, {
-          "DSD_Http_BearerTokenAuthorization" : [ ]
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     },
@@ -945,15 +945,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "390c8a4d-b7ca-4166-942f-428b5eaa0ab2",
+                    "messageId" : "956e0e00-b639-4e1a-8ef0-505facf56b12",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/390c8a4d-b7ca-4166-942f-428b5eaa0ab2"
+                    "href" : "/my-service/my-action/956e0e00-b639-4e1a-8ef0-505facf56b12"
                   }, {
-                    "messageId" : "bb497de7-ef22-4c78-8162-6a6061f77e51",
+                    "messageId" : "3733be2e-405e-4731-bf0c-12903bd2098d",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/bb497de7-ef22-4c78-8162-6a6061f77e51"
+                    "href" : "/my-service/my-action/3733be2e-405e-4731-bf0c-12903bd2098d"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -1105,7 +1105,7 @@
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
         }, {
-          "DSD_Http_BearerTokenAuthorization" : [ ]
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     },
@@ -1142,15 +1142,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "d2134379-9673-4e0b-b32a-0daa4ebf6c65",
+                    "messageId" : "ec263248-eb0e-4262-861f-7eab1b5f27a7",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/d2134379-9673-4e0b-b32a-0daa4ebf6c65"
+                    "href" : "/my-service/my-action/ec263248-eb0e-4262-861f-7eab1b5f27a7"
                   }, {
-                    "messageId" : "5994ce3a-629b-4201-9807-54475330e451",
+                    "messageId" : "e6f8304a-d185-47c3-bb4e-371fb2aa6d3c",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/5994ce3a-629b-4201-9807-54475330e451"
+                    "href" : "/my-service/my-action/e6f8304a-d185-47c3-bb4e-371fb2aa6d3c"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -1302,7 +1302,7 @@
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
         }, {
-          "DSD_Http_BearerTokenAuthorization" : [ ]
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     },
@@ -1339,15 +1339,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "7a1874f6-6437-4c87-801e-5dc054a97e56",
+                    "messageId" : "9fce3df9-5f95-418b-bd78-3879bc2ebc6d",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/7a1874f6-6437-4c87-801e-5dc054a97e56"
+                    "href" : "/my-service/my-action/9fce3df9-5f95-418b-bd78-3879bc2ebc6d"
                   }, {
-                    "messageId" : "4826733b-c293-4504-a2c8-cf995eeae95f",
+                    "messageId" : "8d6a67fc-c30c-44a1-8e8f-08c86fc5a5f7",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/4826733b-c293-4504-a2c8-cf995eeae95f"
+                    "href" : "/my-service/my-action/8d6a67fc-c30c-44a1-8e8f-08c86fc5a5f7"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -1499,7 +1499,7 @@
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
         }, {
-          "DSD_Http_BearerTokenAuthorization" : [ ]
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     },
@@ -1674,7 +1674,7 @@
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
         }, {
-          "DSD_Http_BearerTokenAuthorization" : [ ]
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     },
@@ -1889,7 +1889,7 @@
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
         }, {
-          "DSD_Http_BearerTokenAuthorization" : [ ]
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     },
@@ -2055,7 +2055,7 @@
         "security" : [ {
           "DSD_ClientCredentials_OAuthSecurity" : [ "ROLE_DSD" ]
         }, {
-          "DSD_Http_BearerTokenAuthorization" : [ ]
+          "DSD_Http_BearerTokenAuthorization" : [ "ROLE_DSD" ]
         } ]
       }
     }
@@ -2121,9 +2121,16 @@
         "$id" : "https://joinup.ec.europa.eu/collection/api4dt/solution/.../message-reference-schema.json",
         "$schema" : "https://json-schema.org/draft/2020-12/schema"
       },
+      "jws-compact" : {
+        "title" : "The message-level and payload signature",
+        "pattern" : "^[A-Za-z0-9_-]+(?:\\.[A-Za-z0-9_-]+){2}$",
+        "type" : "string",
+        "description" : "The JWS compact representation schema defines the string pattern as a regular expression, denoting the structure a JWS compact token MUST follow to be a valid compact JWS Representation. It is used for defining the value of the message-level signature and of the payload signature",
+        "format" : "jws-compact"
+      },
       "jws-compact-detached" : {
         "title" : "The message-level and payload signature",
-        "pattern" : "^[A-Za-z0-9_-]+((?:\\.[A-Za-z0-9_-]+){2}|(?:(\\.\\.)[A-Za-z0-9_-]+){1})",
+        "pattern" : "^[A-Za-z0-9_-]+(?:(\\.\\.)[A-Za-z0-9_-]+){1}",
         "type" : "string",
         "description" : "The JWS compact representation schema defines the string pattern as a regular expression, denoting the structure a JWS compact token MUST follow to be a valid compact JWS Representation. It is used for defining the value of the message-level signature and of the payload signature",
         "format" : "jws-compact-detached"
@@ -2379,7 +2386,7 @@
         "in" : "header",
         "description" : "The Original Sender represents the authenticated entity acting as the user that sends the message using the client. Following the API Core Profile, the original sender MUST be represented with an OpenID Connect token, in the form of Compact JWT Token.",
         "schema" : {
-          "$ref" : "#/components/schemas/jws-compact-detached"
+          "$ref" : "#/components/schemas/jws-compact"
         },
         "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9.eyJzdWIiOiIxM0NTY3ODkwIiwibmIiwiaWF0IoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       },
@@ -2416,7 +2423,7 @@
       "Original-Sender" : {
         "description" : "The Original Sender represents the authenticated entity acting as the user that sends the message using the client. Following the API Core Profile, the original sender MUST be represented with an OpenID Connect token, in the form of Compact JWT Token.",
         "schema" : {
-          "$ref" : "#/components/schemas/jws-compact-detached"
+          "$ref" : "#/components/schemas/jws-compact"
         }
       },
       "Final-Recipient" : {

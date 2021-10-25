@@ -1,17 +1,17 @@
 package eu.europa.ec.isa2.restapi.profile.model;
 
-import eu.europa.ec.isa2.restapi.profile.constants.JSONConstants;
 import eu.europa.ec.isa2.restapi.profile.enums.APIProblemType;
 import io.swagger.v3.oas.annotations.media.Schema;
+import static eu.europa.ec.isa2.restapi.profile.model.schemas.SchemaDescriptionConstants.*;
 
 
 @Schema(
-        id = "https://joinup.ec.europa.eu/collection/api4dt/solution/.../messaging.schema.json",
-        schema = JSONConstants.SCHEMA_V202012,
-        name = "SignalMessage",
-        title = "A Signal message which extends Problem object (RFC 7807) defined by the ISA² IPS REST API Core Profile",
-        description = "A Signal message which extends Problem object (RFC 7807) defined by the ISA² IPS REST API Core Profile",
-        requiredProperties = {"title", "type", "status", "instance"}
+        name = SIGNAL_NAME,
+        title = SIGNAL_TITLE,
+        description = SIGNAL_DESCRIPTION,
+        id = SIGNAL_ID,
+        schema = SIGNAL_SCHEMA,
+        requiredProperties = {SIGNAL_REQ_PROP_TITLE, SIGNAL_REQ_PROP_TYPE, SIGNAL_REQ_PROP_STATUS, SIGNAL_REQ_PROP_INSTANCE}
 )
 public class SignalMessage {
 

@@ -4,9 +4,13 @@ package eu.europa.ec.isa2.restapi.profile.enums;
 
 import eu.europa.ec.isa2.restapi.profile.model.schemas.JwsCompactDetachedHeader;
 import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Arrays;
+import java.util.Optional;
 
 public enum MessagingParameterType {
-    ORIGINAL_SENDER("Original-Sender", MessagingReferenceType.ORIGINAL_SENDER, "The representation of the Original Sender", null, MessagingParameterLocationType.HEADER,false,false, JwsCompactDetachedHeader.JWS_COMPACT_DETACHED_HEADER, "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9.eyJzdWIiOiIxM0NTY3ODkwIiwibmIiwiaWF0IoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c","The Original Sender represents the authenticated entity acting as the user that sends the message using the client. Following the API Core Profile, the original sender MUST be represented with an OpenID Connect token, in the form of Compact JWT Token."),
+    ORIGINAL_SENDER("Original-Sender", MessagingReferenceType.ORIGINAL_SENDER, "The representation of the Original Sender", null, MessagingParameterLocationType.HEADER,false,false, JwsCompactDetachedHeader.JWS_COMPACT_HEADER, "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9.eyJzdWIiOiIxM0NTY3ODkwIiwibmIiwiaWF0IoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c","The Original Sender represents the authenticated entity acting as the user that sends the message using the client. Following the API Core Profile, the original sender MUST be represented with an OpenID Connect token, in the form of Compact JWT Token."),
     FINAL_RECIPIENT("Final-Recipient", MessagingReferenceType.FINAL_RECIPIENT,"The representation of the Final Recipient", null, MessagingParameterLocationType.HEADER,false,false, null,"9999::333222111","The Final Recipient is the entity for whom the message is sent. Can be a single identifier or a set of identifiers, as described in the Recipient Addressing Schemes section of the specification. The representation of the final recipient is out of scope of the current specification."),
     TIMESTAMP("Timestamp", MessagingReferenceType.TIMESTAMP,"The exact timestamp of the message generation", "date-time", MessagingParameterLocationType.HEADER, false,false, null,"2021-06-17T08:30:00Z", "The Timestamp is the exact date and time at which the message was sent. It is provided by the client and verified by the server."),
     EDEL_MESSAGE_SIG("Edel-Message-Sig", MessagingReferenceType.EDEL_MESSAGE_SIG,"The detached JAdES signature signing the message to be sent", null, MessagingParameterLocationType.HEADER,false,false,JwsCompactDetachedHeader.JWS_COMPACT_DETACHED_HEADER,"eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9.eyJzdWIiOiIxM0NTY3ODkwIiwibmIiwiaWF0IoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c", "The Edel-Message-Sig carries the signature of the HTTP Message following the API Core Profile on Message-Level Security. Following the light context constraints, the signature is optional for the client messages, but is RECOMMENDED for server messages."),
@@ -78,7 +82,7 @@ public enum MessagingParameterType {
         return location;
     }
 
-    public MessagingReferenceType getMessagingSchemaType() {
+    public MessagingReferenceType getMessagingReferenceType() {
         return messagingReferenceType;
     }
 
@@ -88,6 +92,10 @@ public enum MessagingParameterType {
 
     public String getExample() {
         return example;
+    }
+
+    static public Optional<MessagingParameterType> getByName(String name){
+        return Arrays.stream(values()).filter(type -> StringUtils.equalsIgnoreCase(name, type.getName())).findFirst();
     }
 }
 

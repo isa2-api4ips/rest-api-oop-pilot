@@ -1,17 +1,16 @@
 package eu.europa.ec.isa2.restapi.profile.model;
-import eu.europa.ec.isa2.restapi.profile.constants.JSONConstants;
+
 import eu.europa.ec.isa2.restapi.profile.enums.APIProblemType;
 import io.swagger.v3.oas.annotations.media.Schema;
-
+import static eu.europa.ec.isa2.restapi.profile.model.schemas.SchemaDescriptionConstants.*;
 
 @Schema(
-        name = "Problem",
-        title = "A Problem Details object (RFC 7807) defined by the ISA² IPS REST API Core Profile",
-        description = "A Problem Details object (RFC 7807) with ISA² IPS REST API extensions, used for signals (responses) to messages",
-        id = "https://joinup.ec.europa.eu/collection/api4dt/solution/.../messaging.schema.json",
-        schema = JSONConstants.SCHEMA_V202012,
-        requiredProperties = {"title","type","status"}
-
+        name = PROBLEM_NAME,
+        title = PROBLEM_TITLE,
+        description = PROBLEM_DESCRIPTION,
+        id = PROBLEM_ID,
+        schema = PROBLEM_SCHEMA,
+        requiredProperties = {PROBLEM_REQ_PROP_TITLE, PROBLEM_REQ_PROP_TYPE, PROBLEM_REQ_PROP_STATUS}
 )
 public class APIProblem {
     @Schema(name = "title",

@@ -408,15 +408,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "1610ac98-b643-4a33-a65e-f069084ee6ae",
+                    "messageId" : "c7fed408-2dba-4890-b9e0-0442f5561046",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/1610ac98-b643-4a33-a65e-f069084ee6ae"
+                    "href" : "/my-service/my-action/c7fed408-2dba-4890-b9e0-0442f5561046"
                   }, {
-                    "messageId" : "1b33b96f-a66a-45b0-a1b9-d501de75ae9e",
+                    "messageId" : "913985f1-3031-42f1-a8fe-04a37d127df6",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/1b33b96f-a66a-45b0-a1b9-d501de75ae9e"
+                    "href" : "/my-service/my-action/913985f1-3031-42f1-a8fe-04a37d127df6"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -743,15 +743,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "8cddd0fc-ce1e-463c-9778-2775444dd38e",
+                    "messageId" : "f81fd343-ad18-4ddd-8ead-e5cafc902f6f",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/8cddd0fc-ce1e-463c-9778-2775444dd38e"
+                    "href" : "/my-service/my-action/f81fd343-ad18-4ddd-8ead-e5cafc902f6f"
                   }, {
-                    "messageId" : "ec85ea30-7536-4d0a-a5d0-1d369753543b",
+                    "messageId" : "fa322362-3447-4a4e-84b2-78949c89ddd4",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/ec85ea30-7536-4d0a-a5d0-1d369753543b"
+                    "href" : "/my-service/my-action/fa322362-3447-4a4e-84b2-78949c89ddd4"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -1083,15 +1083,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "d8ffc8d3-1384-44f2-ade8-7826a59add7b",
+                    "messageId" : "6f7e698e-e85c-4d49-9c62-b011894ff79a",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/d8ffc8d3-1384-44f2-ade8-7826a59add7b"
+                    "href" : "/my-service/my-action/6f7e698e-e85c-4d49-9c62-b011894ff79a"
                   }, {
-                    "messageId" : "712d1675-56af-4a2b-85cb-1d858216d3d9",
+                    "messageId" : "f8c4bdf4-bc36-4d49-b36e-5aab4457e576",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/712d1675-56af-4a2b-85cb-1d858216d3d9"
+                    "href" : "/my-service/my-action/f8c4bdf4-bc36-4d49-b36e-5aab4457e576"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -1280,15 +1280,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "5dfb078a-1f1c-4832-a106-d1ce08867448",
+                    "messageId" : "c2dc234b-3a4b-48c6-a872-482fca8ee7a2",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/5dfb078a-1f1c-4832-a106-d1ce08867448"
+                    "href" : "/my-service/my-action/c2dc234b-3a4b-48c6-a872-482fca8ee7a2"
                   }, {
-                    "messageId" : "bbae0122-1b97-4e39-82f7-529278f8a490",
+                    "messageId" : "948c8dbe-e7ed-419d-b0a2-0639ee0ddd73",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/bbae0122-1b97-4e39-82f7-529278f8a490"
+                    "href" : "/my-service/my-action/948c8dbe-e7ed-419d-b0a2-0639ee0ddd73"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -1477,15 +1477,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "006a8dc7-b26e-4378-83b8-21eb2baddcc3",
+                    "messageId" : "e81409a2-b17e-4526-aa1f-2252a30bf3a4",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/006a8dc7-b26e-4378-83b8-21eb2baddcc3"
+                    "href" : "/my-service/my-action/e81409a2-b17e-4526-aa1f-2252a30bf3a4"
                   }, {
-                    "messageId" : "45b38139-2893-43ca-a378-158c2a04ae37",
+                    "messageId" : "a63c7b0a-c091-4cd4-9ea6-16541e9b0ba1",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/45b38139-2893-43ca-a378-158c2a04ae37"
+                    "href" : "/my-service/my-action/a63c7b0a-c091-4cd4-9ea6-16541e9b0ba1"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -1989,7 +1989,7 @@
     "schemas" : {
       "jws-compact-detached" : {
         "title" : "The message-level and payload signature",
-        "pattern" : "^[A-Za-z0-9_-]+((?:\\.[A-Za-z0-9_-]+){2}|(?:(\\.\\.)[A-Za-z0-9_-]+){1})",
+        "pattern" : "^[A-Za-z0-9_-]+(?:(\\.\\.)[A-Za-z0-9_-]+){1}",
         "type" : "string",
         "description" : "The JWS compact representation schema defines the string pattern as a regular expression, denoting the structure a JWS compact token MUST follow to be a valid compact JWS Representation. It is used for defining the value of the message-level signature and of the payload signature",
         "format" : "jws-compact-detached"
@@ -2196,6 +2196,13 @@
         "description" : "A Signal message which extends Problem object (RFC 7807) defined by the ISA² IPS REST API Core Profile",
         "$id" : "https://joinup.ec.europa.eu/collection/api4dt/solution/.../messaging.schema.json",
         "$schema" : "https://json-schema.org/draft/2020-12/schema"
+      },
+      "jws-compact" : {
+        "title" : "The message-level and payload signature",
+        "pattern" : "^[A-Za-z0-9_-]+(?:\\.[A-Za-z0-9_-]+){2}$",
+        "type" : "string",
+        "description" : "The JWS compact representation schema defines the string pattern as a regular expression, denoting the structure a JWS compact token MUST follow to be a valid compact JWS Representation. It is used for defining the value of the message-level signature and of the payload signature",
+        "format" : "jws-compact"
       },
       "Problem" : {
         "title" : "A Problem Details object (RFC 7807) defined by the ISA² IPS REST API Core Profile",
@@ -2407,7 +2414,7 @@
         "in" : "header",
         "description" : "The Original Sender represents the authenticated entity acting as the user that sends the message using the client. Following the API Core Profile, the original sender MUST be represented with an OpenID Connect token, in the form of Compact JWT Token.",
         "schema" : {
-          "$ref" : "#/components/schemas/jws-compact-detached"
+          "$ref" : "#/components/schemas/jws-compact"
         },
         "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9.eyJzdWIiOiIxM0NTY3ODkwIiwibmIiwiaWF0IoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       },
@@ -2478,7 +2485,7 @@
       "Original-Sender" : {
         "description" : "The Original Sender represents the authenticated entity acting as the user that sends the message using the client. Following the API Core Profile, the original sender MUST be represented with an OpenID Connect token, in the form of Compact JWT Token.",
         "schema" : {
-          "$ref" : "#/components/schemas/jws-compact-detached"
+          "$ref" : "#/components/schemas/jws-compact"
         }
       },
       "Final-Recipient" : {

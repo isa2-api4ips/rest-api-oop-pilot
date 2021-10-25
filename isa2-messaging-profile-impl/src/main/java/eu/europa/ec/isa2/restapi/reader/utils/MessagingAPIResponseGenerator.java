@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static eu.europa.ec.isa2.restapi.profile.constants.MessagingConstants.OPENAPI_REF_PATH_HEADERS;
 import static eu.europa.ec.isa2.restapi.profile.enums.APIProblemType.MESSAGE_ACCEPTED;
 import static eu.europa.ec.isa2.restapi.profile.enums.MessagingParameterType.EDEL_MESSAGE_SIG;
 import static eu.europa.ec.isa2.restapi.profile.enums.MessagingParameterType.EDEL_PAYLOAD_SIG;
@@ -161,7 +160,7 @@ public class MessagingAPIResponseGenerator {
      */
     protected Header createMessagingHeaderForType(MessagingParameterType parameterType) {
         Header header;
-        String definitionURI = pathUtils.getDefinitionURI(messagingAPIDefinitionsLocation, parameterType.getMessagingSchemaType(),
+        String definitionURI = pathUtils.getDefinitionURI(messagingAPIDefinitionsLocation, parameterType.getMessagingReferenceType(),
                 MessagingConstants.OPENAPI_SUBPATH_HEADERS, messagingAPIURL );
         switch (messagingAPIDefinitionsLocation) {
             case DOCUMENT_COMPONENTS: {
@@ -199,7 +198,8 @@ public class MessagingAPIResponseGenerator {
 
         Header parameter = new Header()
                 .description(parameterType.getDescription())
-                .schema(schema);
+                .schema(schema)
+                .example(parameterType.getExample());
 
         return parameter;
     }
