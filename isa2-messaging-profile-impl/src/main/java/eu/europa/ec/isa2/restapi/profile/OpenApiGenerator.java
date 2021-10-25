@@ -17,7 +17,7 @@ public class OpenApiGenerator {
 
         HashMap extensions = new java.util.LinkedHashMap<>();
         //put summary here because there is no summary annotation
-        extensions.put("summary", "DSD messaging rest service");
+        extensions.put("summary", "Generic Messaging API");
         extensions.put("x-edel-lifecycle", new EDelApiExtensionLifecycle());
         extensions.put("x-edel-publisher",
                 new EDelApiExtensionPublisher("European Commission",
@@ -29,11 +29,10 @@ public class OpenApiGenerator {
         server.description("Test server!");
 
         OpenAPI openAPI = new OpenAPI()
-                .servers(Collections.singletonList(server))
+//                .servers(Collections.singletonList(server))
 //                .components(components)
-                .info(new Info().title("DSD Message service handler API")
+                .info(new Info().title("Generic Messaging API")
                         .extensions(extensions)
-                        .contact(new Contact().name("Test user"))
                         .description("This is a pilot project for  implementing ISA2 messaging REST API")
                         .termsOfService("https://www.eupl.eu/")
                         .version("v1.0")

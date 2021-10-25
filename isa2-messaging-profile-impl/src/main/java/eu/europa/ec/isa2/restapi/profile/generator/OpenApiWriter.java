@@ -4,6 +4,7 @@ import eu.europa.ec.isa2.restapi.profile.EDelApiExtensionLifecycle;
 import eu.europa.ec.isa2.restapi.profile.EDelApiExtensionPublisher;
 import eu.europa.ec.isa2.restapi.profile.OpenApiGenerator;
 import eu.europa.ec.isa2.restapi.profile.enums.*;
+import eu.europa.ec.isa2.restapi.profile.model.schemas.SchemaDescriptionConstants;
 import eu.europa.ec.isa2.restapi.reader.MessagingReader;
 import eu.europa.ec.isa2.restapi.reader.enums.MessagingAPIDefinitionsLocation;
 import eu.europa.ec.isa2.restapi.reader.utils.MessagingOpenApiUtils;
@@ -259,6 +260,17 @@ public class OpenApiWriter {
                 LOG.warn("Could not find schema by name [{}]", s);
                 continue;
             }
+            // TODO: move this to annotations
+            switch (s){
+                case SchemaDescriptionConstants.PROBLEM_NAME:
+                    schema.setAdditionalProperties(Boolean.TRUE);
+                    break;
+                case SchemaDescriptionConstants.SIGNAL_NAME:
+                    schema.setAdditionalProperties(Boolean.FALSE);
+                    break;
+
+            }
+
             updateReferences(schema, urlPrefix);
             writeSchemaObject(schema, optionalMessagingParameterType.get(), profileFolder);
         }

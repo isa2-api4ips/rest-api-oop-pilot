@@ -13,7 +13,7 @@ public enum APIProblemType {
     UNAUTHORIZED("Unauthorized","unauthorized", 401, true, true,"Unauthorized", "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#pull/unauthorized", "Sent when the pull request is unauthorized", null),
     MESSAGE_READY("MessageReady","message-ready",201, false, true,"Message Response is ready", "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#message-ready", "An HTTP Request following [RFC7807] MUST be sent when a message response is ready to be retrieve", null),
     // added by implementation
-    INTERNAL_SERVER_ERROR("InternalServerError","internal-server-error",500, true, false,"Internal Server Error", "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md/internal-server-error", "The server encountered an unexpected condition that prevented it from fulfilling the request", null);
+    INTERNAL_SERVER_ERROR("InternalServerError","internal-server-error",500, true, false,"Internal Server Error", "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#internal-server-error", "The server encountered an unexpected condition that prevented it from fulfilling the request", null);
 
     String name;
     String fileName;

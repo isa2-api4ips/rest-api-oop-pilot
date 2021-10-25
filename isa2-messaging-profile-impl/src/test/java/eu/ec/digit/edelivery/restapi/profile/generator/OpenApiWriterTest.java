@@ -25,6 +25,6 @@ public class OpenApiWriterTest {
 
     @Test
     public void writeProfileForClass() throws IOException {
-        testInstance.writeProfileForClass(MessagingAPI.class, new File("target/profile"), "http://test.log/","v1", null);
+        testInstance.writeProfileForClass(MessagingAPI.class, new File("target/profile"), "https://raw.githubusercontent.com/isa2-api4ips/rest-api-profile/main/","v1", null);
     }
 }

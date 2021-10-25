@@ -26,7 +26,7 @@ cp ${OOP_FOLDER}/dsd-mock/target/dsd-mock-${VERSION}.war ${DOCKER}/resources/art
 cp ${OOP_FOLDER}/national-broker/target/national-broker-${VERSION}.war ${DOCKER}/resources/artefacts
 cp ${OOP_FOLDER}/national-broker-ui-client/target/national-broker-ui-client-${VERSION}.war ${DOCKER}/resources/artefacts
 # DEPLOY EBSI DEMO APPLICATION FOR THE DEMO!!!
-#cp /cef/code/ebsi-client/example/ebsi-did-webadmin/target/ebsi-webadmin.war ${DOCKER}/resources/artefacts
+cp /cef/code/ebsi-client/example/ebsi-did-webadmin/target/ebsi-webadmin.war ${DOCKER}/resources/artefacts
 
 # copy scripts
 cp ${OOP_FOLDER}/dsd-mock/src/main/setup/config/wildfly/dsd-configuration-H2.cli ${DOCKER}/resources/scripts/dsd-configuration-H2.cli
