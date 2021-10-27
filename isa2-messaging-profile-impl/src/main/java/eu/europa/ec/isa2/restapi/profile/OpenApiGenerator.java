@@ -33,13 +33,13 @@ public class OpenApiGenerator {
 //                .components(components)
                 .info(new Info().title("Generic Messaging API")
                         .extensions(extensions)
-                        .description("This is a pilot project for  implementing ISA2 messaging REST API")
+                        .description("This is a pilot project for implementing ISA2 messaging REST API")
                         .termsOfService("https://www.eupl.eu/")
                         .version("v1.0")
                         .license(new License().name("EUPL 1.2").url("https://www.eupl.eu/")))
                 .externalDocs(new ExternalDocumentation()
                         .description("ISA² IPS REST API Core Profile - OpenAPI Document Specification")
-                        .url("https://ec.europa.eu/cefdigital/wiki/pages/viewpage.action?pageId=254313406"));
+                        .url("https://joinup.ec.europa.eu/collection/api4dt/solution/..."));
 
 
         openAPI.setOpenapi("3.1.0");

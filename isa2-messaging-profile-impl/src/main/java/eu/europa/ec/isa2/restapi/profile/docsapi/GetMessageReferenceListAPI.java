@@ -16,8 +16,8 @@ import java.io.IOException;
 
 
 @RequestMapping("/v1")
-@Tag(name=GetMessageReferenceListAPI.TAG_MESSAGE_REFERENCE, description = "This endpoints returns a list of message references available for pulling")
-@Tag(name=GetMessageReferenceListAPI.TAG_GET_MESSAGE, description = "This endpoint returns a message for given service action and message identifier")
+@Tag(name=GetMessageReferenceListAPI.TAG_MESSAGE_REFERENCE, description = "The endpoints return a list of message references available for pulling")
+@Tag(name=GetMessageReferenceListAPI.TAG_GET_MESSAGE, description = "This endpoint returns a message for a given service, action and message identifier")
 public interface GetMessageReferenceListAPI {
 
     String TAG_MESSAGE_REFERENCE = "Message Reference List";

@@ -146,6 +146,28 @@ public class OpenApiWriter {
         MessagingReader reader = new MessagingReader(MessagingAPIDefinitionsLocation.DOCUMENT_COMPONENTS, messagingAPITypeDefinitionURL, apiVersion, properties);
         OpenAPI result = reader.read(clazz);
         result.setTags(MessagingOpenApiUtils.getGlobalTags(clazz));
+
+        // write objects
+        for (Map.Entry<String, Schema> entry : result.getComponents().getSchemas().entrySet()) {
+            String s = entry.getKey();
+            Schema schema = entry.getValue();
+            Optional<MessagingSchemaType> optionalMessagingParameterType = MessagingSchemaType.getByName(s);
+            if (!optionalMessagingParameterType.isPresent()) {
+                LOG.warn("Could not find schema by name [{}]", s);
+                continue;
+            }
+            // TODO: move this to annotations
+            switch (s){
+                case SchemaDescriptionConstants.PROBLEM_NAME:
+                    schema.setAdditionalProperties(Boolean.TRUE);
+                    break;
+                case SchemaDescriptionConstants.SIGNAL_NAME:
+                    schema.setAdditionalProperties(Boolean.FALSE);
+                    break;
+
+            }
+        }
+
         // write generic messaging api to messaging profile
         writeGenericMessagingApi(MESSAGING_PROFILE, result, folderPath);
         writeSignalDefinitionsForMessagingApi(MESSAGING_PROFILE, folderPath);
@@ -260,17 +282,6 @@ public class OpenApiWriter {
                 LOG.warn("Could not find schema by name [{}]", s);
                 continue;
             }
-            // TODO: move this to annotations
-            switch (s){
-                case SchemaDescriptionConstants.PROBLEM_NAME:
-                    schema.setAdditionalProperties(Boolean.TRUE);
-                    break;
-                case SchemaDescriptionConstants.SIGNAL_NAME:
-                    schema.setAdditionalProperties(Boolean.FALSE);
-                    break;
-
-            }
-
             updateReferences(schema, urlPrefix);
             writeSchemaObject(schema, optionalMessagingParameterType.get(), profileFolder);
         }

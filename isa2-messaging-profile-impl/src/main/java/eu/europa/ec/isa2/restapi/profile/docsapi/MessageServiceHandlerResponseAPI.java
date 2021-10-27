@@ -15,7 +15,7 @@ import java.io.IOException;
 
 
 @RequestMapping("/v1")
-@Tag(name=MessageServiceHandlerResponseAPI.TAG_RESPONSE_MESSAGE_SUBMISSION, description = "The endpoints defined in this section enable pushing or signalling the availability of responses to initial messages to a Sever or Webhook Server.")
+@Tag(name=MessageServiceHandlerResponseAPI.TAG_RESPONSE_MESSAGE_SUBMISSION, description = "The endpoints defined in this section enable pushing or signalling the availability of responses to initial messages to a Sever or Webhook Server")
 public interface MessageServiceHandlerResponseAPI {
 
     String TAG_RESPONSE_MESSAGE_SUBMISSION = "Response Message Submission";
@@ -79,7 +79,7 @@ public interface MessageServiceHandlerResponseAPI {
             isWebhook = false,
             operationId = "SignalSubmissionId",
             summary = "Signal Submission Endpoint ",
-            description = "The  Signal Submission endpoint is used for signalling the successfully pulled message or to response errors/warnings at receiving messages."
+            description = "The Signal Submission endpoint is used for signalling the successfully pulled message or to response errors/warnings at receiving messages."
     )
     @PostMapping(produces = {"application/json; charset=UTF-8"},
             consumes = {"application/json; charset=UTF-8"},

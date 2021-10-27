@@ -16,8 +16,8 @@ import java.io.IOException;
 
 
 @RequestMapping("/v1")
-@Tag(name=ResponseMessagePullAPI.TAG_RESPONSE_MESSAGE_REFERENCE, description = "This endpoints returns a list of response message references available for pulling")
-@Tag(name=ResponseMessagePullAPI.TAG_GET_RESPONSE_MESSAGE, description = "This endpoint returns a response message for given service action and message identifier")
+@Tag(name=ResponseMessagePullAPI.TAG_RESPONSE_MESSAGE_REFERENCE, description = "The endpoints return a list of response message references available for pulling")
+@Tag(name=ResponseMessagePullAPI.TAG_GET_RESPONSE_MESSAGE, description = "The endpoint return a response message for a given service, action and message identifier")
 public interface ResponseMessagePullAPI {
 
     String TAG_RESPONSE_MESSAGE_REFERENCE = "Response Message Reference List";
@@ -28,7 +28,7 @@ public interface ResponseMessagePullAPI {
             operationId = "GetResponseMessageReferenceListId",
             summary = "Get Response Message Reference List Endpoint",
             description = "This endpoint returns a list of response message references available for pulling, " +
-                    "following the Message Reference schema, representing responses to a previous message sent by the original sender")
+                    "following the Message Reference schema, representing responses to a previous message sent by the original sender.")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_PROBLEM_JSON_VALUE},
             path = "/messaging/{service}/{action}/{messageId}/response")
     void getResponseMessageReferenceList(@PathVariable("service") String service,
@@ -44,7 +44,7 @@ public interface ResponseMessagePullAPI {
             operationId = "GetResponseMessageReferenceListForServiceEndpointId",
             summary = "Get Response Message Reference List for service  Endpoint",
             description = "This endpoint returns a list of response message references available for pulling for a specific service, " +
-                    "following the Message Reference schema, representing responses to a previous message sent by the original sender. ")
+                    "following the Message Reference schema, representing responses to a previous message sent by the original sender.")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_PROBLEM_JSON_VALUE},
             path = "/messaging/{service}/{action}/{messageId}/response/{rService}")
     void getResponseMessageReferenceListForService(@PathVariable("service") String service,
@@ -61,7 +61,7 @@ public interface ResponseMessagePullAPI {
             operationId = "GetResponseMessageReferenceListForServiceAndActionEndpointId",
             summary = "Get Response Message Reference List for service and action Endpoint",
             description = "This endpoint returns a list of response message references available for pulling for a specific service and action, " +
-                    "following the Message Reference schema, representing responses to a previous message sent by the original sender. ")
+                    "following the Message Reference schema, representing responses to a previous message sent by the original sender.")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_PROBLEM_JSON_VALUE},
             path = "/messaging/{service}/{action}/{messageId}/response/{rService}/{rAction}")
     void getResponseMessageReferenceListForServiceAndAction(@PathVariable("service") String service,

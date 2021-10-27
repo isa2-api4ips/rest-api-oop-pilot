@@ -45,7 +45,7 @@ public interface MessageServiceHandlerAPI {
             operationId = "MessageSubmissionWithSynchronousResponse",
             summary = "Message Submission with Synchronous Response Endpoint",
             description = "The Message submission With Synchronous Response endpoint is the alternative endpoint of the messaging API. " +
-                    "It provides the endpoint to which a client sends the message, as created by the original sender, and responds synchronously with a response message. ")
+                    "It provides the endpoint to which a client sends the message, as created by the original sender, and responds synchronously with a response message.")
 
     @PostMapping(
             produces = { MediaType.MULTIPART_MIXED_VALUE, MediaType.APPLICATION_PROBLEM_JSON_VALUE},

@@ -1,18 +1,15 @@
 {
   "openapi" : "3.0.99",
   "info" : {
-    "title" : "DSD Message service handler API",
-    "description" : "This is a pilot project for  implementing ISA2 messaging REST API",
+    "title" : "Generic Messaging API",
+    "description" : "This is a pilot project for implementing ISA2 messaging REST API",
     "termsOfService" : "https://www.eupl.eu/",
-    "contact" : {
-      "name" : "Test user"
-    },
     "license" : {
       "name" : "EUPL 1.2",
       "url" : "https://www.eupl.eu/"
     },
     "version" : "v1.0",
-    "summary" : "DSD messaging rest service",
+    "summary" : "Generic Messaging API",
     "x-edel-lifecycle" : {
       "maturity" : "development"
     },
@@ -23,12 +20,8 @@
   },
   "externalDocs" : {
     "description" : "ISA² IPS REST API Core Profile - OpenAPI Document Specification",
-    "url" : "https://ec.europa.eu/cefdigital/wiki/pages/viewpage.action?pageId=254313406"
+    "url" : "https://joinup.ec.europa.eu/collection/api4dt/solution/..."
   },
-  "servers" : [ {
-    "url" : "http://localhost:8080/dsd-mock",
-    "description" : "Test server!"
-  } ],
   "tags" : [ {
     "name" : "DSD Organization: Message Reference List",
     "description" : "Services for returning list of ready message to pull"
@@ -76,15 +69,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "64b8db6b-6910-4c4f-bb7e-66800b28d588",
+                    "messageId" : "c29c20d8-344b-4f61-9c69-37482c07aaf8",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/64b8db6b-6910-4c4f-bb7e-66800b28d588"
+                    "href" : "/my-service/my-action/c29c20d8-344b-4f61-9c69-37482c07aaf8"
                   }, {
-                    "messageId" : "6b19d300-e255-4db0-a892-f2d03dc50c2c",
+                    "messageId" : "22d6fd5d-0ccc-44b2-a1c8-4bcd1226401e",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/6b19d300-e255-4db0-a892-f2d03dc50c2c"
+                    "href" : "/my-service/my-action/22d6fd5d-0ccc-44b2-a1c8-4bcd1226401e"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -223,7 +216,7 @@
                   "InternalServerError" : {
                     "value" : {
                       "title" : "Internal Server Error",
-                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md/internal-server-error",
+                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#internal-server-error",
                       "status" : 500,
                       "detail" : "The server encountered an unexpected condition that prevented it from fulfilling the request"
                     }
@@ -270,15 +263,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "d42602f6-3700-4b8a-81cc-5eb81cb2a9a9",
+                    "messageId" : "e27def30-4bf8-4fd4-9ea2-68f00890043a",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/d42602f6-3700-4b8a-81cc-5eb81cb2a9a9"
+                    "href" : "/my-service/my-action/e27def30-4bf8-4fd4-9ea2-68f00890043a"
                   }, {
-                    "messageId" : "f0687969-b9d4-458e-bbc9-fe66e1bff716",
+                    "messageId" : "6636c9d2-7fc8-4180-bf4f-724e11ffc6ba",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/f0687969-b9d4-458e-bbc9-fe66e1bff716"
+                    "href" : "/my-service/my-action/6636c9d2-7fc8-4180-bf4f-724e11ffc6ba"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -417,7 +410,7 @@
                   "InternalServerError" : {
                     "value" : {
                       "title" : "Internal Server Error",
-                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md/internal-server-error",
+                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#internal-server-error",
                       "status" : 500,
                       "detail" : "The server encountered an unexpected condition that prevented it from fulfilling the request"
                     }
@@ -558,7 +551,7 @@
                   "InternalServerError" : {
                     "value" : {
                       "title" : "Internal Server Error",
-                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md/internal-server-error",
+                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#internal-server-error",
                       "status" : 500,
                       "detail" : "The server encountered an unexpected condition that prevented it from fulfilling the request"
                     }
@@ -605,15 +598,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "0540bbb8-c44d-480a-9049-a51a2d83172d",
+                    "messageId" : "58c99651-a412-412a-b4f2-26958dc1d552",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/0540bbb8-c44d-480a-9049-a51a2d83172d"
+                    "href" : "/my-service/my-action/58c99651-a412-412a-b4f2-26958dc1d552"
                   }, {
-                    "messageId" : "c8b44dda-d70a-4cad-9a6e-7fdc36c00de1",
+                    "messageId" : "e5c04c7f-3d6e-46e7-a112-0db2f11aefc3",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/c8b44dda-d70a-4cad-9a6e-7fdc36c00de1"
+                    "href" : "/my-service/my-action/e5c04c7f-3d6e-46e7-a112-0db2f11aefc3"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -752,7 +745,7 @@
                   "InternalServerError" : {
                     "value" : {
                       "title" : "Internal Server Error",
-                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md/internal-server-error",
+                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#internal-server-error",
                       "status" : 500,
                       "detail" : "The server encountered an unexpected condition that prevented it from fulfilling the request"
                     }
@@ -895,7 +888,7 @@
                   "InternalServerError" : {
                     "value" : {
                       "title" : "Internal Server Error",
-                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md/internal-server-error",
+                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#internal-server-error",
                       "status" : 500,
                       "detail" : "The server encountered an unexpected condition that prevented it from fulfilling the request"
                     }
@@ -945,15 +938,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "956e0e00-b639-4e1a-8ef0-505facf56b12",
+                    "messageId" : "08e1b466-3a64-4790-a9cb-8be5d5931ce1",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/956e0e00-b639-4e1a-8ef0-505facf56b12"
+                    "href" : "/my-service/my-action/08e1b466-3a64-4790-a9cb-8be5d5931ce1"
                   }, {
-                    "messageId" : "3733be2e-405e-4731-bf0c-12903bd2098d",
+                    "messageId" : "543031f5-40a3-461a-95d5-6aa735b05859",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/3733be2e-405e-4731-bf0c-12903bd2098d"
+                    "href" : "/my-service/my-action/543031f5-40a3-461a-95d5-6aa735b05859"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -1092,7 +1085,7 @@
                   "InternalServerError" : {
                     "value" : {
                       "title" : "Internal Server Error",
-                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md/internal-server-error",
+                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#internal-server-error",
                       "status" : 500,
                       "detail" : "The server encountered an unexpected condition that prevented it from fulfilling the request"
                     }
@@ -1142,15 +1135,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "ec263248-eb0e-4262-861f-7eab1b5f27a7",
+                    "messageId" : "66f9deb2-719e-499d-8382-89ce97f1c076",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/ec263248-eb0e-4262-861f-7eab1b5f27a7"
+                    "href" : "/my-service/my-action/66f9deb2-719e-499d-8382-89ce97f1c076"
                   }, {
-                    "messageId" : "e6f8304a-d185-47c3-bb4e-371fb2aa6d3c",
+                    "messageId" : "09ff1709-75c9-4e5d-bda1-674c2beee3b9",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/e6f8304a-d185-47c3-bb4e-371fb2aa6d3c"
+                    "href" : "/my-service/my-action/09ff1709-75c9-4e5d-bda1-674c2beee3b9"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -1289,7 +1282,7 @@
                   "InternalServerError" : {
                     "value" : {
                       "title" : "Internal Server Error",
-                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md/internal-server-error",
+                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#internal-server-error",
                       "status" : 500,
                       "detail" : "The server encountered an unexpected condition that prevented it from fulfilling the request"
                     }
@@ -1339,15 +1332,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "9fce3df9-5f95-418b-bd78-3879bc2ebc6d",
+                    "messageId" : "6207e9a1-b699-4684-a9fa-3e842599f07b",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/9fce3df9-5f95-418b-bd78-3879bc2ebc6d"
+                    "href" : "/my-service/my-action/6207e9a1-b699-4684-a9fa-3e842599f07b"
                   }, {
-                    "messageId" : "8d6a67fc-c30c-44a1-8e8f-08c86fc5a5f7",
+                    "messageId" : "0ca494de-7c64-4b09-b57f-a785ce8df3f0",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/8d6a67fc-c30c-44a1-8e8f-08c86fc5a5f7"
+                    "href" : "/my-service/my-action/0ca494de-7c64-4b09-b57f-a785ce8df3f0"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -1486,7 +1479,7 @@
                   "InternalServerError" : {
                     "value" : {
                       "title" : "Internal Server Error",
-                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md/internal-server-error",
+                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#internal-server-error",
                       "status" : 500,
                       "detail" : "The server encountered an unexpected condition that prevented it from fulfilling the request"
                     }
@@ -1661,7 +1654,7 @@
                   "InternalServerError" : {
                     "value" : {
                       "title" : "Internal Server Error",
-                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md/internal-server-error",
+                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#internal-server-error",
                       "status" : 500,
                       "detail" : "The server encountered an unexpected condition that prevented it from fulfilling the request"
                     }
@@ -1876,7 +1869,7 @@
                   "InternalServerError" : {
                     "value" : {
                       "title" : "Internal Server Error",
-                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md/internal-server-error",
+                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#internal-server-error",
                       "status" : 500,
                       "detail" : "The server encountered an unexpected condition that prevented it from fulfilling the request"
                     }
@@ -2042,7 +2035,7 @@
                   "InternalServerError" : {
                     "value" : {
                       "title" : "Internal Server Error",
-                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md/internal-server-error",
+                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#internal-server-error",
                       "status" : 500,
                       "detail" : "The server encountered an unexpected condition that prevented it from fulfilling the request"
                     }
@@ -2091,12 +2084,12 @@
           }
         },
         "description" : "A Message Reference object to be used when multiple messages could be retrieved from an API operation",
-        "$id" : "https://joinup.ec.europa.eu/collection/api4dt/solution/.../message-reference-schema-list.json",
+        "$id" : "https://raw.githubusercontent.com/isa2-api4ips/rest-api-profile/main/messaging-api-specification/components/schemas/message-reference-list.json",
         "$schema" : "https://json-schema.org/draft/2020-12/schema"
       },
       "MessageReference" : {
         "title" : "A Message Reference object defined by the ISA² IPS REST API Messaging API Specification",
-        "required" : [ "action", "messageId", "service" ],
+        "required" : [ "action", "href", "messageId", "service" ],
         "type" : "object",
         "properties" : {
           "messageId" : {
@@ -2118,14 +2111,14 @@
           }
         },
         "description" : "A Message Reference object to be used when multiple messages could be retrieved from an API operation",
-        "$id" : "https://joinup.ec.europa.eu/collection/api4dt/solution/.../message-reference-schema.json",
+        "$id" : "https://raw.githubusercontent.com/isa2-api4ips/rest-api-profile/main/messaging-api-specification/components/schemas/message-reference.json",
         "$schema" : "https://json-schema.org/draft/2020-12/schema"
       },
       "jws-compact" : {
-        "title" : "The message-level and payload signature",
+        "title" : "JWT token.",
         "pattern" : "^[A-Za-z0-9_-]+(?:\\.[A-Za-z0-9_-]+){2}$",
         "type" : "string",
-        "description" : "The JWS compact representation schema defines the string pattern as a regular expression, denoting the structure a JWS compact token MUST follow to be a valid compact JWS Representation. It is used for defining the value of the message-level signature and of the payload signature",
+        "description" : "The JWS compact representation schema defines the string pattern as a regular expression, denoting the structure a JWS compact token MUST follow to be a valid compact JWS Representation. It is used for defining the value of the Original-Sender token.",
         "format" : "jws-compact"
       },
       "jws-compact-detached" : {
@@ -2147,7 +2140,7 @@
           },
           "type" : {
             "type" : "string",
-            "description" : "An URI reference that identifies the problem type. When dereferenced, it SHOULD provide human-readable documentation for the problem type (e.g. using HTML)",
+            "description" : "An URI reference that identifies the problem type. When dereferenced, it SHOULD provide human-readable documentation for the problem type (e.g. using HTML).",
             "format" : "uri",
             "default" : "about:blank"
           },
@@ -2162,8 +2155,7 @@
           },
           "detail" : {
             "type" : "string",
-            "description" : "A human-readable explanation specific to this occurrence of the problem",
-            "format" : "string"
+            "description" : "A human-readable explanation specific to this occurrence of the problem."
           },
           "instance" : {
             "type" : "string",
@@ -2172,7 +2164,7 @@
           }
         },
         "description" : "A Problem Details object (RFC 7807) with ISA² IPS REST API extensions, used for signals (responses) to messages",
-        "$id" : "https://joinup.ec.europa.eu/collection/api4dt/solution/.../messaging.schema.json",
+        "$id" : "https://raw.githubusercontent.com/isa2-api4ips/rest-api-profile/main/api-core-profile/components/schemas/problem.json ",
         "$schema" : "https://json-schema.org/draft/2020-12/schema"
       },
       "OrganizationStatusResult" : {
@@ -2322,12 +2314,13 @@
           "title" : {
             "type" : "string",
             "description" : "A short summary of the problem type, written in English and readable for engineers (usually not suited for non technical stakeholders and not localized).",
-            "example" : "Service Unavailable"
+            "example" : "Message Accepted"
           },
           "type" : {
             "type" : "string",
-            "description" : "An URI reference that identifies the problem type. When dereferenced, it SHOULD provide human-readable documentation for the problem type (e.g. using HTML)",
+            "description" : "An URI reference that identifies the problem type. When dereferenced, it SHOULD provide human-readable documentation for the problem type (e.g. using HTML).",
             "format" : "uri",
+            "example" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#message-accepted",
             "default" : "about:blank"
           },
           "status" : {
@@ -2335,29 +2328,29 @@
             "exclusiveMaximum" : true,
             "minimum" : 200,
             "type" : "integer",
-            "description" : "The HTTP status code generated by the origin server for this occurrence of the ",
+            "description" : "The HTTP status code generated by the origin server for this occurrence of the problem.",
             "format" : "int32",
-            "example" : 503
+            "example" : 202
           },
           "detail" : {
             "type" : "string",
-            "description" : "A human-readable explanation specific to this occurrence of the problem",
+            "description" : "A human-readable explanation specific to this occurrence of the problem.",
             "format" : "string"
           },
           "instance" : {
             "type" : "string",
-            "description" : "A URI reference that identifies the specific occurrence of the  It may or may not yield further information if dereferenced.",
+            "description" : "A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.",
             "format" : "uri-reference"
           },
           "digest" : {
             "type" : "string",
-            "description" : "The digest of the received message using the notation proposed in 'Digest Header' (https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-digest-headers)",
+            "description" : "The digest of the received message using the notation proposed in 'Digest Header' (https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-digest-headers).",
             "format" : "string",
             "example" : "sha-256=4REjxQ4yrqUVicfSKYNO/cF9zNj5ANbzgDZt3/h3Qxo="
           }
         },
         "description" : "A Signal message which extends Problem object (RFC 7807) defined by the ISA² IPS REST API Core Profile",
-        "$id" : "https://joinup.ec.europa.eu/collection/api4dt/solution/.../messaging.schema.json",
+        "$id" : "https://raw.githubusercontent.com/isa2-api4ips/rest-api-profile/main/messaging-api-specification/components/schemas/signal-message.json",
         "$schema" : "https://json-schema.org/draft/2020-12/schema"
       }
     },
@@ -2416,7 +2409,7 @@
         "schema" : {
           "$ref" : "#/components/schemas/jws-compact-detached"
         },
-        "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9.eyJzdWIiOiIxM0NTY3ODkwIiwibmIiwiaWF0IoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
+        "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9..SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       }
     },
     "headers" : {
@@ -2424,32 +2417,37 @@
         "description" : "The Original Sender represents the authenticated entity acting as the user that sends the message using the client. Following the API Core Profile, the original sender MUST be represented with an OpenID Connect token, in the form of Compact JWT Token.",
         "schema" : {
           "$ref" : "#/components/schemas/jws-compact"
-        }
+        },
+        "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9.eyJzdWIiOiIxM0NTY3ODkwIiwibmIiwiaWF0IoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       },
       "Final-Recipient" : {
         "description" : "The Final Recipient is the entity for whom the message is sent. Can be a single identifier or a set of identifiers, as described in the Recipient Addressing Schemes section of the specification. The representation of the final recipient is out of scope of the current specification.",
         "schema" : {
           "type" : "string"
-        }
+        },
+        "example" : "9999::333222111"
       },
       "Timestamp" : {
         "description" : "The Timestamp is the exact date and time at which the message was sent. It is provided by the client and verified by the server.",
         "schema" : {
           "type" : "string",
           "format" : "date-time"
-        }
+        },
+        "example" : "2021-06-17T08:30:00Z"
       },
       "Edel-Message-Sig" : {
         "description" : "The Edel-Message-Sig carries the signature of the HTTP Message following the API Core Profile on Message-Level Security. Following the light context constraints, the signature is optional for the client messages, but is RECOMMENDED for server messages.",
         "schema" : {
           "$ref" : "#/components/schemas/jws-compact-detached"
-        }
+        },
+        "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9..SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       },
       "Edel-Payload-Sig" : {
         "description" : "The Edel-Payload-Sig carries the signature of a subpart of the Multipart message (see User Message section) following the API Core Profile on Payload Security.",
         "schema" : {
           "$ref" : "#/components/schemas/jws-compact-detached"
-        }
+        },
+        "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9..SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       }
     },
     "securitySchemes" : {
