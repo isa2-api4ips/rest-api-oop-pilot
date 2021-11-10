@@ -3,6 +3,7 @@ package eu.europa.ec.isa2.restapi.profile.generator;
 import eu.europa.ec.isa2.restapi.profile.EDelApiExtensionLifecycle;
 import eu.europa.ec.isa2.restapi.profile.EDelApiExtensionPublisher;
 import eu.europa.ec.isa2.restapi.profile.OpenApiGenerator;
+import eu.europa.ec.isa2.restapi.profile.constants.JSONConstants;
 import eu.europa.ec.isa2.restapi.profile.enums.*;
 import eu.europa.ec.isa2.restapi.profile.model.schemas.SchemaDescriptionConstants;
 import eu.europa.ec.isa2.restapi.reader.MessagingReader;
@@ -11,6 +12,7 @@ import eu.europa.ec.isa2.restapi.reader.utils.MessagingOpenApiUtils;
 import io.swagger.v3.core.converter.ModelConverters;
 import io.swagger.v3.core.converter.ResolvedSchema;
 import io.swagger.v3.core.util.Json;
+import io.swagger.v3.core.util.Json31;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.PathItem;
@@ -151,19 +153,40 @@ public class OpenApiWriter {
         for (Map.Entry<String, Schema> entry : result.getComponents().getSchemas().entrySet()) {
             String s = entry.getKey();
             Schema schema = entry.getValue();
-            Optional<MessagingSchemaType> optionalMessagingParameterType = MessagingSchemaType.getByName(s);
-            if (!optionalMessagingParameterType.isPresent()) {
+            // all schema should have version 2020-12
+            schema.set$schema(JSONConstants.SCHEMA_V202012);
+
+
+            Optional<MessagingSchemaType> optionalMessagingSchemaType = MessagingSchemaType.getByName(s);
+            if (!optionalMessagingSchemaType.isPresent()) {
                 LOG.warn("Could not find schema by name [{}]", s);
                 continue;
             }
+            MessagingSchemaType type = optionalMessagingSchemaType.get();
+            schema.set$id(StringUtils.appendIfMissing(messagingAPITypeDefinitionURL, "/")
+                    + type.getMessagingReferenceType().getSpecificationPart().getName()
+                    + "/" + COMPONENTS.getName()
+                    + "/" + SCHEMAS.getName()
+                    + "/" + type.getMessagingReferenceType().getObjectURIDefinition());
+
             // TODO: move this to annotations
-            switch (s){
-                case SchemaDescriptionConstants.PROBLEM_NAME:
+            switch (s) {
+                case SchemaDescriptionConstants.PROBLEM_NAME: {
                     schema.setAdditionalProperties(Boolean.TRUE);
-                    break;
-                case SchemaDescriptionConstants.SIGNAL_NAME:
+                    Schema sc = (Schema) schema.getProperties().get("status");
+                    sc.exclusiveMaximumValue(sc.getMaximum())
+                            .exclusiveMaximum(null)
+                            .setMaximum(null);
+                }
+                break;
+                case SchemaDescriptionConstants.SIGNAL_NAME: {
                     schema.setAdditionalProperties(Boolean.FALSE);
-                    break;
+                    Schema sc = (Schema) schema.getProperties().get("status");
+                    sc.exclusiveMaximumValue(sc.getMaximum())
+                            .exclusiveMaximum(null)
+                            .setMaximum(null);
+                }
+                break;
 
             }
         }
@@ -232,9 +255,9 @@ public class OpenApiWriter {
 
             for (APIProblemType type : APIProblemType.values()) {
                 // Requirement from spec writers: skip pull specific types since they are not mandatory
-                if (type.isPullSpecific()) {
-                    continue;
-                }
+                //if (type.isPullSpecific()) {
+                //    continue;
+                //}
 
                 writer.append(lineSeparator);
                 writer.append("<h2 id=\"");
@@ -291,7 +314,7 @@ public class OpenApiWriter {
             String s = entry.getKey();
             Header header = entry.getValue();
             updateReferences(header.getSchema(), urlPrefix);
-            Optional<MessagingParameterType> optionalMessagingParameterType = MessagingParameterType.getByName(s);
+            Optional<MessagingParameterType> optionalMessagingParameterType = MessagingParameterType.getByMessagingReferenceName(s);
             writeParameterObject(header, optionalMessagingParameterType.get(), profileFolder, Header.class);
         }
         // write parameters
@@ -299,7 +322,7 @@ public class OpenApiWriter {
             String s = entry.getKey();
             Parameter parameter = entry.getValue();
             updateReferences(parameter.getSchema(), urlPrefix);
-            Optional<MessagingParameterType> optionalMessagingParameterType = MessagingParameterType.getByName(s);
+            Optional<MessagingParameterType> optionalMessagingParameterType = MessagingParameterType.getByMessagingReferenceName(s);
             writeParameterObject(parameter, optionalMessagingParameterType.get(), profileFolder, Parameter.class);
         }
 
@@ -310,7 +333,7 @@ public class OpenApiWriter {
         input.entrySet().forEach(entry -> {
             String s = entry.getKey();
             T parameter = entry.getValue();
-            Optional<MessagingParameterType> optionalMessagingParameterType = MessagingParameterType.getByName(s);
+            Optional<MessagingParameterType> optionalMessagingParameterType = MessagingParameterType.getByMessagingReferenceName(s);
             if (optionalMessagingParameterType.isPresent()) {
                 MessagingParameterType parameterType = optionalMessagingParameterType.get();
                 switch (parameterType.getMessagingReferenceType().getSpecificationPart()) {
@@ -434,7 +457,8 @@ public class OpenApiWriter {
 
     public static void writeObjectToFile(Object value, File objectFilePath) throws IOException {
         try (FileOutputStream fis = new FileOutputStream(objectFilePath)) {
-            Json.pretty().writeValue(fis, value);
+            Json31.pretty().writeValue(fis, value);
+            //Json.pretty().writeValue(fis, value);
         }
     }
 }

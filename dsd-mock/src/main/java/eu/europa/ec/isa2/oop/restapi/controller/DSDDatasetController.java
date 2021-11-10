@@ -286,10 +286,10 @@ public class DSDDatasetController extends MessagingOpenApi implements DSDDataset
 
     private void submitWebhookSignalMessageReady(String webhookUrl, String messageId ) {
         SignalMessage signalMessage = new SignalMessage();
-        signalMessage.setStatus(APIProblemType.MESSAGE_READY.getStatus());
-        signalMessage.setType(APIProblemType.MESSAGE_READY.getType());
-        signalMessage.setTitle(APIProblemType.MESSAGE_READY.getTitle());
-        signalMessage.setDetail(APIProblemType.MESSAGE_READY.getDetail());
+        signalMessage.setStatus(APIProblemType.PULL_MESSAGE_READY.getStatus());
+        signalMessage.setType(APIProblemType.PULL_MESSAGE_READY.getType());
+        signalMessage.setTitle(APIProblemType.PULL_MESSAGE_READY.getTitle());
+        signalMessage.setDetail(APIProblemType.PULL_MESSAGE_READY.getDetail());
         signalMessage.setInstance(messageId);
 
     }

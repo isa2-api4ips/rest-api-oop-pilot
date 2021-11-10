@@ -123,16 +123,13 @@ public class DSDOrganizationMessagingService {
 
 
         // set call properties
-        OffsetDateTime timestamp = OffsetDateTime.now();
-        String originalSender = userid;
-        String finalRecipient = nationalBrokerProperties.getDsdFinalRecipient();
         dsdOrganizationRestClient.getApiClient().setBasePath(nationalBrokerProperties.getDsdUrl());
 
 
         SignalMessage response = dsdOrganizationRestClient.organizationSignalSubmissionId(
                 messageId,
                 signalMessage,
-                originalSender, finalRecipient, timestamp, null);
+                null);
 
         LOG.info("notifyMessageReceived for id: [{}] gor response: [{}]", messageId, response);
 

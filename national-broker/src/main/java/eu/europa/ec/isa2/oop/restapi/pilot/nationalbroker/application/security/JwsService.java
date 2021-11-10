@@ -90,7 +90,7 @@ public class JwsService implements KeystoreDataProvider {
 
         DigestAlgorithm algorithm = DigestAlgorithm.forName(nationalBrokerProperties.getPayloadDigestAlgorithm());
         JsonDssDocument inMemoryDocument = new JsonDssDocument(json);
-        List<DSSDocument> headersToSign = jadesSignature.generatedHeadersFromJsonObject(inMemoryDocument, algorithm, mimeType);
+        List<DSSDocument> headersToSign = jadesSignature.generatedHeadersFromJsonObject(inMemoryDocument, algorithm, mimeType, false);
 
         String signature;
         try {
@@ -107,14 +107,13 @@ public class JwsService implements KeystoreDataProvider {
                 outputStream.write(data, 0, nRead);
             }
         } catch (IOException e) {
-            throw new MessagingAPIException(APIProblemType.INTERNAL_SERVER_ERROR, "Error occurred while writting the JSON object to out stream", null, e);
+            throw new MessagingAPIException(APIProblemType.INTERNAL_SERVER_ERROR, "Error occurred while streaming the JSON object!", null, e);
         }
         Map<String, String> headers = new HashMap<>();
         headers.put(MessagingParameterType.EDEL_MESSAGE_SIG.getName(), signature);
         headers.put(MessagingParameterType.TIMESTAMP.getName(), LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
         headersToSign.forEach(header -> headers.put(header.getName(), ((HTTPHeader) header).getValue()));
         return headers;
-
     }
 
     /**

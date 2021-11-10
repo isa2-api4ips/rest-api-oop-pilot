@@ -175,7 +175,7 @@ public interface DSDDatasetApi extends DSDOpenApiSecuritySchemes {
             operationId = "GetDataSetResponseMessageReferenceListForServiceEndpointId",
             summary = "Get Response Message Reference List for service  Endpoint",
             description = "This endpoint returns a list of response message references available for pulling for a specific service, " +
-                    "following the Message R    eference schema, representing responses to a previous message sent by the original sender. ")
+                    "following the Message Reference schema, representing responses to a previous message sent by the original sender.")
     MessageReferenceListRO getDataSetStatusResponseMessageReferenceListForService(@PathVariable("messageId") String messageId);
 
 
@@ -189,7 +189,7 @@ public interface DSDDatasetApi extends DSDOpenApiSecuritySchemes {
             operationId = "GetDataSetResponseMessageReferenceListForServiceAndActionEndpointId",
             summary = "Get Response Message Reference List for service and action Endpoint",
             description = "This endpoint returns a list of response message references available for pulling for a specific service and action, " +
-                    "following the Message Reference schema, representing responses to a previous message sent by the original sender. ")
+                    "following the Message Reference schema, representing responses to a previous message sent by the original sender.")
     MessageReferenceListRO getDataSetStatusResponseMessageReferenceListForServiceAndAction(@PathVariable("messageId") String messageId);
 
 

@@ -46,13 +46,13 @@
         "description" : "This endpoint returns status message for dataset update actionfollowing the format for the dataset Message. ",
         "operationId" : "SubmitStatusResponseWebhookMessageOperation",
         "parameters" : [ {
-          "$ref" : "#/components/parameters/Original-Sender"
+          "$ref" : "#/components/parameters/Edel-Message-Sig"
         }, {
-          "$ref" : "#/components/parameters/Final-Recipient"
+          "$ref" : "#/components/parameters/Response-Original-Sender"
+        }, {
+          "$ref" : "#/components/parameters/Response-Final-Recipient"
         }, {
           "$ref" : "#/components/parameters/Timestamp"
-        }, {
-          "$ref" : "#/components/parameters/Edel-Message-Sig"
         }, {
           "$ref" : "#/components/parameters/messageId"
         }, {
@@ -86,21 +86,12 @@
           "202" : {
             "description" : "Sent when the message is properly validated and received.",
             "headers" : {
-              "Original-Sender" : {
-                "$ref" : "#/components/headers/Original-Sender"
-              },
-              "Final-Recipient" : {
-                "$ref" : "#/components/headers/Final-Recipient"
-              },
-              "Timestamp" : {
-                "$ref" : "#/components/headers/Timestamp"
-              },
               "Edel-Message-Sig" : {
                 "$ref" : "#/components/headers/Edel-Message-Sig"
               }
             },
             "content" : {
-              "application/json" : {
+              "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/SignalMessage"
                 },
@@ -212,27 +203,21 @@
         "description" : "Asynchronous DSD dataset update request submission. Service returns message acknowledgment signal. Request status can be obtained via pull dataset/status operation",
         "operationId" : "datasetSubmitSignalWebhookMethodId",
         "parameters" : [ {
-          "$ref" : "#/components/parameters/Original-Sender"
-        }, {
-          "$ref" : "#/components/parameters/Final-Recipient"
-        }, {
-          "$ref" : "#/components/parameters/Timestamp"
-        }, {
           "$ref" : "#/components/parameters/Edel-Message-Sig"
         }, {
           "$ref" : "#/components/parameters/messageId"
         } ],
         "requestBody" : {
           "content" : {
-            "application/json" : {
+            "application/problem+json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/SignalMessage"
               },
               "example" : {
-                "title" : "Message Accepted",
-                "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#message-accepted",
-                "status" : 202,
-                "detail" : "Sent when the message is properly validated. It may include a status monitor that can provide the user with an estimate of when the request will be fulfilled (see [RFC7231])",
+                "title" : "Message Response is ready",
+                "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#message-ready",
+                "status" : 201,
+                "detail" : "An HTTP Request following [RFC7807] MUST be sent when a message response is ready to be retrieve",
                 "instance" : "/my-service/my-action/dde12f67-c391-4851-8fa2-c07dd8532efd",
                 "digest" : "sha-256=eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ"
               }
@@ -243,21 +228,12 @@
           "202" : {
             "description" : "Sent when the message is properly validated and received.",
             "headers" : {
-              "Original-Sender" : {
-                "$ref" : "#/components/headers/Original-Sender"
-              },
-              "Final-Recipient" : {
-                "$ref" : "#/components/headers/Final-Recipient"
-              },
-              "Timestamp" : {
-                "$ref" : "#/components/headers/Timestamp"
-              },
               "Edel-Message-Sig" : {
                 "$ref" : "#/components/headers/Edel-Message-Sig"
               }
             },
             "content" : {
-              "application/json" : {
+              "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/SignalMessage"
                 },
@@ -273,7 +249,7 @@
             }
           },
           "400" : {
-            "description" : "Sent when the message fails the validation process",
+            "description" : "Sent when the server cannot resolve/match the pulling user to a final recipient",
             "headers" : {
               "Edel-Message-Sig" : {
                 "$ref" : "#/components/headers/Edel-Message-Sig"
@@ -285,46 +261,6 @@
                   "$ref" : "#/components/schemas/Problem"
                 },
                 "examples" : {
-                  "ValidationFailed" : {
-                    "value" : {
-                      "title" : "Validation Failed",
-                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#message-validation-failed",
-                      "status" : 400,
-                      "detail" : "Sent when the message fails the validation process"
-                    }
-                  },
-                  "InvalidMessageId" : {
-                    "value" : {
-                      "title" : "Invalid or Duplicate Message ID",
-                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#invalid-message-id",
-                      "status" : 400,
-                      "detail" : "Sent when the MessageId is not valid"
-                    }
-                  },
-                  "InvalidSignature" : {
-                    "value" : {
-                      "title" : "Invalid Message Signature",
-                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#invalid-message-signature",
-                      "status" : 400,
-                      "detail" : "Sent when the message signature cannot be verified"
-                    }
-                  },
-                  "InvalidAddressing" : {
-                    "value" : {
-                      "title" : "Invalid Addressing",
-                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#invalid-addressing",
-                      "status" : 400,
-                      "detail" : "Sent when the Original Sender or Final Recipient(s) cannot be resolved"
-                    }
-                  },
-                  "InvalidMessageFormat" : {
-                    "value" : {
-                      "title" : "Invalid Message Format",
-                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#invalid-format",
-                      "status" : 400,
-                      "detail" : "Sent when the message format does not adhere to the specification"
-                    }
-                  },
                   "NoFinalRecipient" : {
                     "value" : {
                       "title" : "No final recipient configured for the pulling user",
@@ -381,31 +317,6 @@
                       "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#pull/unauthorized",
                       "status" : 401,
                       "detail" : "Sent when the pull request is unauthorized"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500" : {
-            "description" : "The server encountered an unexpected condition that prevented it from fulfilling the request",
-            "headers" : {
-              "Edel-Message-Sig" : {
-                "$ref" : "#/components/headers/Edel-Message-Sig"
-              }
-            },
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                },
-                "examples" : {
-                  "InternalServerError" : {
-                    "value" : {
-                      "title" : "Internal Server Error",
-                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#internal-server-error",
-                      "status" : 500,
-                      "detail" : "The server encountered an unexpected condition that prevented it from fulfilling the request"
                     }
                   }
                 }
@@ -630,16 +541,7 @@
             "example" : "sha-256=4REjxQ4yrqUVicfSKYNO/cF9zNj5ANbzgDZt3/h3Qxo="
           }
         },
-        "description" : "A Signal message which extends Problem object (RFC 7807) defined by the ISA² IPS REST API Core Profile",
-        "$id" : "https://raw.githubusercontent.com/isa2-api4ips/rest-api-profile/main/messaging-api-specification/components/schemas/signal-message.json",
-        "$schema" : "https://json-schema.org/draft/2020-12/schema"
-      },
-      "jws-compact" : {
-        "title" : "JWT token.",
-        "pattern" : "^[A-Za-z0-9_-]+(?:\\.[A-Za-z0-9_-]+){2}$",
-        "type" : "string",
-        "description" : "The JWS compact representation schema defines the string pattern as a regular expression, denoting the structure a JWS compact token MUST follow to be a valid compact JWS Representation. It is used for defining the value of the Original-Sender token.",
-        "format" : "jws-compact"
+        "description" : "A Signal message which extends Problem object (RFC 7807) defined by the ISA² IPS REST API Core Profile"
       },
       "Problem" : {
         "title" : "A Problem Details object (RFC 7807) defined by the ISA² IPS REST API Core Profile",
@@ -672,13 +574,18 @@
           },
           "instance" : {
             "type" : "string",
-            "description" : "A URI reference that identifies the specific occurrence of the problem. It may or may not yieldfurther information if dereferenced.",
+            "description" : "A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.",
             "format" : "uri-reference"
           }
         },
-        "description" : "A Problem Details object (RFC 7807) with ISA² IPS REST API extensions, used for signals (responses) to messages",
-        "$id" : "https://raw.githubusercontent.com/isa2-api4ips/rest-api-profile/main/api-core-profile/components/schemas/problem.json ",
-        "$schema" : "https://json-schema.org/draft/2020-12/schema"
+        "description" : "A Problem Details object (RFC 7807) with ISA² IPS REST API extensions, used for signals (responses) to messages"
+      },
+      "jws-compact" : {
+        "title" : "JWT token.",
+        "pattern" : "^[A-Za-z0-9_-]+(?:\\.[A-Za-z0-9_-]+){2}$",
+        "type" : "string",
+        "description" : "The JWS compact representation schema defines the string pattern as a regular expression, denoting the structure a JWS compact token MUST follow to be a valid compact JWS Representation. It is used for defining the value of the Original-Sender token.",
+        "format" : "jws-compact"
       },
       "MessageReferenceList" : {
         "title" : "A Message Reference object defined by the ISA² IPS REST API Messaging API Specification",
@@ -708,9 +615,7 @@
             "format" : "int32"
           }
         },
-        "description" : "A Message Reference object to be used when multiple messages could be retrieved from an API operation",
-        "$id" : "https://raw.githubusercontent.com/isa2-api4ips/rest-api-profile/main/messaging-api-specification/components/schemas/message-reference-list.json",
-        "$schema" : "https://json-schema.org/draft/2020-12/schema"
+        "description" : "A Message Reference object to be used when multiple messages could be retrieved from an API operation"
       },
       "MessageReference" : {
         "title" : "A Message Reference object defined by the ISA² IPS REST API Messaging API Specification",
@@ -735,9 +640,7 @@
             "format" : "uri-reference"
           }
         },
-        "description" : "A Message Reference object to be used when multiple messages could be retrieved from an API operation",
-        "$id" : "https://raw.githubusercontent.com/isa2-api4ips/rest-api-profile/main/messaging-api-specification/components/schemas/message-reference.json",
-        "$schema" : "https://json-schema.org/draft/2020-12/schema"
+        "description" : "A Message Reference object to be used when multiple messages could be retrieved from an API operation"
       },
       "DatasetStatusResult" : {
         "type" : "object",
@@ -810,9 +713,7 @@
             "default" : "urn:toop:dsd:ebxml-regrem:queries:ByDatasetTypeAndLocation"
           }
         },
-        "description" : "Object contains search parameters to retrieve organization list",
-        "$id" : "https://joinup.ec.europa.eu/collection/api4dt/solution/.../dsd/dataset.query.schema.json",
-        "$schema" : "https://json-schema.org/draft/2020-12/schema"
+        "description" : "Object contains search parameters to retrieve organization list"
       },
       "DatasetSearchResult" : {
         "type" : "object",
@@ -901,6 +802,24 @@
           "type" : "string"
         }
       },
+      "Response-Original-Sender" : {
+        "name" : "Original-Sender",
+        "in" : "header",
+        "description" : "The representation of the Original Sender of the response message, which MUST match (one of) the Final Recipient(s) of the initial message.",
+        "schema" : {
+          "type" : "string"
+        },
+        "example" : "9999::333222111"
+      },
+      "Response-Final-Recipient" : {
+        "name" : "Final-Recipient",
+        "in" : "header",
+        "description" : "The representation of Final Recipient(s) of the response message, which MUST match the Original Sender of the initial message.",
+        "schema" : {
+          "$ref" : "#/components/schemas/jws-compact"
+        },
+        "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9.eyJzdWIiOiIxM0NTY3ODkwIiwibmIiwiaWF0IoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
+      },
       "Signal-Webhook" : {
         "name" : "Signal-Webhook",
         "in" : "header",
@@ -914,6 +833,13 @@
     "headers" : {
       "Edel-Payload-Sig" : {
         "description" : "The Edel-Payload-Sig carries the signature of a subpart of the Multipart message (see User Message section) following the API Core Profile on Payload Security.",
+        "schema" : {
+          "$ref" : "#/components/schemas/jws-compact-detached"
+        },
+        "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9..SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
+      },
+      "Edel-Message-Sig" : {
+        "description" : "The Edel-Message-Sig carries the signature of the HTTP Message following the API Core Profile on Message-Level Security. Following the light context constraints, the signature is optional for the client messages, but is RECOMMENDED for server messages.",
         "schema" : {
           "$ref" : "#/components/schemas/jws-compact-detached"
         },
@@ -940,13 +866,6 @@
           "format" : "date-time"
         },
         "example" : "2021-06-17T08:30:00Z"
-      },
-      "Edel-Message-Sig" : {
-        "description" : "The Edel-Message-Sig carries the signature of the HTTP Message following the API Core Profile on Message-Level Security. Following the light context constraints, the signature is optional for the client messages, but is RECOMMENDED for server messages.",
-        "schema" : {
-          "$ref" : "#/components/schemas/jws-compact-detached"
-        },
-        "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9..SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       }
     },
     "securitySchemes" : {

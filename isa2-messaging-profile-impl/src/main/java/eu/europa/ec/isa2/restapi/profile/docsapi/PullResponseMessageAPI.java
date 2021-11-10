@@ -16,9 +16,9 @@ import java.io.IOException;
 
 
 @RequestMapping("/v1")
-@Tag(name=ResponseMessagePullAPI.TAG_RESPONSE_MESSAGE_REFERENCE, description = "The endpoints return a list of response message references available for pulling")
-@Tag(name=ResponseMessagePullAPI.TAG_GET_RESPONSE_MESSAGE, description = "The endpoint return a response message for a given service, action and message identifier")
-public interface ResponseMessagePullAPI {
+@Tag(name = PullResponseMessageAPI.TAG_RESPONSE_MESSAGE_REFERENCE, description = "The endpoints return a list of response message references available for pulling")
+@Tag(name = PullResponseMessageAPI.TAG_GET_RESPONSE_MESSAGE, description = "The endpoint return a response message for a given service, action and message identifier")
+public interface PullResponseMessageAPI {
 
     String TAG_RESPONSE_MESSAGE_REFERENCE = "Response Message Reference List";
     String TAG_GET_RESPONSE_MESSAGE = "Pull Response Message";
@@ -82,11 +82,11 @@ public interface ResponseMessagePullAPI {
     @GetMapping(produces = {"application/json; charset=UTF-8", MediaType.MULTIPART_MIXED_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
             path = "/messaging/{service}/{action}/{messageId}/response/{rService}/{rAction}/{rMessageId}")
     void getResponseMessage(@PathVariable("service") String service,
-                    @PathVariable("action") String action,
-                    @PathVariable("messageId") String messageId,
-                    @PathVariable("rService") String rService,
-                    @PathVariable("rAction") String rAction,
-                    @PathVariable("rMessageId") String rMessageId,
-                    HttpServletRequest request,
-                    HttpServletResponse response) throws IOException;
+                            @PathVariable("action") String action,
+                            @PathVariable("messageId") String messageId,
+                            @PathVariable("rService") String rService,
+                            @PathVariable("rAction") String rAction,
+                            @PathVariable("rMessageId") String rMessageId,
+                            HttpServletRequest request,
+                            HttpServletResponse response) throws IOException;
 }

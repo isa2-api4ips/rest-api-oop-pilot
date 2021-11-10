@@ -91,7 +91,7 @@ public interface DSDOrganizationApi extends DSDOpenApiSecuritySchemes {
             tags = {TAG_GET_MESSAGE_LIST},
             operationId = "GetMessageReferenceListId",
             summary = "DSD Mock: Message Reference List Endpoint",
-            description = "This endpoint returns a list of message references available for pulling, following the Message Reference schema. ")
+            description = "This endpoint returns a list of message references available for pulling, following the Message Reference schema.")
     MessageReferenceListRO getOrganizationMessageReferenceList();
 
 
@@ -139,7 +139,7 @@ public interface DSDOrganizationApi extends DSDOpenApiSecuritySchemes {
             operationId = "GetOrganizationResponseMessageReferenceListForServiceEndpointId",
             summary = "Get Response Message Reference List for service  Endpoint",
             description = "This endpoint returns a list of response message references available for pulling for a specific service, " +
-                    "following the Message R    eference schema, representing responses to a previous message sent by the original sender. ")
+                    "following the Message R    eference schema, representing responses to a previous message sent by the original sender.")
     MessageReferenceListRO getOrganizationStatusResponseMessageReferenceListForService(@PathVariable("messageId") String messageId);
 
 
@@ -153,7 +153,7 @@ public interface DSDOrganizationApi extends DSDOpenApiSecuritySchemes {
             operationId = "GetOrganizationResponseMessageReferenceListForServiceAndActionEndpointId",
             summary = "Get Response Message Reference List for service and action Endpoint",
             description = "This endpoint returns a list of response message references available for pulling for a specific service and action, " +
-                    "following the Message Reference schema, representing responses to a previous message sent by the original sender. ")
+                    "following the Message Reference schema, representing responses to a previous message sent by the original sender.")
     MessageReferenceListRO getOrganizationStatusResponseMessageReferenceListForServiceAndAction(@PathVariable("messageId") String messageId);
 
 
@@ -205,7 +205,7 @@ public interface DSDOrganizationApi extends DSDOpenApiSecuritySchemes {
             tags = {TAG_DSD_ORGANIZATION},
             isWebhook = false,
             operationId = "OrganizationSignalSubmissionId",
-            summary = "Organization Signal Submission Endpoint ",
+            summary = "Organization Signal Submission Endpoint",
             description = "The Organization Signal Submission endpoint is used for signalling the successfully pulled message or to response errors/warnings at receiving messages.")
     void signalMessageSubmission(@PathVariable("messageId") String messageId, SignalMessage signalMessage);
 

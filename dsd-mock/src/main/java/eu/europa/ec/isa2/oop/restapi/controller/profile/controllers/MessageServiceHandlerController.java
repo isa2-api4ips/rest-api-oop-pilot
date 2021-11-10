@@ -8,10 +8,10 @@ import eu.europa.ec.isa2.restapi.jws.SignedMimeMultipart;
 import eu.europa.ec.isa2.restapi.profile.GeneralOpenApi;
 import eu.europa.ec.isa2.restapi.profile.constants.MessagingConstants;
 import eu.europa.ec.isa2.restapi.profile.controllers.InputStreamDataSource;
-import eu.europa.ec.isa2.restapi.profile.docsapi.GetMessageReferenceListAPI;
-import eu.europa.ec.isa2.restapi.profile.docsapi.MessageServiceHandlerAPI;
-import eu.europa.ec.isa2.restapi.profile.docsapi.MessageServiceHandlerResponseAPI;
-import eu.europa.ec.isa2.restapi.profile.docsapi.ResponseMessagePullAPI;
+import eu.europa.ec.isa2.restapi.profile.docsapi.PullMessageAPI;
+import eu.europa.ec.isa2.restapi.profile.docsapi.PullResponseMessageAPI;
+import eu.europa.ec.isa2.restapi.profile.docsapi.MessageSubmissionEndpointAPI;
+import eu.europa.ec.isa2.restapi.profile.docsapi.ResponseMessageSubmissionEndpointAPI;
 import eu.europa.ec.isa2.restapi.profile.docsapi.exceptions.MessagingAPIException;
 import eu.europa.ec.isa2.restapi.profile.enums.APIProblemType;
 import eu.europa.ec.isa2.restapi.profile.enums.MessagingEndpointType;
@@ -88,10 +88,10 @@ import static eu.europa.ec.isa2.restapi.profile.enums.APIProblemType.*;
         , @SecurityRequirement(name="DSD_Http_BearerTokenAuthorization", scopes = {"ROLE_DSD"})
 })
 public class MessageServiceHandlerController extends GeneralOpenApi
-        implements MessageServiceHandlerAPI,
-        MessageServiceHandlerResponseAPI,
-        GetMessageReferenceListAPI,
-        ResponseMessagePullAPI {
+        implements MessageSubmissionEndpointAPI,
+        ResponseMessageSubmissionEndpointAPI,
+        PullMessageAPI,
+        PullResponseMessageAPI {
 
     private static final Logger LOG = LoggerFactory.getLogger(MessageServiceHandlerController.class);
 

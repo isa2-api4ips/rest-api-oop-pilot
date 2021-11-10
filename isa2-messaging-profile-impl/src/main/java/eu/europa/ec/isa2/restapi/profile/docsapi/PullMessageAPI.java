@@ -16,9 +16,9 @@ import java.io.IOException;
 
 
 @RequestMapping("/v1")
-@Tag(name=GetMessageReferenceListAPI.TAG_MESSAGE_REFERENCE, description = "The endpoints return a list of message references available for pulling")
-@Tag(name=GetMessageReferenceListAPI.TAG_GET_MESSAGE, description = "This endpoint returns a message for a given service, action and message identifier")
-public interface GetMessageReferenceListAPI {
+@Tag(name= PullMessageAPI.TAG_MESSAGE_REFERENCE, description = "The endpoints return a list of message references available for pulling")
+@Tag(name= PullMessageAPI.TAG_GET_MESSAGE, description = "The endpoint returns a message for a given service, action and message identifier")
+public interface PullMessageAPI {
 
     String TAG_MESSAGE_REFERENCE = "Message Reference List";
     String TAG_GET_MESSAGE = "Pull Message";
@@ -28,7 +28,7 @@ public interface GetMessageReferenceListAPI {
             tags = {TAG_MESSAGE_REFERENCE},
             operationId = "GetMessageReferenceListId",
             summary = "Get Message Reference List Endpoint",
-            description = "This endpoint returns a list of message references available for pulling, following the Message Reference schema. ")
+            description = "This endpoint returns a list of message references available for pulling, following the Message Reference schema.")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_PROBLEM_JSON_VALUE},
             path = "/messaging")
     void getMessageReferenceList(HttpServletRequest request,
@@ -48,14 +48,13 @@ public interface GetMessageReferenceListAPI {
                                         HttpServletRequest request,
                                         HttpServletResponse response) throws IOException;
 
-
     @GetMessageReferenceListOperation(
             tags = {TAG_MESSAGE_REFERENCE},
             operationType = MessageReferenceOperationType.SERVICE_AND_ACTION,
             operationId = "GetMessageReferenceListForServiceAndActionId",
             summary = "Get Message Reference List for service and action Endpoint",
             description = "This endpoint returns a list of message references available for pulling for a specific service and action, " +
-                    "following the Message Reference schema." )
+                    "following the Message Reference schema.")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_PROBLEM_JSON_VALUE},
             path = "/messaging/{service}/{action}")
     void getServiceActionMessageReferenceList(@PathVariable("service") String service,
@@ -63,13 +62,12 @@ public interface GetMessageReferenceListAPI {
                                               HttpServletRequest request,
                                               HttpServletResponse response) throws IOException;
 
-
     @GetMessageOperation(
             tags = {TAG_GET_MESSAGE},
             operationId = "GetMessageId",
             summary = "Get Message Endpoint",
             description = "This endpoint returns the message filed under a specific service and action" +
-                    "following the format for the User Message. ")
+                    "following the format for the User Message.")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_PROBLEM_JSON_VALUE,MediaType.MULTIPART_MIXED_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
             path = "/messaging/{service}/{action}/{messageId}")
     void getMessage(@PathVariable("service") String service,
@@ -77,6 +75,4 @@ public interface GetMessageReferenceListAPI {
                     @PathVariable("messageId") String messageId,
                                               HttpServletRequest request,
                                               HttpServletResponse response) throws IOException;
-
-
 }

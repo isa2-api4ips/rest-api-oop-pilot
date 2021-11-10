@@ -7,6 +7,8 @@ public enum MessagingReferenceType {
 
     ORIGINAL_SENDER("Original-Sender", MESSAGING_PROFILE,"original-sender.json"),
     FINAL_RECIPIENT("Final-Recipient", MESSAGING_PROFILE,"final-recipient.json"),
+    RESPONSE_ORIGINAL_SENDER("Response-Original-Sender", MESSAGING_PROFILE,"response-original-sender.json"),
+    RESPONSE_FINAL_RECIPIENT("Response-Final-Recipient", MESSAGING_PROFILE,"response-final-recipient.json"),
     TIMESTAMP("Timestamp", MESSAGING_PROFILE,"timestamp.json"),
     EDEL_MESSAGE_SIG("Edel-Message-Sig", CORE_PROFILE,"edel-message-sig.json"),
     EDEL_PAYLOAD_SIG("Edel-Payload-Sig", CORE_PROFILE,"edel-payload-sig.json"),

@@ -23,7 +23,7 @@ public class MessagingObjectPathUtils {
         pathWriter.write(typeSubPath);
         // add object definition
         pathWriter.write(asObject ?
-                referenceType.getObjectURIDefinition() :
+                referenceType.getObjectURIDefinition():
                 referenceType.getName());
 
         return pathWriter.toString();

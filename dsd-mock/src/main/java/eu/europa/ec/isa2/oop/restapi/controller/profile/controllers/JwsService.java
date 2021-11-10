@@ -75,7 +75,7 @@ public class JwsService implements KeystoreDataProvider {
 
         DigestAlgorithm algorithm = DigestAlgorithm.forName(dsdMockProperties.getPayloadDigestAlgorithm());
         JsonDssDocument inMemoryDocument = new JsonDssDocument(json);
-        List<DSSDocument> headersToSign = jadesSignature.generatedHeadersFromJsonObject(inMemoryDocument, algorithm, mimeType);
+        List<DSSDocument> headersToSign = jadesSignature.generatedHeadersFromJsonObject(inMemoryDocument, algorithm, mimeType, false);
 
         String signature;
         try {

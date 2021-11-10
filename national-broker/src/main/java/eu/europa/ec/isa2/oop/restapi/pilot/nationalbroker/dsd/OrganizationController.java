@@ -92,7 +92,7 @@ public class OrganizationController implements OpenApiSecuritySchemes {
     }
 
     @Operation(summary = "Returns list of organization update requests!", description = "Example of A collection resource (4.1.3.2. Collection). " +
-            "A collection resource is a server-managed list of resources.Returns list of authorized organizations",
+            "A collection resource is a server-managed list of resources. Returns list of authorized organizations",
             tags = { "authorized","organizations" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",

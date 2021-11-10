@@ -147,7 +147,7 @@ public class JADESSignature {
     public MimeBodyPart createSignedMultipartPayloadFromJson(Object payload, String alias, boolean addChain, DigestAlgorithm signDigestAlgorithm) throws MessagingException, IOException {
 
         JsonDssDocument jsonDssDocument = new JsonDssDocument(payload);
-        List<DSSDocument> headersToSign = generatedHeadersFromJsonObject(jsonDssDocument, signDigestAlgorithm);
+        List<DSSDocument> headersToSign = generatedHeadersFromJsonObject(jsonDssDocument, signDigestAlgorithm, true);
 
         MimeBodyPart part = new MimeBodyPart();
         part.addHeader(MessagingParameterType.EDEL_PAYLOAD_SIG.getName(), createDetachedSignature(headersToSign, alias, addChain, signDigestAlgorithm));
@@ -159,14 +159,16 @@ public class JADESSignature {
         return part;
     }
 
-    public List<DSSDocument> generatedHeadersFromJsonObject(JsonDssDocument payload, DigestAlgorithm signDigestAlgorithm) {
-        return generatedHeadersFromJsonObject(payload, signDigestAlgorithm, MediaType.APPLICATION_JSON);
+    public List<DSSDocument> generatedHeadersFromJsonObject(JsonDssDocument payload, DigestAlgorithm signDigestAlgorithm, boolean attachment) {
+        return generatedHeadersFromJsonObject(payload, signDigestAlgorithm, MediaType.APPLICATION_JSON,attachment);
     }
 
-    public List<DSSDocument> generatedHeadersFromJsonObject(JsonDssDocument payload, DigestAlgorithm signDigestAlgorithm, MediaType mimeType) {
+    public List<DSSDocument> generatedHeadersFromJsonObject(JsonDssDocument payload, DigestAlgorithm signDigestAlgorithm, MediaType mimeType, boolean attachment) {
         HTTPHeaderDigest httpHeaderDigest = new HTTPHeaderDigest(payload, signDigestAlgorithm);
         List<DSSDocument> headersToSign = new ArrayList<>();
-        headersToSign.add(new HTTPHeader(HttpHeaders.CONTENT_DISPOSITION, "name=\"" + payload.getClass().getName() + "\"; filename=\"" + payload.getClass().getName() + ".json\""));
+        headersToSign.add(new HTTPHeader(HttpHeaders.CONTENT_DISPOSITION, (attachment?"Attachment;":"")+"name=\""
+                + payload.getClass().getName() + "\"; filename=\"" + payload.getClass().getName() + ".json\""));
+
         headersToSign.add(new HTTPHeader(HttpHeaders.CONTENT_TYPE, mimeType==null?MediaType.APPLICATION_JSON_VALUE: mimeType.toString()));
         headersToSign.add(new HTTPHeader(HttpHeaders.CONTENT_LENGTH, payload.getSize()+""));
         headersToSign.add(new HTTPHeaderDigest(payload, signDigestAlgorithm));

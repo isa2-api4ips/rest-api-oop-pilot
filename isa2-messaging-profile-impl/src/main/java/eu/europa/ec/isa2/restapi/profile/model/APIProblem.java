@@ -35,7 +35,7 @@ public class APIProblem {
     String detail;
     @Schema(name = "instance",
             format = "uri-reference",
-            description = "A URI reference that identifies the specific occurrence of the problem. It may or may not yieldfurther information if dereferenced.")
+            description = "A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.")
     String instance;
 
     public APIProblem() {
