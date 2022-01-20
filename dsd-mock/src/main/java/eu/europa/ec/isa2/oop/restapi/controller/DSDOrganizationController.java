@@ -101,7 +101,8 @@ public class DSDOrganizationController extends MessagingOpenApi implements DSDOr
             Json.mapper().writeValue(payload, statusResult);
             payloadEntity.setPath(storagesService.getRelativePath(payload));
         } catch (StorageException | IOException e) {
-            e.printStackTrace();
+            // for the demo just log!
+            LOG.error("Error occurred while storing the payload", e);
         }
 
         pullMessageDao.persistFlushDetach(pullMessage);

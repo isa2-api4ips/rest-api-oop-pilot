@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.time.OffsetDateTime;
-import java.util.UUID;
 
 @Service
 public class DSDWebhookClient {
@@ -40,23 +38,19 @@ public class DSDWebhookClient {
 
     public void submitMessageReadySignal(String webhookUrl, String messageId, String userid) {
         LOG.info("Update dataset");
-
         // set call properties
-        OffsetDateTime timestamp = null;
-        String originalSender = userid;
-        String finalRecipient = UUID.randomUUID().toString();
         ApiClient client= dsdDatasetMessageSubmissionApi.getApiClient();
         client.setBasePath(webhookUrl);
 
       //  String responseWebhook = nationalBrokerProperties.getDsdWebhookUrl();
         SignalMessage signalMessage  = new SignalMessage();
-        signalMessage.setStatus(APIProblemType.MESSAGE_READY.getStatus());
-        signalMessage.setType(APIProblemType.MESSAGE_READY.getType());
-        signalMessage.setTitle(APIProblemType.MESSAGE_READY.getTitle());
-        signalMessage.setDetail(APIProblemType.MESSAGE_READY.getDetail());
+        signalMessage.setStatus(APIProblemType.PULL_MESSAGE_READY.getStatus());
+        signalMessage.setType(APIProblemType.PULL_MESSAGE_READY.getType());
+        signalMessage.setTitle(APIProblemType.PULL_MESSAGE_READY.getTitle());
+        signalMessage.setDetail(APIProblemType.PULL_MESSAGE_READY.getDetail());
         signalMessage.setInstance(messageId);
         LOG.info("Response webhookUrl server is: " + webhookUrl);
-        SignalMessage response = dsdDatasetMessageSubmissionApi.datasetSubmitSignalWebhookMethodId(messageId, signalMessage, originalSender, finalRecipient, timestamp, null);
+        SignalMessage response = dsdDatasetMessageSubmissionApi.datasetSubmitSignalWebhookMethodId(messageId, signalMessage,  null);
         LOG.info("Response from server is: " + Json.pretty(response));
     }
 

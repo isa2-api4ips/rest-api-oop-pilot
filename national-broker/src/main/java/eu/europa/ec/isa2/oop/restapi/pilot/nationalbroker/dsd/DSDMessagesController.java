@@ -36,7 +36,7 @@ import java.util.TreeMap;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/dsd/v1")
-@Tag(name = "DSD messages", description = "Controller for inspecting DSD messages")
+@Tag(name = "DSD messages", description = "Controller for inspecting DSD messages.")
 @SecurityRequirements({
         @SecurityRequirement(name = "NationalBroker_Http_BearerTokenAuthorization")
 })
@@ -66,7 +66,7 @@ public class DSDMessagesController implements OpenApiSecuritySchemes {
             @ApiResponse(responseCode = "200", description = "successful operation",
                     headers = @Header(name="edel-message-sig",required = true, ref = "#/components/headers/edel-message-sig"),
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = DSDRequestLogRO.class)))) })
-    @GetMapping(produces = "application/json; charset=UTF-8")
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_PROBLEM_JSON_VALUE,})
     @RequestMapping(method = RequestMethod.GET, path = "users/{user-id}/dsd-request/messages")
     //@PreAuthorize("hasRole('ROLE_UPDATE_DSD')")
     public ServiceResult<DSDRequestLogRO> listUserAuthorizedDSDRequestLogs( @PathVariable("user-id") String userId,
@@ -94,7 +94,7 @@ public class DSDMessagesController implements OpenApiSecuritySchemes {
             @ApiResponse(responseCode = "200", description = "successful operation",
                     headers = @Header(name="edel-message-sig",required = true, ref = "#/components/headers/edel-message-sig"),
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = DSDRequestLogRO.class)))) })
-    @GetMapping(produces = "application/json; charset=UTF-8")
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_PROBLEM_JSON_VALUE} )
     @RequestMapping(method = RequestMethod.GET, path = "users/{user-id}/dsd-request/message/{id}")
     //@PreAuthorize("hasRole('ROLE_UPDATE_DSD')")
     public DSDRequestLogRO retrieveDSDRequestMessage(@PathVariable("user-id") String string,

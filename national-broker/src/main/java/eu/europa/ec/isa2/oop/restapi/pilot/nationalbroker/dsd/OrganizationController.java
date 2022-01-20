@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthentication;
@@ -39,7 +40,7 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/dsd/v1")
-@Tag(name = "User services", description = "National broker user services API")
+@Tag(name = "User services", description = "National broker user services API.")
 @SecurityRequirements({
         @SecurityRequirement(name = "NationalBroker_Http_BearerTokenAuthorization")
 })
@@ -71,7 +72,7 @@ public class OrganizationController implements OpenApiSecuritySchemes {
             @ApiResponse(responseCode = "200", description = "successful operation",
                     headers = @Header(name="edel-message-sig",required = true, ref = "#/components/headers/edel-message-sig"),
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = OrganizationRO.class)))) })
-    @GetMapping(produces = "application/json; charset=UTF-8")
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_PROBLEM_JSON_VALUE})
     @RequestMapping(method = RequestMethod.GET, path = "users/{user-id}/organizations")
     //@PreAuthorize("hasRole('ROLE_UPDATE_DSD')")
     public ServiceResult<OrganizationRO> listUserAuthorizedOrganizations( @PathVariable("user-id") String string,
@@ -92,13 +93,13 @@ public class OrganizationController implements OpenApiSecuritySchemes {
     }
 
     @Operation(summary = "Returns list of organization update requests!", description = "Example of A collection resource (4.1.3.2. Collection). " +
-            "A collection resource is a server-managed list of resources.Returns list of authorized organizations",
+            "A collection resource is a server-managed list of resources. Returns list of authorized organizations",
             tags = { "authorized","organizations" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",
                     headers = @Header(name="edel-message-sig",required = true, ref = "#/components/headers/edel-message-sig"),
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = DSDDataUpdateRO.class)))) })
-    @GetMapping(produces = "application/json; charset=UTF-8")
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_PROBLEM_JSON_VALUE})
     @RequestMapping(method = RequestMethod.GET, path = "users/{user-id}/organization/updates")
     //@PreAuthorize("hasRole('ROLE_UPDATE_DSD')")
     public ServiceResult<DSDDataUpdateRO> listUserAuthorizedOrganizationsUpdates(@PathVariable("user-id") String string,

@@ -12,6 +12,7 @@ import io.swagger.v3.jaxrs2.util.ReaderUtils;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.OAuthFlow;
 import io.swagger.v3.oas.models.security.OAuthFlows;
@@ -21,7 +22,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -29,6 +29,8 @@ import java.util.stream.Collectors;
 import static eu.europa.ec.isa2.restapi.profile.constants.MessagingConstants.GET_METHOD;
 import static eu.europa.ec.isa2.restapi.profile.constants.MessagingConstants.POST_METHOD;
 import static eu.europa.ec.isa2.restapi.profile.enums.APIProblemType.MESSAGE_ACCEPTED;
+import static eu.europa.ec.isa2.restapi.profile.enums.APIProblemType.PULL_MESSAGE_READY;
+import static eu.europa.ec.isa2.restapi.profile.enums.MessagingParameterType.*;
 
 public class MessagingReader {
     private static final String PROPERTIES = "properties:";
@@ -202,12 +204,16 @@ public class MessagingReader {
         }
         ApiResponses responses = new ApiResponses();
 
-        responses.addApiResponse(MESSAGE_ACCEPTED.getStatus().toString(),
-                messagingAPIResponseGenerator.createMultipartResponse(messageOperation.responseTitle(), messageOperation.responseDescription(), messageOperation.responsePayloads()));
+        ApiResponse defaultResponse = messagingAPIResponseGenerator.createMultipartResponse(messageOperation.responseTitle(), messageOperation.responseDescription(), messageOperation.responsePayloads());
+        defaultResponse.addHeaderObject(ORIGINAL_SENDER.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(ORIGINAL_SENDER));
+        defaultResponse.addHeaderObject(ORIGINAL_SENDER_TOKEN.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(ORIGINAL_SENDER_TOKEN));
+        defaultResponse.addHeaderObject(FINAL_RECIPIENT.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(FINAL_RECIPIENT));
+        defaultResponse.addHeaderObject(TIMESTAMP.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(TIMESTAMP));
 
+        responses.addApiResponse(MESSAGE_ACCEPTED.getStatus().toString(),defaultResponse);
 
         // do not include pull specific errors
-        messagingAPIResponseGenerator.addAllProblemResponses(responses, false);
+        messagingAPIResponseGenerator.addAllProblemResponses(responses, true);
 
         List<Parameter> methodParameters = messagingAPIParameterGenerator.createOperationParameters(messageOperation);
         Operation operation = new Operation()
@@ -227,7 +233,6 @@ public class MessagingReader {
     }
 
     public void readResponseMessagePullOperation(GetResponseMessageReferenceListOperation annotatedOperation, Method method, List<SecurityRequirement> classSecurityRequirements) {
-
 
         String operationPath = "";
         switch (annotatedOperation.operationType()) {
@@ -268,7 +273,6 @@ public class MessagingReader {
         // do not include pull specific errors
         messagingAPIResponseGenerator.addAllProblemResponses(responses, true);
 
-
         Operation operation = new Operation()
                 .operationId(annotatedOperation.operationId())
                 .tags(annotatedOperation.tags().length != 0 ? Arrays.asList(annotatedOperation.tags()) : null)
@@ -306,15 +310,23 @@ public class MessagingReader {
         }
         ApiResponses responses = new ApiResponses();
 
+        ApiResponse defaultResponse = messagingAPIResponseGenerator.createMultipartResponse(
+                messageOperation.responseTitle(),
+                messageOperation.responseDescription(),
+                messageOperation.responsePayloads());
+
+        defaultResponse.addHeaderObject(ORIGINAL_SENDER.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(ORIGINAL_SENDER));
+        defaultResponse.addHeaderObject(ORIGINAL_SENDER_TOKEN.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(ORIGINAL_SENDER_TOKEN));
+        defaultResponse.addHeaderObject(FINAL_RECIPIENT.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(FINAL_RECIPIENT));
+        defaultResponse.addHeaderObject(TIMESTAMP.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(TIMESTAMP));
+
+
         responses.addApiResponse(MESSAGE_ACCEPTED.getStatus().toString(),
-                messagingAPIResponseGenerator.createMultipartResponse(
-                        messageOperation.responseTitle(),
-                        messageOperation.responseDescription(),
-                        messageOperation.responsePayloads()));
+                defaultResponse);
 
 
         // do not include pull specific errors
-        messagingAPIResponseGenerator.addAllProblemResponses(responses, false);
+        messagingAPIResponseGenerator.addAllProblemResponses(responses, true);
 
         List<Parameter> methodParameters = messagingAPIParameterGenerator.createOperationParameters(messageOperation);
 
@@ -405,12 +417,10 @@ public class MessagingReader {
             return;
         }
 
-
-        RequestBody requestBody = messagingAPIResponseGenerator.createSignalMessageRequest();
+        RequestBody requestBody = messagingAPIResponseGenerator.createSignalMessageRequest(PULL_MESSAGE_READY);
         ApiResponses responses = new ApiResponses();
         responses.addApiResponse(MESSAGE_ACCEPTED.getStatus().toString(),
                 messagingAPIResponseGenerator.createSignalMessageResponse());
-
 
         // do not include pull specific errors
         messagingAPIResponseGenerator.addAllProblemResponses(responses, true);
@@ -473,8 +483,6 @@ public class MessagingReader {
         messagingAPIResponseGenerator.addAllProblemResponses(responses, false);
 
         List<Parameter> methodParameters = messagingAPIParameterGenerator.createOperationParameters(annotatedOperation);
-
-
         Operation operation = new Operation()
                 .operationId(annotatedOperation.operationId())
                 .tags(annotatedOperation.tags().length != 0 ? Arrays.asList(annotatedOperation.tags()) : null)
@@ -609,6 +617,9 @@ public class MessagingReader {
     }
 
     private void updateOAuthFlowsProperties(OAuthFlows flows) {
+        if (flows == null) {
+            return;
+        }
         updateOAuthFlowProperties(flows.getAuthorizationCode());
         updateOAuthFlowProperties(flows.getClientCredentials());
         updateOAuthFlowProperties(flows.getImplicit());
@@ -631,6 +642,7 @@ public class MessagingReader {
         if (!StringUtils.isBlank(value)
                 && StringUtils.startsWithIgnoreCase(value, PROPERTIES)) {
             String propertyName = value.substring(PROPERTIES.length());
+
             if (authorizationProperties.containsKey(propertyName)) {
                 return authorizationProperties.getProperty(propertyName);
             } else {
@@ -640,8 +652,8 @@ public class MessagingReader {
         return value;
     }
 
-    private void addPathItem(String operationPath, PathItem pathItemObject, boolean isWebhook){
-        if(isWebhook) {
+    private void addPathItem(String operationPath, PathItem pathItemObject, boolean isWebhook) {
+        if (isWebhook) {
             openAPI.addWebhooks(operationPath, pathItemObject);
         } else {
             paths.addPathItem(operationPath, pathItemObject);

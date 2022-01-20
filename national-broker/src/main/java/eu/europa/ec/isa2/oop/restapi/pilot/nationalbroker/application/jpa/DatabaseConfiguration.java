@@ -83,16 +83,9 @@ public class DatabaseConfiguration {
             }else {
                 LOG.info("No init script!");
             }
-/*
-
-
- */
-
-
 
         } catch (SQLException throwables) {
             LOG.error("Error initializing H2 database tables.", throwables);
-            throwables.printStackTrace();
         }
     }
 }

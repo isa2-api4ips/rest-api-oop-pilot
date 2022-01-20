@@ -8,6 +8,8 @@ import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.servers.Server;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,7 +19,7 @@ import java.util.*;
 
 @Configuration
 public class OpenApiConfig {
-
+    private static final Logger LOG = LoggerFactory.getLogger(OpenApiConfig.class);
     @Bean
     public OpenAPI customOpenAPI() {
 
@@ -39,7 +41,8 @@ public class OpenApiConfig {
                     new EDelApiExtensionPublisher("European Commission",
                             new URL("https://joinup.ec.europa.eu/collection/api4dt")));
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            // for the demo just log
+            LOG.error("Error occired while reading the URL",e);
         }
 
         return new OpenAPI()

@@ -1,6 +1,7 @@
 package eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.application.security;
 
 import eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.application.property.NationalBrokerProperties;
+import eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.dsd.model.OriginalSenderTokenSimplePayloadRO;
 import eu.europa.ec.isa2.restapi.jws.*;
 import eu.europa.ec.isa2.restapi.profile.docsapi.exceptions.MessagingAPIException;
 import eu.europa.ec.isa2.restapi.profile.enums.APIProblemType;
@@ -77,6 +78,17 @@ public class JwsService implements KeystoreDataProvider {
         return new KeyStore.PasswordProtection(nationalBrokerProperties.getSignatureKeyCredentials().toCharArray());
     }
 
+    public String createOriginalSenderToken(String originalSender){
+        JsonDssDocument inMemoryDocument = new JsonDssDocument(new OriginalSenderTokenSimplePayloadRO(originalSender));
+        String alias = nationalBrokerProperties.getSignatureKeyAlias();
+        DigestAlgorithm algorithm = DigestAlgorithm.forName(nationalBrokerProperties.getPayloadDigestAlgorithm());
+        try {
+            return jadesSignature.createCompactSignature(inMemoryDocument,alias, false, algorithm);
+        } catch (IOException e) {
+            throw new MessagingAPIException(APIProblemType.INTERNAL_SERVER_ERROR, "Error occurred while generating original sender token!", null, e);
+        }
+    }
+
     public void signJsonResponse(Object json, HttpServletResponse response) {
         try (OutputStream sos = response.getOutputStream()) {
             Map<String, String>  headers = signAndWriteJsonResponse(json, sos, MediaType.APPLICATION_JSON);
@@ -90,7 +102,7 @@ public class JwsService implements KeystoreDataProvider {
 
         DigestAlgorithm algorithm = DigestAlgorithm.forName(nationalBrokerProperties.getPayloadDigestAlgorithm());
         JsonDssDocument inMemoryDocument = new JsonDssDocument(json);
-        List<DSSDocument> headersToSign = jadesSignature.generatedHeadersFromJsonObject(inMemoryDocument, algorithm, mimeType);
+        List<DSSDocument> headersToSign = jadesSignature.generatedHeadersFromJsonObject(inMemoryDocument, algorithm, mimeType, false);
 
         String signature;
         try {
@@ -107,14 +119,13 @@ public class JwsService implements KeystoreDataProvider {
                 outputStream.write(data, 0, nRead);
             }
         } catch (IOException e) {
-            throw new MessagingAPIException(APIProblemType.INTERNAL_SERVER_ERROR, "Error occurred while writting the JSON object to out stream", null, e);
+            throw new MessagingAPIException(APIProblemType.INTERNAL_SERVER_ERROR, "Error occurred while streaming the JSON object!", null, e);
         }
         Map<String, String> headers = new HashMap<>();
         headers.put(MessagingParameterType.EDEL_MESSAGE_SIG.getName(), signature);
         headers.put(MessagingParameterType.TIMESTAMP.getName(), LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
         headersToSign.forEach(header -> headers.put(header.getName(), ((HTTPHeader) header).getValue()));
         return headers;
-
     }
 
     /**

@@ -14,7 +14,7 @@ public class MessagingObjectPathUtils {
         // write base URL
         pathWriter.write(StringUtils.appendIfMissing(messagingAPIURL, "/"));
         // add specification part definition
-        pathWriter.write(referenceType.getSpecificationPart());
+        pathWriter.write(referenceType.getSpecificationPart().getName());
         // add "# path" for document or just / for object path
         pathWriter.write("/components");
         // add "# path" for document or just / for object path
@@ -23,7 +23,7 @@ public class MessagingObjectPathUtils {
         pathWriter.write(typeSubPath);
         // add object definition
         pathWriter.write(asObject ?
-                referenceType.getObjectURIDefinition() :
+                referenceType.getObjectURIDefinition():
                 referenceType.getName());
 
         return pathWriter.toString();

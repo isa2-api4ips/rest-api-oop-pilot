@@ -3,7 +3,6 @@ package eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.dsd;
 
 import eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.application.property.NationalBrokerProperties;
 import eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.dsd.dao.DSDDataUpdateDao;
-import eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.dsd.mapping.AddressMapping;
 import eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.dsd.messaging.DSDDatasetMessagingService;
 import eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.dsd.messaging.DSDOrganizationMessagingService;
 import eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.dsd.messaging.mapping.MessagingDatasetStatusResultMapping;
@@ -47,7 +46,7 @@ public class DSDWebhookController implements MessagingWebhookApi {
     }
 
     @Override
-    public ResponseEntity<SignalMessage> datasetSubmitSignalWebhookMethodId(String messageId, String originalSender, String finalRecipient, OffsetDateTime timestamp, String edelMessageSig, @Valid SignalMessage body) {
+    public ResponseEntity<SignalMessage> datasetSubmitSignalWebhookMethodId(String messageId, String edelMessageSig, @Valid SignalMessage body) {
         LOG.info("Got signal to pull:" + body.getInstance());
         DatasetStatusResult result = dsdDatasetMessagingService.getStatusMessage(body.getInstance());
         updateDatasetStatus(result, body.getInstance());
@@ -56,8 +55,8 @@ public class DSDWebhookController implements MessagingWebhookApi {
     }
 
     @Override
-    public ResponseEntity<SignalMessage> submitStatusResponseWebhookMessageOperation(String messageId, String rMessageId, String originalSender, String finalRecipient, OffsetDateTime timestamp, String edelMessageSig, @Valid StatusRMessageIdBody body) {
-        updateDatasetStatus( mapper.serverRoToMessaging(body.getMessageWebhookStatusResponse()), rMessageId);
+    public ResponseEntity<SignalMessage> submitStatusResponseWebhookMessageOperation(String originalSender, String originalSenderToken, String finalRecipient, OffsetDateTime timestamp, String messageId, String rMessageId, String edelMessageSig, @Valid StatusRMessageIdBody body) {
+        updateDatasetStatus(mapper.serverRoToMessaging(body.getMessageWebhookStatusResponse()), rMessageId);
         return createMessageAcceptedSignal(rMessageId);
     }
 
@@ -70,10 +69,9 @@ public class DSDWebhookController implements MessagingWebhookApi {
         dsdDataUpdateDao.updateStatusToRequest(result.getStatus(), result.getDescription(), result.getRefMessage(), messageId);
         // update value to server - there is only one signal
         dsdOrganizationMessagingService.notifyMessageReceived(messageId, nationalBrokerProperties.getApplicationOriginalSender());
-
     }
 
-    public ResponseEntity<SignalMessage> createMessageAcceptedSignal(String messageId){
+    public ResponseEntity<SignalMessage> createMessageAcceptedSignal(String messageId) {
         SignalMessage signalMessage = new SignalMessage()
                 .status(APIProblemType.MESSAGE_ACCEPTED.getStatus())
                 .type(APIProblemType.MESSAGE_ACCEPTED.getType())

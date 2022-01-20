@@ -111,7 +111,8 @@ public class DSDDatasetController extends MessagingOpenApi implements DSDDataset
             Json.mapper().writeValue(payload, statusResult);
             payloadEntity.setPath(storagesService.getRelativePath(payload));
         } catch (StorageException | IOException e) {
-            e.printStackTrace();
+            // for the demo just log!
+            LOG.error("Error occurred while storing the payload", e);
         }
 
         pullMessageDao.persistFlushDetach(pullMessage);
@@ -157,7 +158,8 @@ public class DSDDatasetController extends MessagingOpenApi implements DSDDataset
             Json.mapper().writeValue(payload, statusResult);
             payloadEntity.setPath(storagesService.getRelativePath(payload));
         } catch (StorageException | IOException e) {
-            e.printStackTrace();
+            // for the demo just log!
+            LOG.error("Error occurred while storing the payload", e);
         }
 
         pullMessageDao.persistFlushDetach(pullMessage);
@@ -204,7 +206,8 @@ public class DSDDatasetController extends MessagingOpenApi implements DSDDataset
             Json.mapper().writeValue(payload, statusResult);
             payloadEntity.setPath(storagesService.getRelativePath(payload));
         } catch (StorageException | IOException e) {
-            e.printStackTrace();
+            // for the demo just log!
+            LOG.error("Error occurred while storing the payload", e);
         }
 
         pullMessageDao.persistFlushDetach(pullMessage);
@@ -286,10 +289,10 @@ public class DSDDatasetController extends MessagingOpenApi implements DSDDataset
 
     private void submitWebhookSignalMessageReady(String webhookUrl, String messageId ) {
         SignalMessage signalMessage = new SignalMessage();
-        signalMessage.setStatus(APIProblemType.MESSAGE_READY.getStatus());
-        signalMessage.setType(APIProblemType.MESSAGE_READY.getType());
-        signalMessage.setTitle(APIProblemType.MESSAGE_READY.getTitle());
-        signalMessage.setDetail(APIProblemType.MESSAGE_READY.getDetail());
+        signalMessage.setStatus(APIProblemType.PULL_MESSAGE_READY.getStatus());
+        signalMessage.setType(APIProblemType.PULL_MESSAGE_READY.getType());
+        signalMessage.setTitle(APIProblemType.PULL_MESSAGE_READY.getTitle());
+        signalMessage.setDetail(APIProblemType.PULL_MESSAGE_READY.getDetail());
         signalMessage.setInstance(messageId);
 
     }

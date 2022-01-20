@@ -54,6 +54,6 @@ Start docker container with external configuration
  
     docker run --name rest-api-demo \
             -p 8080:8080  \
-            -v ./dsd-conf:/opt/jboss/wildfly/standalone/data/dsd/config
-            -v ./broker-conf:/opt/jboss/wildfly/standalone/data/national-broker/config
+            -v "dsd-conf:/opt/jboss/wildfly/standalone/data/dsd/config" \
+            -v "broker-conf:/opt/jboss/wildfly/standalone/data/national-broker/config"  \
              domibustest/rest-api-demo:1.0.0-SNAPSHOT

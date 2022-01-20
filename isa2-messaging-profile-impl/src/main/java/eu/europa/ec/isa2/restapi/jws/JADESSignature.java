@@ -110,6 +110,49 @@ public class JADESSignature {
         return new String(baos.toByteArray());
     }
 
+    /**
+     * Method generates compact JADES signature for Sign type http://uri.etsi.org/19182/HttpHeaders
+     *
+     * @param documentToSign
+     * @param alias
+     * @param addChain
+     * @param signDigestAlgorithm
+     * @return
+     * @throws IOException
+     */
+    public String createCompactSignature(DSSDocument documentToSign, String alias, boolean addChain, DigestAlgorithm signDigestAlgorithm) throws IOException {
+
+        CertificateToken signCertToken = keystoreFileConnection.getCertificateToken(alias);
+
+        JAdESSignatureParameters signatureParameters = new JAdESSignatureParameters();
+        signatureParameters.bLevel().setSigningDate(Calendar.getInstance().getTime());
+        signatureParameters.setSigningCertificate(signCertToken);
+        if (addChain) {
+            signatureParameters.setCertificateChain(keystoreFileConnection.getCertificateTokenChain(alias));
+        } else {
+            signatureParameters.setCertificateChain(signCertToken);
+        }
+        signatureParameters.setBase64UrlEncodedPayload(true);
+        signatureParameters.setSignaturePackaging(SignaturePackaging.ENVELOPING);
+        signatureParameters.setSignatureLevel(SignatureLevel.JAdES_BASELINE_B);
+        signatureParameters.setDigestAlgorithm(signDigestAlgorithm);
+        signatureParameters.setJwsSerializationType(JWSSerializationType.COMPACT_SERIALIZATION);
+
+        CertificateVerifier commonCertificateVerifier = getOfflineCertificateVerifier();
+        JAdESService service = new JAdESService(commonCertificateVerifier);
+        ToBeSigned dataToSign = service.getDataToSign(documentToSign, signatureParameters);
+
+        SignatureValue signatureValue = keystoreFileConnection.sign(dataToSign, signatureParameters.getDigestAlgorithm(),
+                signatureParameters.getMaskGenerationFunction(), keystoreFileConnection.getKey(alias));
+
+        // We invoke the service to sign the document with the signature value obtained in
+        // the previous step.
+        DSSDocument signedDocument = service.signDocument(documentToSign, signatureParameters, signatureValue);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        signedDocument.writeTo(baos);
+        return new String(baos.toByteArray());
+    }
+
     public SignedMimeMultipart createSignedMimeMultipartFromJson(Object jsonPayload, String alias, boolean addChain, DigestAlgorithm signDigestAlgorithm, Map<String, String> mapHeaders) throws MessagingException, IOException {
 
         SignedMimeMultipart multipartResponse = new SignedMimeMultipart();
@@ -147,7 +190,7 @@ public class JADESSignature {
     public MimeBodyPart createSignedMultipartPayloadFromJson(Object payload, String alias, boolean addChain, DigestAlgorithm signDigestAlgorithm) throws MessagingException, IOException {
 
         JsonDssDocument jsonDssDocument = new JsonDssDocument(payload);
-        List<DSSDocument> headersToSign = generatedHeadersFromJsonObject(jsonDssDocument, signDigestAlgorithm);
+        List<DSSDocument> headersToSign = generatedHeadersFromJsonObject(jsonDssDocument, signDigestAlgorithm, true);
 
         MimeBodyPart part = new MimeBodyPart();
         part.addHeader(MessagingParameterType.EDEL_PAYLOAD_SIG.getName(), createDetachedSignature(headersToSign, alias, addChain, signDigestAlgorithm));
@@ -159,14 +202,16 @@ public class JADESSignature {
         return part;
     }
 
-    public List<DSSDocument> generatedHeadersFromJsonObject(JsonDssDocument payload, DigestAlgorithm signDigestAlgorithm) {
-        return generatedHeadersFromJsonObject(payload, signDigestAlgorithm, MediaType.APPLICATION_JSON);
+    public List<DSSDocument> generatedHeadersFromJsonObject(JsonDssDocument payload, DigestAlgorithm signDigestAlgorithm, boolean attachment) {
+        return generatedHeadersFromJsonObject(payload, signDigestAlgorithm, MediaType.APPLICATION_JSON,attachment);
     }
 
-    public List<DSSDocument> generatedHeadersFromJsonObject(JsonDssDocument payload, DigestAlgorithm signDigestAlgorithm, MediaType mimeType) {
+    public List<DSSDocument> generatedHeadersFromJsonObject(JsonDssDocument payload, DigestAlgorithm signDigestAlgorithm, MediaType mimeType, boolean attachment) {
         HTTPHeaderDigest httpHeaderDigest = new HTTPHeaderDigest(payload, signDigestAlgorithm);
         List<DSSDocument> headersToSign = new ArrayList<>();
-        headersToSign.add(new HTTPHeader(HttpHeaders.CONTENT_DISPOSITION, "name=\"" + payload.getClass().getName() + "\"; filename=\"" + payload.getClass().getName() + ".json\""));
+        headersToSign.add(new HTTPHeader(HttpHeaders.CONTENT_DISPOSITION, (attachment?"Attachment;":"")+"name=\""
+                + payload.getClass().getName() + "\"; filename=\"" + payload.getClass().getName() + ".json\""));
+
         headersToSign.add(new HTTPHeader(HttpHeaders.CONTENT_TYPE, mimeType==null?MediaType.APPLICATION_JSON_VALUE: mimeType.toString()));
         headersToSign.add(new HTTPHeader(HttpHeaders.CONTENT_LENGTH, payload.getSize()+""));
         headersToSign.add(new HTTPHeaderDigest(payload, signDigestAlgorithm));

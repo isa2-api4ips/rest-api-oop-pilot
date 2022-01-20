@@ -54,11 +54,11 @@
         <javax.ws.rs.version>2.0.1</javax.ws.rs.version>
         <hibernate.version>5.4.28.Final</hibernate.version>
         <h2.version>1.4.197</h2.version>
-        <jackson-databind.version>2.12.1</jackson-databind.version>
+        <jackson.version>2.13.0</jackson.version>
         <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
         <org.reactivestreams.version>1.0.1</org.reactivestreams.version>
         <org.springdoc.openapi.version>1.5.8</org.springdoc.openapi.version>
-        <io.swagger.version>2.1.10-OA3.1-SNAPSHOT</io.swagger.version>
+        <io.swagger.version>2.1.11-OA3.1-SNAPSHOT</io.swagger.version>
         <eu.europa.ec.joinup.sd-dss.version>5.8</eu.europa.ec.joinup.sd-dss.version>
         <nimbus-jose-jwt.version>8.22.1</nimbus-jose-jwt.version><!--Tightly dependent on spring-security version-->
         <ehcache.version>3.8.1</ehcache.version>
@@ -170,7 +170,12 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${jackson-databind.version}</version>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
             <!-- OpenApi documentation generation  -->
             <!-- https://mvnrepository.com/artifact/io.github.jrihtarsic.swagger/swagger-annotations -->

@@ -17,7 +17,7 @@ public class OpenApiGenerator {
 
         HashMap extensions = new java.util.LinkedHashMap<>();
         //put summary here because there is no summary annotation
-        extensions.put("summary", "DSD messaging rest service");
+        extensions.put("summary", "Generic Messaging API");
         extensions.put("x-edel-lifecycle", new EDelApiExtensionLifecycle());
         extensions.put("x-edel-publisher",
                 new EDelApiExtensionPublisher("European Commission",
@@ -29,18 +29,17 @@ public class OpenApiGenerator {
         server.description("Test server!");
 
         OpenAPI openAPI = new OpenAPI()
-                .servers(Collections.singletonList(server))
+//                .servers(Collections.singletonList(server))
 //                .components(components)
-                .info(new Info().title("DSD Message service handler API")
+                .info(new Info().title("Generic Messaging API")
                         .extensions(extensions)
-                        .contact(new Contact().name("Test user"))
-                        .description("This is a pilot project for  implementing ISA2 messaging REST API")
+                        .description("This is a pilot project for implementing ISA2 messaging REST API")
                         .termsOfService("https://www.eupl.eu/")
                         .version("v1.0")
                         .license(new License().name("EUPL 1.2").url("https://www.eupl.eu/")))
                 .externalDocs(new ExternalDocumentation()
                         .description("ISA² IPS REST API Core Profile - OpenAPI Document Specification")
-                        .url("https://ec.europa.eu/cefdigital/wiki/pages/viewpage.action?pageId=254313406"));
+                        .url("https://joinup.ec.europa.eu/collection/api4dt/solution/..."));
 
 
         openAPI.setOpenapi("3.1.0");

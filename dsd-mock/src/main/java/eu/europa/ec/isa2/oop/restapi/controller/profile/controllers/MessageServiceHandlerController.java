@@ -8,10 +8,10 @@ import eu.europa.ec.isa2.restapi.jws.SignedMimeMultipart;
 import eu.europa.ec.isa2.restapi.profile.GeneralOpenApi;
 import eu.europa.ec.isa2.restapi.profile.constants.MessagingConstants;
 import eu.europa.ec.isa2.restapi.profile.controllers.InputStreamDataSource;
-import eu.europa.ec.isa2.restapi.profile.docsapi.GetMessageReferenceListAPI;
-import eu.europa.ec.isa2.restapi.profile.docsapi.MessageServiceHandlerAPI;
-import eu.europa.ec.isa2.restapi.profile.docsapi.MessageServiceHandlerResponseAPI;
-import eu.europa.ec.isa2.restapi.profile.docsapi.ResponseMessagePullAPI;
+import eu.europa.ec.isa2.restapi.profile.docsapi.PullMessageAPI;
+import eu.europa.ec.isa2.restapi.profile.docsapi.PullResponseMessageAPI;
+import eu.europa.ec.isa2.restapi.profile.docsapi.MessageSubmissionEndpointAPI;
+import eu.europa.ec.isa2.restapi.profile.docsapi.ResponseMessageSubmissionEndpointAPI;
 import eu.europa.ec.isa2.restapi.profile.docsapi.exceptions.MessagingAPIException;
 import eu.europa.ec.isa2.restapi.profile.enums.APIProblemType;
 import eu.europa.ec.isa2.restapi.profile.enums.MessagingEndpointType;
@@ -62,19 +62,36 @@ import static eu.europa.ec.isa2.restapi.profile.enums.APIProblemType.*;
 @RestController
 @CrossOrigin(origins = "*")
 
-@SecurityScheme(name = "DSD_ClientCredentials_OAuthSecurity",
-        type = SecuritySchemeType.OAUTH2,
-        flows = @OAuthFlows(
-                clientCredentials = @OAuthFlow(tokenUrl = "properties:dsd.oauth2.spring.security.token.url",
-                        scopes = @OAuthScope(name = "ROLE_DSD", description = "Authorization DSD token"))))
-@SecurityRequirements(
+@SecuritySchemes({
+        @SecurityScheme(name = "DSD_ClientCredentials_OAuthSecurity"
+                , description = "<p>Client Credentials authorization between National Broker and DSD using OKTA authorization server.<br/></p>" +
+                " <p><b>Important Note:</b>OKTA Oauth server does not allow client credentials authorization from web browser like when using Swagger UI. " +
+                "When testing the services with Swagger UI, use <b>DSD_Http_BearerTokenAuthorization</b> to provide an access token that has been obtained previously outside of Swagger UI.</p>"
+                , type = SecuritySchemeType.OAUTH2
+                , flows = @OAuthFlows(
+                clientCredentials = @OAuthFlow(tokenUrl = "properties:dsd.oauth2.spring.security.token.url"
+                        , scopes = @OAuthScope(name = "ROLE_DSD", description = "Authorization DSD token"))))
+        ,
+        @SecurityScheme(name = "DSD_Http_BearerTokenAuthorization"
+                , description = "OKTA OAuth server does not allow client credentials authorization from web browser. Hence providing Bearer Token Authorization for use in **Swagger UI**. <br/><br/>" +
+                "**Note:** this is only a workaround for a limitation of using Swagger UI. For system integration please use **DSD_ClientCredentials_OAuthSecurity** . <br/><br/>" +
+                "**Usage:** Submit an HTTPS POST request to the token url of **DSD_ClientCredentials_OAuthSecurity** with body contents **grant_type=client_credentials** and **scope=ROLE_DSD** in **x-www-form-encoded** format. " +
+                "As HTTP basic authorization send the **Client ID** and **Client Secret** of the National Broker. The OKTA server will return a JSON response containing an access token as a JWT." +
+                "Submit the JWT in this **DSD_Http_BearerTokenAuthorization**."
+                , type = SecuritySchemeType.HTTP
+                , scheme = "Bearer"
+                , bearerFormat = "Opaque")
+})
+
+@SecurityRequirements({
         @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
-)
+        , @SecurityRequirement(name="DSD_Http_BearerTokenAuthorization", scopes = {"ROLE_DSD"})
+})
 public class MessageServiceHandlerController extends GeneralOpenApi
-        implements MessageServiceHandlerAPI,
-        MessageServiceHandlerResponseAPI,
-        GetMessageReferenceListAPI,
-        ResponseMessagePullAPI {
+        implements MessageSubmissionEndpointAPI,
+        ResponseMessageSubmissionEndpointAPI,
+        PullMessageAPI,
+        PullResponseMessageAPI {
 
     private static final Logger LOG = LoggerFactory.getLogger(MessageServiceHandlerController.class);
 
@@ -141,7 +158,16 @@ public class MessageServiceHandlerController extends GeneralOpenApi
         LOG.info("synchronousMessageSubmission service:[{}], action :[{}], messageId:[{}] request: [{}]", service, action, messageId, request);
 
         Object result = messageSubmissionPrivate(MessagingEndpointType.SUBMIT_MESSAGE_SYNC, request, service, action, messageId);
+
+        //TODO: This logic is ONLY for demo purposes!
+        String originalSender = request.getHeader(MessagingParameterType.ORIGINAL_SENDER.getName());
+        String finalRecipient = request.getHeader(MessagingParameterType.FINAL_RECIPIENT.getName());
+        response.setHeader(MessagingParameterType.ORIGINAL_SENDER.getName(), finalRecipient);
+        response.setHeader(MessagingParameterType.ORIGINAL_SENDER_TOKEN.getName(), jwsService.createOriginalSenderToken(finalRecipient));
+        response.setHeader(MessagingParameterType.FINAL_RECIPIENT.getName(), originalSender);
+
         respondMultipartFromJson(result, response);
+
     }
 
 
@@ -176,7 +202,6 @@ public class MessageServiceHandlerController extends GeneralOpenApi
 
     @Override
     public void webhookMessageSubmission(String messageId, String rService, String rAction, String rMessageId, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        LOG.info("*****************************************************************");
         LOG.info("webhookMessageSubmission, messageId:[{}],  rService:[{}], rAction :[{}], rMessageId:[{}], request: [{}],",
                 messageId, rService, rAction, rMessageId, request);
         messageSubmissionPrivate(MessagingEndpointType.SUBMIT_SIGNAL_WEBHOOK, request, null, null, messageId, rService, rAction, rMessageId);
@@ -245,8 +270,18 @@ public class MessageServiceHandlerController extends GeneralOpenApi
 
         LOG.info("getMessage service [{}], action [{}], messageId [{}], request [{}]", service, action, messageId, request);
         Object result = getResponseMessagePrivate(MessagingEndpointType.GET_MESSAGE, request, service, action, messageId, null, null, null);
+
+
+        //TODO: This logic is ONLY for demo purposes! Original sender and responder MUST be retrieved from "backedn!"
+        String originalSender = getMessageOriginalSender(messageId);
+        String finalRecipient = getMessageFinalRecipient(messageId);
+        response.setHeader(MessagingParameterType.ORIGINAL_SENDER.getName(), originalSender);
+        response.setHeader(MessagingParameterType.ORIGINAL_SENDER_TOKEN.getName(), jwsService.createOriginalSenderToken(originalSender));
+        response.setHeader(MessagingParameterType.FINAL_RECIPIENT.getName(), finalRecipient);
+
         respondMultipartFromJson(result, response);
     }
+
 
 
     @Override
@@ -255,6 +290,14 @@ public class MessageServiceHandlerController extends GeneralOpenApi
                 service, action, messageId, rService, rAction, rMessageId, request);
 
         Object result = getResponseMessagePrivate(MessagingEndpointType.GET_RESPONSE_MESSAGE, request, service, action, messageId, rService, rAction, rMessageId);
+        //TODO: This logic is ONLY for demo purposes! Original sender and responder MUST be retrieved from "backedn!"
+
+        String originalSender = getMessageOriginalSender(messageId);
+        String finalRecipient = getMessageFinalRecipient(messageId);
+        response.setHeader(MessagingParameterType.ORIGINAL_SENDER.getName(), originalSender);
+        response.setHeader(MessagingParameterType.ORIGINAL_SENDER_TOKEN.getName(), jwsService.createOriginalSenderToken(originalSender));
+        response.setHeader(MessagingParameterType.FINAL_RECIPIENT.getName(), finalRecipient);
+
         respondMultipartFromJson(result, response);
     }
 
@@ -350,6 +393,16 @@ public class MessageServiceHandlerController extends GeneralOpenApi
                     "Error occurred while processing the request",
                     request.getServletPath(), e);
         }
+    }
+
+    public String getMessageOriginalSender(String messageId){
+        // TODO implement logic for retrieving original sender per message id! This is just for DEMO
+        return  dsdMockProperties.getDemoDsdOriginalSender();
+    }
+
+    public String getMessageFinalRecipient(String messageId){
+        // TODO implement logic for retrieving final recipient  per message id! This is just for DEMO
+        return  dsdMockProperties.getDemoDsdFinalRecipient();
     }
 
     public void signalMessageSubmissionPrivate(MessagingEndpointType type, HttpServletRequest request, String messageId) throws IOException {

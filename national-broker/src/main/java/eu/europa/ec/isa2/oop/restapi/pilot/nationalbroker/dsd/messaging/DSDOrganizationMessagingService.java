@@ -62,8 +62,10 @@ public class DSDOrganizationMessagingService {
 
         RestTemplate restTemplate = new DSDRestTemplate(jwsService, interceptor);
         ApiClient apiClient = new ApiClient(restTemplate);
+        // this is for the DEMO
+        apiClient.setBasePath(nationalBrokerProperties.getDsdUrl());
         apiClient.setUserAgent("NationalBroker");
-        if(nationalBrokerProperties.isOAuthSecurityEnabled()){
+        if (nationalBrokerProperties.isOAuthSecurityEnabled()) {
             OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId("DSDOAuthClient")
                     .principal("NationalBrokerDSDClient")
                     .build();
@@ -76,7 +78,7 @@ public class DSDOrganizationMessagingService {
         dsdOrganizationPullResponseMessageApi = new DsdOrganizationPullMessageApi(apiClient);
     }
 
-    public void updateOrganization(OrganizationRO organizationRO, String messageId, String userid, String originalSender) {
+    public void updateOrganization(OrganizationRO organizationRO, String messageId, String userid, String originalSender, String originalSenderToken) {
 
         UpdateOrganizationRequest body = new UpdateOrganizationRequest();
         body.setUpdateOrganization(mapper.roToMessaging(organizationRO));
@@ -87,7 +89,7 @@ public class DSDOrganizationMessagingService {
         dsdOrganizationRestClient.getApiClient().setBasePath(nationalBrokerProperties.getDsdUrl());
 
         interceptor.setContextMessageId(messageId, userid);
-        SignalMessage response = dsdOrganizationRestClient.organizationUpdateMethodId(messageId, body, originalSender, finalRecipient, timestamp, null);
+        SignalMessage response = dsdOrganizationRestClient.organizationUpdateMethodId(originalSender, originalSenderToken, finalRecipient, timestamp, messageId, body, null);
         interceptor.clearContextData();
         LOG.info("Response from server is: " + Json.pretty(response));
     }
@@ -123,16 +125,13 @@ public class DSDOrganizationMessagingService {
 
 
         // set call properties
-        OffsetDateTime timestamp = OffsetDateTime.now();
-        String originalSender = userid;
-        String finalRecipient = nationalBrokerProperties.getDsdFinalRecipient();
         dsdOrganizationRestClient.getApiClient().setBasePath(nationalBrokerProperties.getDsdUrl());
 
 
         SignalMessage response = dsdOrganizationRestClient.organizationSignalSubmissionId(
                 messageId,
                 signalMessage,
-                originalSender, finalRecipient, timestamp, null);
+                null);
 
         LOG.info("notifyMessageReceived for id: [{}] gor response: [{}]", messageId, response);
 

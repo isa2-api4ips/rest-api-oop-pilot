@@ -3,10 +3,7 @@ package eu.europa.ec.isa2.restapi.reader.utils;
 import com.fasterxml.jackson.core.JsonParser;
 import eu.europa.ec.isa2.restapi.profile.annotation.MultipartPayload;
 import eu.europa.ec.isa2.restapi.profile.constants.MessagingConstants;
-import eu.europa.ec.isa2.restapi.profile.enums.APIProblemType;
-import eu.europa.ec.isa2.restapi.profile.enums.MessagingParameterLocationType;
-import eu.europa.ec.isa2.restapi.profile.enums.MessagingParameterType;
-import eu.europa.ec.isa2.restapi.profile.enums.MessagingReferenceType;
+import eu.europa.ec.isa2.restapi.profile.enums.*;
 import eu.europa.ec.isa2.restapi.profile.model.*;
 import eu.europa.ec.isa2.restapi.reader.enums.MessagingAPIDefinitionsLocation;
 import io.swagger.v3.core.converter.ModelConverters;
@@ -25,7 +22,6 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static eu.europa.ec.isa2.restapi.profile.constants.MessagingConstants.OPENAPI_REF_PATH_HEADERS;
 import static eu.europa.ec.isa2.restapi.profile.enums.APIProblemType.MESSAGE_ACCEPTED;
 import static eu.europa.ec.isa2.restapi.profile.enums.MessagingParameterType.EDEL_MESSAGE_SIG;
 import static eu.europa.ec.isa2.restapi.profile.enums.MessagingParameterType.EDEL_PAYLOAD_SIG;
@@ -37,7 +33,6 @@ import static eu.europa.ec.isa2.restapi.profile.enums.MessagingParameterType.EDE
  * @author Joze Rihtarsic
  */
 public class MessagingAPIResponseGenerator {
-
 
 
     MessagingObjectPathUtils pathUtils = new MessagingObjectPathUtils();
@@ -73,7 +68,9 @@ public class MessagingAPIResponseGenerator {
         Content multipartContent = createMultipartContent(title, description, payloads);
         ApiResponse p = new ApiResponse().content(multipartContent);
         p.setDescription(description);
-        addCommonHeaders(p);
+        // always add headers for signal - that is Edel-Message-Sig
+        // the Original-Sender and Final recipient are added manually for pull and webhook endpoint!
+        addCommonHeaders(p, true);
         return p;
     }
 
@@ -84,24 +81,40 @@ public class MessagingAPIResponseGenerator {
         return p;
     }
 
-    public RequestBody createSignalMessageRequest() {
-        //
-        Content multipartContent = createSignalMessageContent(MESSAGE_ACCEPTED);
+    public RequestBody createSignalMessageRequest(APIProblemType messageType) {
+        //MESSAGE_ACCEPTED
+        Content multipartContent = createSignalMessageContent(messageType);
         RequestBody p = new RequestBody().content(multipartContent);
         return p;
     }
 
 
-    public void addCommonHeaders(ApiResponse response) {
+    public void addCommonHeaders(ApiResponse response, boolean headersForSignal) {
 
         List<MessagingParameterType> headerParameters = Arrays.asList(MessagingParameterType.values()).stream()
                 .filter(parameterType -> !parameterType.isPayloadPart()
                         && (parameterType.getLocation() == MessagingParameterLocationType.HEADER)
                         && !parameterType.isPayloadPart()
-                        && !parameterType.isWebhookParameters()).collect(Collectors.toList());
+                        && !parameterType.isWebhookParameters()
+                        && headersForSignal != parameterType.isUserMessageParameter()
+                        && parameterType.getMessagingParameterUsageType() != MessagingParameterUsageType.MESSAGE_REQUEST_ONLY
+                ).collect(Collectors.toList());
         for (MessagingParameterType parameterType : headerParameters) {
             response.addHeaderObject(parameterType.getName(), createMessagingHeaderForType(parameterType));
         }
+    }
+
+    public Map<String, Header> getPayloadHeaders() {
+        Map<String, Header> headerMap = new HashMap<>();
+        List<MessagingParameterType> headerParameters = Arrays.asList(MessagingParameterType.values()).stream()
+                .filter(parameterType -> parameterType.isPayloadPart()
+                        && (parameterType.getLocation() == MessagingParameterLocationType.HEADER)
+                        && parameterType.isPayloadPart()
+                        ).collect(Collectors.toList());
+        for (MessagingParameterType parameterType : headerParameters) {
+            headerMap.put(parameterType.getName(), createMessagingHeaderForType(parameterType));
+        }
+        return headerMap;
     }
 
     /**
@@ -115,10 +128,7 @@ public class MessagingAPIResponseGenerator {
     public Content createMultipartContent(String title, String description, MultipartPayload[] payloads) {
         MediaType mediaType = new MediaType();
         Schema requestBody;
-        Map<String, Header> headerMap = new HashMap<>();
-        Header payloadSignature = createMessagingHeaderForType(EDEL_PAYLOAD_SIG);
-        headerMap.put(EDEL_PAYLOAD_SIG.getName(), payloadSignature);
-
+        Map<String, Header> headerMap = getPayloadHeaders();
         if (payloads == null || payloads.length == 0) {
             String simpleName = PayloadBody.class.getSimpleName();
             if (!components.getSchemas().containsKey(simpleName)) {
@@ -159,15 +169,15 @@ public class MessagingAPIResponseGenerator {
      * @param parameterType - header type
      * @return
      */
-    protected Header createMessagingHeaderForType(MessagingParameterType parameterType) {
+    public Header createMessagingHeaderForType(MessagingParameterType parameterType) {
         Header header;
-        String definitionURI = pathUtils.getDefinitionURI(messagingAPIDefinitionsLocation, parameterType.getMessagingSchemaType(),
-                MessagingConstants.OPENAPI_SUBPATH_HEADERS, messagingAPIURL );
+        String definitionURI = pathUtils.getDefinitionURI(messagingAPIDefinitionsLocation, parameterType.getMessagingReferenceType(),
+                MessagingConstants.OPENAPI_SUBPATH_HEADERS, messagingAPIURL);
         switch (messagingAPIDefinitionsLocation) {
             case DOCUMENT_COMPONENTS: {
-                if (!components.getHeaders().containsKey(parameterType.getName())) {
+                if (!components.getHeaders().containsKey(parameterType.getMessagingReferenceType().getName())) {
                     Header parameterSchema = createMessagingHeaderForTypePrivate(parameterType);
-                    components.getHeaders().put(parameterType.getName(), parameterSchema);
+                    components.getHeaders().put(parameterType.getMessagingReferenceType().getName(), parameterSchema);
                 }
             }
             // this part is common to DOCUMENT_COMPONENTS, MESSAGING_API_OBJECT and MESSAGING_API_COMPONENTS!
@@ -199,7 +209,9 @@ public class MessagingAPIResponseGenerator {
 
         Header parameter = new Header()
                 .description(parameterType.getDescription())
-                .schema(schema);
+                .required(parameterType.isRequired())
+                .schema(schema)
+                .example(parameterType.getExample());
 
         return parameter;
     }
@@ -209,7 +221,7 @@ public class MessagingAPIResponseGenerator {
 
         Arrays.asList(APIProblemType.values()).stream()
                 .filter(problemType -> problemType.isError()
-                        && (includePullResponses || !problemType.isPullSpecific())
+                        && (includePullResponses == problemType.isPullSpecific())
                 )
                 .forEach(problemType -> {
                     ApiResponse response = responses.get(problemType.getStatus().toString());
@@ -255,12 +267,12 @@ public class MessagingAPIResponseGenerator {
 
         if (createReferencesForResponses) {
             if (!components.getResponses().containsKey(MessagingConstants.OPENAPI_SCHEMA_NAME_SIGNAL_MESSAGE)) {
-                ApiResponse response = createSignalResponsePrivate();
+                ApiResponse response = createSignalResponsePrivate(MESSAGE_ACCEPTED);
                 components.getResponses().put(MessagingConstants.OPENAPI_SCHEMA_NAME_SIGNAL_MESSAGE, response);
             }
             return new ApiResponse().$ref(MessagingConstants.OPENAPI_REF_PATH_REQUESTS + MessagingConstants.OPENAPI_SCHEMA_NAME_SIGNAL_MESSAGE);
         }
-        return createSignalResponsePrivate();
+        return createSignalResponsePrivate(MESSAGE_ACCEPTED);
     }
 
     public ApiResponse createMessageReferenceListResponse() {
@@ -275,11 +287,11 @@ public class MessagingAPIResponseGenerator {
         return createMessageResponseListPrivate();
     }
 
-    public ApiResponse createSignalResponsePrivate() {
-        Content apiTypeContent = createSignalMessageContent(MESSAGE_ACCEPTED);
+    public ApiResponse createSignalResponsePrivate(APIProblemType signalType) {
+        Content apiTypeContent = createSignalMessageContent(signalType == null ? MESSAGE_ACCEPTED : signalType);
         ApiResponse response = new ApiResponse().content(apiTypeContent);
         response.setDescription("Sent when the message is properly validated and received.");
-        addCommonHeaders(response);
+        addCommonHeaders(response, true);
         return response;
     }
 
@@ -292,16 +304,14 @@ public class MessagingAPIResponseGenerator {
         Schema schema = createMessagingApiSchemaDefinition(MessageReferenceListRO.class, MessagingReferenceType.MESSAGE_REFERENCE_LIST);
         MediaType mediaType = new MediaType().schema(schema)
                 .example(referenceListRO);
-        Content apiTypeContent = new Content().addMediaType(org.springframework.http.MediaType.APPLICATION_JSON_VALUE, mediaType);;
+        Content apiTypeContent = new Content().addMediaType(org.springframework.http.MediaType.APPLICATION_JSON_VALUE, mediaType);
+        ;
 
         ApiResponse response = new ApiResponse().content(apiTypeContent);
         response.setDescription("Message reference list");
-        addCommonHeaders(response);
+        addCommonHeaders(response, true);
         return response;
     }
-
-
-
 
 
     public Content createSignalMessageContent(APIProblemType problemType) {
@@ -316,25 +326,25 @@ public class MessagingAPIResponseGenerator {
                         "sha-256=eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ"
 
                 ));
-        return new Content().addMediaType(org.springframework.http.MediaType.APPLICATION_JSON_VALUE, mediaType);
+        return new Content().addMediaType(org.springframework.http.MediaType.APPLICATION_PROBLEM_JSON_VALUE, mediaType);
     }
 
 
     private Schema createMessagingApiSchemaDefinition(Class messagingApiClass, MessagingReferenceType referenceType) {
         Schema messagingApiSchema;
         String definitionURI = pathUtils.getDefinitionURI(messagingAPIDefinitionsLocation, referenceType,
-                MessagingConstants.OPENAPI_SUBPATH_SCHEMAS, messagingAPIURL );
-          switch (messagingAPIDefinitionsLocation) {
+                MessagingConstants.OPENAPI_SUBPATH_SCHEMAS, messagingAPIURL);
+        switch (messagingAPIDefinitionsLocation) {
             case DOCUMENT_COMPONENTS: {
                 if (!components.getSchemas().containsKey(referenceType.getName())) {
                     ResolvedSchema resolvedSchema = ModelConverters.getInstance().readAllAsResolvedSchema(messagingApiClass);
                     components.addSchemas(referenceType.getName(), resolvedSchema.schema);
                     // add referenced schemas
-                    resolvedSchema.referencedSchemas.forEach( (name, schema)->{
+                    resolvedSchema.referencedSchemas.forEach((name, schema) -> {
                         if (!components.getSchemas().containsKey(name)) {
                             components.addSchemas(name, schema);
                         }
-                    } );
+                    });
                 }
             }
             case MESSAGING_API_OBJECT:
@@ -350,11 +360,11 @@ public class MessagingAPIResponseGenerator {
                 // title is used to generate class by the swagger-codegen
                 messagingApiSchema.setTitle(referenceType.getName());
                 // add referenced schemas
-                resolvedSchema.referencedSchemas.forEach( (name, schema)->{
+                resolvedSchema.referencedSchemas.forEach((name, schema) -> {
                     if (!components.getSchemas().containsKey(name)) {
                         components.addSchemas(name, schema);
                     }
-                } );
+                });
 
         }
         return messagingApiSchema;

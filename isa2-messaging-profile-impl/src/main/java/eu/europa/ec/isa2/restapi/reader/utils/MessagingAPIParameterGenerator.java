@@ -4,6 +4,7 @@ import eu.europa.ec.isa2.restapi.profile.annotation.*;
 import eu.europa.ec.isa2.restapi.profile.constants.MessagingConstants;
 import eu.europa.ec.isa2.restapi.profile.enums.MessagingParameterLocationType;
 import eu.europa.ec.isa2.restapi.profile.enums.MessagingParameterType;
+import eu.europa.ec.isa2.restapi.profile.enums.MessagingParameterUsageType;
 import eu.europa.ec.isa2.restapi.reader.enums.MessagingAPIDefinitionsLocation;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.media.Schema;
@@ -16,7 +17,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static eu.europa.ec.isa2.restapi.profile.constants.MessagingConstants.OPENAPI_REF_PATH_PARAMETERS;
 import static eu.europa.ec.isa2.restapi.profile.constants.MessagingConstants.OPENAPI_REF_PATH_SCHEMAS;
 
 /**
@@ -56,7 +56,7 @@ public class MessagingAPIParameterGenerator {
     public List<Parameter> createOperationParameters(SubmitMessageOperation annotatedOperation) {
         // --------------------------
         // create parameter
-        List<Parameter> methodParameters = createMessagingParameters(true, false);
+        List<Parameter> methodParameters = createMessagingParameters(true, true,false);
         // creates message id parameter
         Parameter pathParameterMessageId = createMessagingParameterForTypeWithName(MessagingParameterType.MESSAGE_ID,annotatedOperation.messageIdParamName() );
         methodParameters.add(pathParameterMessageId);
@@ -111,7 +111,17 @@ public class MessagingAPIParameterGenerator {
     public List<Parameter> createOperationParameters(SubmitResponseMessageOperation annotatedOperation) {
         // --------------------------
         // create parameter
-        List<Parameter> methodParameters = createMessagingParameters(true, false);
+        List<Parameter> methodParameters = createMessagingParameters(true, false,false);
+        // create response original-sender and final-recipient
+        Parameter originalSender = createMessagingParameterForType(MessagingParameterType.ORIGINAL_SENDER );
+        Parameter originalSenderToken = createMessagingParameterForType(MessagingParameterType.ORIGINAL_SENDER_TOKEN );
+        Parameter finalRecipient = createMessagingParameterForType(MessagingParameterType.FINAL_RECIPIENT );
+        Parameter timestamp = createMessagingParameterForType(MessagingParameterType.TIMESTAMP );
+        methodParameters.add(originalSender);
+        methodParameters.add(originalSenderToken);
+        methodParameters.add(finalRecipient);
+        methodParameters.add(timestamp);
+
         // creates message id parameter. The object must be created inline if named does not match the definition
         Parameter pathParameterMessageId = createMessagingParameterForTypeWithName(MessagingParameterType.MESSAGE_ID,annotatedOperation.messageIdParamName() );
         methodParameters.add(pathParameterMessageId);
@@ -136,7 +146,7 @@ public class MessagingAPIParameterGenerator {
     public List<Parameter> createOperationParameters(SubmitSignalOperation annotatedOperation) {
         // --------------------------
         // create parameter
-        List<Parameter> methodParameters = createMessagingParameters(true, false);
+        List<Parameter> methodParameters = createMessagingParameters(true, false, false);
         // creates message id parameter
         Parameter pathParameterMessageId = createMessagingParameterForTypeWithName(MessagingParameterType.MESSAGE_ID,annotatedOperation.messageIdParamName() );
         methodParameters.add(pathParameterMessageId);
@@ -230,18 +240,20 @@ public class MessagingAPIParameterGenerator {
     }
 
 
-    protected List<Parameter> createMessagingParameters(boolean onlyHeader, boolean addWebhookParameters) {
+    protected List<Parameter> createMessagingParameters(boolean onlyHeader, boolean userMessageParams, boolean addWebhookParameters) {
         return Arrays.asList(MessagingParameterType.values()).stream()
                 .filter(parameterType -> !parameterType.isPayloadPart()
                         && (!onlyHeader || parameterType.getLocation() == MessagingParameterLocationType.HEADER)
                         && !parameterType.isPayloadPart()
+                        && (userMessageParams || !parameterType.isUserMessageParameter())
+                        && parameterType.getMessagingParameterUsageType() != MessagingParameterUsageType.MESSAGE_RESPONSE_ONLY
                         && (addWebhookParameters || !parameterType.isWebhookParameters()))
                 .map(parameterType -> createMessagingParameterForType(parameterType)).collect(Collectors.toList());
     }
 
 
     /**
-     * Method validates of parameter name matches the difinition. if not then parameter is generated INLINE
+     * Method validates of parameter name matches the definition. if not then parameter is generated INLINE
      * @param parameterType
      * @param parameterName
      * @return
@@ -264,13 +276,13 @@ public class MessagingAPIParameterGenerator {
      */
     private Parameter createMessagingParameterForType(MessagingParameterType parameterType) {
 
-        String definitionURI = pathUtils.getDefinitionURI(messagingAPIDefinitionsLocation, parameterType.getMessagingSchemaType(), MessagingConstants.OPENAPI_SUBPATH_PARAMETERS, messagingAPIURL );
+        String definitionURI = pathUtils.getDefinitionURI(messagingAPIDefinitionsLocation, parameterType.getMessagingReferenceType(), MessagingConstants.OPENAPI_SUBPATH_PARAMETERS, messagingAPIURL );
         Parameter parameter;
         switch (messagingAPIDefinitionsLocation){
             case DOCUMENT_COMPONENTS:{
-                if (!components.getParameters().containsKey(parameterType.getName())) {
+                if (!components.getParameters().containsKey(parameterType.getMessagingReferenceType().getName())) {
                     Parameter parameterSchema = createMessagingParameterForTypePrivate(parameterType);
-                    components.getParameters().put(parameterType.getName(), parameterSchema);
+                    components.getParameters().put(parameterType.getMessagingReferenceType().getName(), parameterSchema);
                 }
             }
             case MESSAGING_API_OBJECT:
@@ -304,6 +316,7 @@ public class MessagingAPIParameterGenerator {
 
         Parameter parameter = new Parameter()
                 .name(parameterType.getName())
+                .required(parameterType.isRequired())
                 .description(parameterType.getDescription())
                 .in(parameterType.getLocation().getName())
                 .schema(schema).example(parameterType.getExample());

@@ -1,28 +1,29 @@
 package eu.europa.ec.isa2.restapi.profile.model;
 
-import eu.europa.ec.isa2.restapi.profile.constants.JSONConstants;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.Serializable;
 
+import static eu.europa.ec.isa2.restapi.profile.model.schemas.SchemaDescriptionConstants.*;
+
 
 @Schema(
-        id = "https://joinup.ec.europa.eu/collection/api4dt/solution/.../message-reference-schema.json",
-        schema = JSONConstants.SCHEMA_V202012,
-        name = "MessageReference",
-        title = "A Message Reference object defined by the ISA² IPS REST API Messaging API Specification",
-        description = "A Message Reference object to be used when multiple messages could be retrieved from an API operation",
-        requiredProperties = {"messageId",  "service", "action"}
+        id = MESSAGE_REFERENCE_ID,
+        schema = MESSAGE_REFERENCE_SCHEMA,
+        name = MESSAGE_REFERENCE_NAME,
+        title = MESSAGE_REFERENCE_TITLE,
+        description = MESSAGE_REFERENCE_DESCRIPTION,
+        requiredProperties = {MESSAGE_REFERENCE_REQ_PROP_MESSAGE_ID, MESSAGE_REFERENCE_REQ_PROP_SERVICE, MESSAGE_REFERENCE_REQ_PROP_ACTION, MESSAGE_REFERENCE_REQ_PROP_HREF}
 )
 public class MessageReferenceRO implements Serializable {
 
-    @Schema(name = "messageId",   description = "The unique identifier of the message.", type = "string")
+    @Schema(name = "messageId", description = "The unique identifier of the message.", type = "string")
     String messageId;
-    @Schema(name = "service",   description = "A representation of the service the message is submitted to.", type = "string")
+    @Schema(name = "service", description = "A representation of the service the message is submitted to.", type = "string")
     String service;
-    @Schema(name = "action",   description = "A representation of the action related to the service the message is submitted to.", type = "string")
+    @Schema(name = "action", description = "A representation of the action related to the service the message is submitted to.", type = "string")
     String action;
-    @Schema(name = "href",   description = "The direct link for getting the specific message", type = "string", format = "uri-reference")
+    @Schema(name = "href", description = "The direct link for getting the specific message", type = "string", format = "uri-reference")
     String href;
 
     public MessageReferenceRO() {
@@ -39,7 +40,7 @@ public class MessageReferenceRO implements Serializable {
         this.messageId = messageId;
         this.service = service;
         this.action = action;
-        this.href = "/" + service + "/"+ action + "/"+messageId;
+        this.href = "/" + service + "/" + action + "/" + messageId;
     }
 
     public String getMessageId() {
