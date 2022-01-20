@@ -113,10 +113,12 @@ public class MessagingAPIParameterGenerator {
         // create parameter
         List<Parameter> methodParameters = createMessagingParameters(true, false,false);
         // create response original-sender and final-recipient
-        Parameter originalSender = createMessagingParameterForType(MessagingParameterType.RESPONSE_ORIGINAL_SENDER );
-        Parameter finalRecipient = createMessagingParameterForType(MessagingParameterType.RESPONSE_FINAL_RECIPIENT );
+        Parameter originalSender = createMessagingParameterForType(MessagingParameterType.ORIGINAL_SENDER );
+        Parameter originalSenderToken = createMessagingParameterForType(MessagingParameterType.ORIGINAL_SENDER_TOKEN );
+        Parameter finalRecipient = createMessagingParameterForType(MessagingParameterType.FINAL_RECIPIENT );
         Parameter timestamp = createMessagingParameterForType(MessagingParameterType.TIMESTAMP );
         methodParameters.add(originalSender);
+        methodParameters.add(originalSenderToken);
         methodParameters.add(finalRecipient);
         methodParameters.add(timestamp);
 
@@ -314,6 +316,7 @@ public class MessagingAPIParameterGenerator {
 
         Parameter parameter = new Parameter()
                 .name(parameterType.getName())
+                .required(parameterType.isRequired())
                 .description(parameterType.getDescription())
                 .in(parameterType.getLocation().getName())
                 .schema(schema).example(parameterType.getExample());

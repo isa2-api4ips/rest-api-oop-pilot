@@ -71,6 +71,17 @@ public class JwsService implements KeystoreDataProvider {
         }
     }
 
+    public String createOriginalSenderToken(String originalSender){
+        JsonDssDocument inMemoryDocument = new JsonDssDocument(new OriginalSenderTokenSimplePayload(originalSender));
+        String alias = dsdMockProperties.getSignatureKeyAlias();
+        DigestAlgorithm algorithm = DigestAlgorithm.forName(dsdMockProperties.getPayloadDigestAlgorithm());
+        try {
+            return jadesSignature.createCompactSignature(inMemoryDocument,alias, false, algorithm);
+        } catch (IOException e) {
+            throw new MessagingAPIException(APIProblemType.INTERNAL_SERVER_ERROR, "Error occurred while generating original sender token!", null, e);
+        }
+    }
+
     public Map<String, String> signAndWriteJsonResponse(Object json, OutputStream outputStream, MediaType mimeType) {
 
         DigestAlgorithm algorithm = DigestAlgorithm.forName(dsdMockProperties.getPayloadDigestAlgorithm());
@@ -92,7 +103,7 @@ public class JwsService implements KeystoreDataProvider {
                 outputStream.write(data, 0, nRead);
             }
         } catch (IOException e) {
-            throw new MessagingAPIException(APIProblemType.INTERNAL_SERVER_ERROR, "Error occurred while writting the JSON object to out stream", null, e);
+            throw new MessagingAPIException(APIProblemType.INTERNAL_SERVER_ERROR, "Error occurred while writing the JSON object to out stream", null, e);
         }
         Map<String, String> headers = new HashMap<>();
         headers.put(MessagingParameterType.EDEL_MESSAGE_SIG.getName(), signature);

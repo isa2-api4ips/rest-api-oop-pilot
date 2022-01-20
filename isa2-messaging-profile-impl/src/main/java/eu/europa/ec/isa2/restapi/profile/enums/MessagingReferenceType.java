@@ -1,17 +1,20 @@
 package eu.europa.ec.isa2.restapi.profile.enums;
 
+import eu.europa.ec.isa2.restapi.profile.model.schemas.JwsCompactDetachedHeader;
+
 import static eu.europa.ec.isa2.restapi.profile.enums.SpecificationPartType.CORE_PROFILE;
 import static eu.europa.ec.isa2.restapi.profile.enums.SpecificationPartType.MESSAGING_PROFILE;
 
 public enum MessagingReferenceType {
 
     ORIGINAL_SENDER("Original-Sender", MESSAGING_PROFILE,"original-sender.json"),
+    ORIGINAL_SENDER_TOKEN("Original-Sender-Token", MESSAGING_PROFILE,"original-sender-token.json"),
     FINAL_RECIPIENT("Final-Recipient", MESSAGING_PROFILE,"final-recipient.json"),
-    RESPONSE_ORIGINAL_SENDER("Response-Original-Sender", MESSAGING_PROFILE,"response-original-sender.json"),
-    RESPONSE_FINAL_RECIPIENT("Response-Final-Recipient", MESSAGING_PROFILE,"response-final-recipient.json"),
     TIMESTAMP("Timestamp", MESSAGING_PROFILE,"timestamp.json"),
     EDEL_MESSAGE_SIG("Edel-Message-Sig", CORE_PROFILE,"edel-message-sig.json"),
     EDEL_PAYLOAD_SIG("Edel-Payload-Sig", CORE_PROFILE,"edel-payload-sig.json"),
+    CONTENT_DISPOSITION("Content-Disposition", MESSAGING_PROFILE,"content-disposition.json"),
+    CONTENT_TYPE("Content-Type", MESSAGING_PROFILE,"content-type.json"),
     RESPONSE_WEBHOOK("Response-Webhook", MESSAGING_PROFILE,"response-webhook.json"),
     SIGNAL_WEBHOOK("Signal-Webhook", MESSAGING_PROFILE,"signal-webhook.json"),
     MESSAGE_ID("messageId", MESSAGING_PROFILE,"message-id.json"),
@@ -25,9 +28,8 @@ public enum MessagingReferenceType {
     MESSAGE_REFERENCE("MessageReference", MESSAGING_PROFILE,"message-reference.json"),
     MESSAGE_REFERENCE_LIST("MessageReferenceList", MESSAGING_PROFILE,"message-reference-list.json"),
     JWS_COMPACT("jws-compact", MESSAGING_PROFILE,"jws-compact.json"),
-    JWS_COMPACT_DETACHED("jws-compact-detached", CORE_PROFILE,"jws-compact-detached.json");
-
-
+    JWS_COMPACT_DETACHED("jws-compact-detached", CORE_PROFILE,"jws-compact-detached.json")
+    ;
 
     String name;
     SpecificationPartType specificationPart;

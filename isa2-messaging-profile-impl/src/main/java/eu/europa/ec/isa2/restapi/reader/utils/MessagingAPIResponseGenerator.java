@@ -104,6 +104,19 @@ public class MessagingAPIResponseGenerator {
         }
     }
 
+    public Map<String, Header> getPayloadHeaders() {
+        Map<String, Header> headerMap = new HashMap<>();
+        List<MessagingParameterType> headerParameters = Arrays.asList(MessagingParameterType.values()).stream()
+                .filter(parameterType -> parameterType.isPayloadPart()
+                        && (parameterType.getLocation() == MessagingParameterLocationType.HEADER)
+                        && parameterType.isPayloadPart()
+                        ).collect(Collectors.toList());
+        for (MessagingParameterType parameterType : headerParameters) {
+            headerMap.put(parameterType.getName(), createMessagingHeaderForType(parameterType));
+        }
+        return headerMap;
+    }
+
     /**
      * Method generates multipart content. If payload is not given (null or empty array) then multipart content is generic list of bytearrays"
      *
@@ -115,10 +128,7 @@ public class MessagingAPIResponseGenerator {
     public Content createMultipartContent(String title, String description, MultipartPayload[] payloads) {
         MediaType mediaType = new MediaType();
         Schema requestBody;
-        Map<String, Header> headerMap = new HashMap<>();
-        Header payloadSignature = createMessagingHeaderForType(EDEL_PAYLOAD_SIG);
-        headerMap.put(EDEL_PAYLOAD_SIG.getName(), payloadSignature);
-
+        Map<String, Header> headerMap = getPayloadHeaders();
         if (payloads == null || payloads.length == 0) {
             String simpleName = PayloadBody.class.getSimpleName();
             if (!components.getSchemas().containsKey(simpleName)) {
@@ -199,6 +209,7 @@ public class MessagingAPIResponseGenerator {
 
         Header parameter = new Header()
                 .description(parameterType.getDescription())
+                .required(parameterType.isRequired())
                 .schema(schema)
                 .example(parameterType.getExample());
 

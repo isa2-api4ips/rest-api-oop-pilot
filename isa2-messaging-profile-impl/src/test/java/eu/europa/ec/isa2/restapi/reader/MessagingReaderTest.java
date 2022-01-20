@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.springframework.http.MediaType;
 
 import javax.ws.rs.Path;
+import java.time.OffsetDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -186,8 +187,9 @@ public class MessagingReaderTest {
                 MessagingParameterType.RESPONSE_SERVICE,
                 MessagingParameterType.RESPONSE_ACTION,
                 MessagingParameterType.RESPONSE_MESSAGE_ID,
-                MessagingParameterType.RESPONSE_ORIGINAL_SENDER,
-                MessagingParameterType.RESPONSE_FINAL_RECIPIENT,
+                MessagingParameterType.ORIGINAL_SENDER,
+                MessagingParameterType.ORIGINAL_SENDER_TOKEN,
+                MessagingParameterType.FINAL_RECIPIENT,
                 MessagingParameterType.TIMESTAMP,
                 MessagingParameterType.EDEL_MESSAGE_SIG
         );
@@ -240,8 +242,9 @@ public class MessagingReaderTest {
                 MessagingParameterType.RESPONSE_SERVICE,
                 MessagingParameterType.RESPONSE_ACTION,
                 MessagingParameterType.RESPONSE_MESSAGE_ID,
-                MessagingParameterType.RESPONSE_ORIGINAL_SENDER,
-                MessagingParameterType.RESPONSE_FINAL_RECIPIENT,
+                MessagingParameterType.ORIGINAL_SENDER,
+                MessagingParameterType.ORIGINAL_SENDER_TOKEN,
+                MessagingParameterType.FINAL_RECIPIENT,
                 MessagingParameterType.TIMESTAMP,
                 MessagingParameterType.EDEL_MESSAGE_SIG
         );

@@ -38,7 +38,6 @@ public class DSDWebhookClient {
 
     public void submitMessageReadySignal(String webhookUrl, String messageId, String userid) {
         LOG.info("Update dataset");
-/*
         // set call properties
         ApiClient client= dsdDatasetMessageSubmissionApi.getApiClient();
         client.setBasePath(webhookUrl);
@@ -53,8 +52,6 @@ public class DSDWebhookClient {
         LOG.info("Response webhookUrl server is: " + webhookUrl);
         SignalMessage response = dsdDatasetMessageSubmissionApi.datasetSubmitSignalWebhookMethodId(messageId, signalMessage,  null);
         LOG.info("Response from server is: " + Json.pretty(response));
-
- */
     }
 
 

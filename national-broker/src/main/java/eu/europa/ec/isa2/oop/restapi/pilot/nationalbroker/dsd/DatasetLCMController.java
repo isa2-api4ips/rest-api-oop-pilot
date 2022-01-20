@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +34,7 @@ import java.util.UUID;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/dsd-lcm/v1")
-@Tag(name = "DSD LCM Dataset Broker services", description = "DSD LCM Dataset Broker services API")
+@Tag(name = "DSD LCM Dataset Broker services", description = "DSD LCM Dataset Broker services API.")
 @SecurityRequirements({
         @SecurityRequirement(name = "NationalBroker_Http_BearerTokenAuthorization")
 })
@@ -71,7 +72,7 @@ public class DatasetLCMController implements OpenApiSecuritySchemes {
             @ApiResponse(responseCode = "200", description = "successful operation",
                     headers = @Header(name = "edel-message-sig", required = true, ref = "#/components/headers/edel-message-sig"),
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = DatasetRO.class))))})
-    @GetMapping(produces = "application/json; charset=UTF-8")
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_PROBLEM_JSON_VALUE})
     @RequestMapping(method = RequestMethod.GET, path = "users/{user-id}/datasets")
     //@PreAuthorize("hasRole('ROLE_UPDATE_DSD')")
     public ServiceResult<DatasetRO> listOrganizationDatasets(@PathVariable("user-id") String userId,
@@ -83,12 +84,24 @@ public class DatasetLCMController implements OpenApiSecuritySchemes {
         LOG.info("Inside listOrganizationDatasets for DSD.");
         String messageIdentifier = UUID.randomUUID().toString();
         String token = originalSenderTokenRetriever.getRequesterIdentityToken();
-        token = StringUtils.isBlank(token)?userId:token;
-        ServiceResult<DatasetRO> serviceResult = dsdDatasetMessagingService.searchDatasets(messageIdentifier,userId, token, offset, limit, sort, query);
+        LOG.info("Inside listOrganizationDatasets for DSD. userId [{}] token [{}]", userId, token);
+        token = validatedAndGenerateOriginalSenderToken(token,userId);
+
+        ServiceResult<DatasetRO> serviceResult = dsdDatasetMessagingService.searchDatasets(messageIdentifier,userId,token, offset, limit, sort, query);
 
 
         jwsService.signJsonResponse(serviceResult, response);
         return serviceResult;
+    }
+
+    /**
+     * Method validates if token exists. If not it generates a simple JWT token - signed user:id
+     * @param token
+     * @param userId
+     * @return
+     */
+    public String validatedAndGenerateOriginalSenderToken(String token, String userId){
+        return  StringUtils.isBlank(token)||StringUtils.equalsIgnoreCase(token, userId) ?jwsService.createOriginalSenderToken(userId):token;
     }
 
     @Operation(summary = "Update dataset", description = "update dataset by id", tags = {"dataset"})
@@ -111,7 +124,7 @@ public class DatasetLCMController implements OpenApiSecuritySchemes {
         // call DSD mock
         // set status to update
         String token = originalSenderTokenRetriever.getRequesterIdentityToken();
-        token = StringUtils.isBlank(token)?userId:token;
+        token = validatedAndGenerateOriginalSenderToken(token,userId);
         dsdDatasetMessagingService.updateDataset(updateEntity, messageIdentifier,userId, token);
         return updateEntity;
     }
@@ -134,7 +147,7 @@ public class DatasetLCMController implements OpenApiSecuritySchemes {
         // call DSD mock
         // set status to update
         String token = originalSenderTokenRetriever.getRequesterIdentityToken();
-        token = StringUtils.isBlank(token)?userId:token;
+        token = validatedAndGenerateOriginalSenderToken(token,userId);
         dsdDatasetMessagingService.createDataset(updateEntity, messageIdentifier,userId, token);
         return updateEntity;
     }
@@ -149,13 +162,12 @@ public class DatasetLCMController implements OpenApiSecuritySchemes {
         String messageIdentifier = UUID.randomUUID().toString();
         // set status to update
         String token = originalSenderTokenRetriever.getRequesterIdentityToken();
-        token = StringUtils.isBlank(token)?userId:token;
+        token = validatedAndGenerateOriginalSenderToken(token,userId);
         DSDDataUpdateRO result = dataUpdateDao.deleteDataset(messageIdentifier, userId);
         DatasetRO datasetRO = new DatasetRO();
         datasetRO.getIdentifiers().add(datasetId);
         jwsService.signJsonResponse(datasetRO, response);
         // call DSD mock
         dsdDatasetMessagingService.deleteDataset(datasetRO, messageIdentifier,userId, token);
-
     }
 }

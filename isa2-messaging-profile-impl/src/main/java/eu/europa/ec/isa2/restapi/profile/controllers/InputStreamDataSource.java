@@ -26,7 +26,8 @@ public class InputStreamDataSource implements DataSource {
             inputStream.close();
             buffer.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            // for the demo just log!
+            LOG.error("Error occurred while reading the the payload", e);
         }
 
         LOG.info("Body\n[{}]", new String(buffer.toByteArray(), Charset.defaultCharset()));

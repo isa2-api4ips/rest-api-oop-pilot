@@ -117,10 +117,25 @@ public class DsdMockProperties implements TruststoreDataProvider {
     @Value("${" + DSD_OAUTH2_SECURITY_JWK_KEYSET_URL + "}")
     private String oauthSecurityJwkKeysetUrl;
 
+    @Value("${" + DSD_MOCK_ORIGINAL_SENDER + "}")
+    private String demoDsdOriginalSender;
+
+    @Value("${" + DSD_MOCK_FINAL_RECIPIENT + "}")
+    private String demoDsdFinalRecipient;
+
+
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer placeHolderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    public String getDemoDsdOriginalSender() {
+        return demoDsdOriginalSender;
+    }
+
+    public String getDemoDsdFinalRecipient() {
+        return demoDsdFinalRecipient;
     }
 
     public String getHibernateConnectionDriverClass() {
@@ -259,6 +274,9 @@ public class DsdMockProperties implements TruststoreDataProvider {
         properties.setProperty(DSD_OAUTH2_SECURITY_ENABLED, oauthSecurity_EnabledFlag);
         properties.setProperty(DSD_OAUTH2_SECURITY_TOKEN_URL, oauthSecurityTokenUrl);
         properties.setProperty(DSD_OAUTH2_SECURITY_JWK_KEYSET_URL, oauthSecurityJwkKeysetUrl);
+
+        properties.setProperty(DSD_MOCK_ORIGINAL_SENDER, demoDsdOriginalSender);
+        properties.setProperty(DSD_MOCK_FINAL_RECIPIENT, demoDsdFinalRecipient);
         return properties;
     }
 

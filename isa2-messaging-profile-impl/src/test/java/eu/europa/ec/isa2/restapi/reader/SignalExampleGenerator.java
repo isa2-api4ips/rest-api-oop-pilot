@@ -4,6 +4,8 @@ import eu.europa.ec.isa2.restapi.profile.enums.APIProblemType;
 import eu.europa.ec.isa2.restapi.profile.model.SignalMessage;
 import io.swagger.v3.core.util.Json;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,8 +14,10 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class SignalExampleGenerator {
+    private static final Logger LOG = LoggerFactory.getLogger(SignalExampleGenerator.class);
     @Test
     public void generateAllSignals(){
+
         File parent = new File("target/signal");
         parent.mkdirs();
         Arrays.stream(APIProblemType.values()).forEach(response ->{
@@ -27,6 +31,7 @@ public class SignalExampleGenerator {
             try {
                 Json.pretty().writeValue(new FileOutputStream(new File(parent, response.getFileName())), message);
             } catch (IOException e) {
+                LOG.error("Error occured while writting the signals", e);
                 e.printStackTrace();
             }
 
@@ -62,7 +67,8 @@ public class SignalExampleGenerator {
 
 
             } catch (IOException e) {
-                e.printStackTrace();
+                // for the demo just log
+                LOG.error("Error occired while reading the URL",e);
             }
 
         });

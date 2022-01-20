@@ -16,8 +16,8 @@ import java.io.IOException;
 
 
 @RequestMapping("/v1")
-@Tag(name = PullResponseMessageAPI.TAG_RESPONSE_MESSAGE_REFERENCE, description = "The endpoints return a list of response message references available for pulling")
-@Tag(name = PullResponseMessageAPI.TAG_GET_RESPONSE_MESSAGE, description = "The endpoint return a response message for a given service, action and message identifier")
+@Tag(name = PullResponseMessageAPI.TAG_RESPONSE_MESSAGE_REFERENCE, description = "The endpoints return a list of response message references available for pulling.")
+@Tag(name = PullResponseMessageAPI.TAG_GET_RESPONSE_MESSAGE, description = "The endpoint return a response message for a given service, action and message identifier.")
 public interface PullResponseMessageAPI {
 
     String TAG_RESPONSE_MESSAGE_REFERENCE = "Response Message Reference List";
@@ -79,7 +79,7 @@ public interface PullResponseMessageAPI {
             summary = "Get Response Message Endpoint",
             description = "This endpoint returns the message filed under a specific service and action, following the format defined in the User Message section," +
                     " representing a response to a previous message sent by the original sender.")
-    @GetMapping(produces = {"application/json; charset=UTF-8", MediaType.MULTIPART_MIXED_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_PROBLEM_JSON_VALUE, MediaType.MULTIPART_MIXED_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
             path = "/messaging/{service}/{action}/{messageId}/response/{rService}/{rAction}/{rMessageId}")
     void getResponseMessage(@PathVariable("service") String service,
                             @PathVariable("action") String action,

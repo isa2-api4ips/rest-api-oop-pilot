@@ -1,6 +1,7 @@
 package eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.application.security;
 
 import eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.application.property.NationalBrokerProperties;
+import eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.dsd.model.OriginalSenderTokenSimplePayloadRO;
 import eu.europa.ec.isa2.restapi.jws.*;
 import eu.europa.ec.isa2.restapi.profile.docsapi.exceptions.MessagingAPIException;
 import eu.europa.ec.isa2.restapi.profile.enums.APIProblemType;
@@ -75,6 +76,17 @@ public class JwsService implements KeystoreDataProvider {
     @Override
     public KeyStore.ProtectionParameter getKeyCredentials(String alias) {
         return new KeyStore.PasswordProtection(nationalBrokerProperties.getSignatureKeyCredentials().toCharArray());
+    }
+
+    public String createOriginalSenderToken(String originalSender){
+        JsonDssDocument inMemoryDocument = new JsonDssDocument(new OriginalSenderTokenSimplePayloadRO(originalSender));
+        String alias = nationalBrokerProperties.getSignatureKeyAlias();
+        DigestAlgorithm algorithm = DigestAlgorithm.forName(nationalBrokerProperties.getPayloadDigestAlgorithm());
+        try {
+            return jadesSignature.createCompactSignature(inMemoryDocument,alias, false, algorithm);
+        } catch (IOException e) {
+            throw new MessagingAPIException(APIProblemType.INTERNAL_SERVER_ERROR, "Error occurred while generating original sender token!", null, e);
+        }
     }
 
     public void signJsonResponse(Object json, HttpServletResponse response) {

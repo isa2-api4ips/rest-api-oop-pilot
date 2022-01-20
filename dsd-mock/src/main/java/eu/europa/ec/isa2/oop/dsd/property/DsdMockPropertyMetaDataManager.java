@@ -23,6 +23,9 @@ public abstract class DsdMockPropertyMetaDataManager {
     public static final String DSD_MOCK_DB_CREATE ="dsd.database.create";
     public static final String DSD_MOCK_DB_INIT_SCRIPT ="dsd.database.script";
 
+    public static final String DSD_MOCK_ORIGINAL_SENDER ="dsd.dsd.originalSender";
+    public static final String DSD_MOCK_FINAL_RECIPIENT ="dsd.nationalBroker.finalRecipient";
+
     //JMS
 
     public static final String DSD_MOCK_JMS_CACHING_XACONNECTION_FACTORY_BEAN = "DsdMockJMS-CachingXAConnectionFactory";

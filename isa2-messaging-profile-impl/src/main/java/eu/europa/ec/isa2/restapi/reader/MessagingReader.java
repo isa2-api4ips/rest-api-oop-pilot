@@ -206,6 +206,7 @@ public class MessagingReader {
 
         ApiResponse defaultResponse = messagingAPIResponseGenerator.createMultipartResponse(messageOperation.responseTitle(), messageOperation.responseDescription(), messageOperation.responsePayloads());
         defaultResponse.addHeaderObject(ORIGINAL_SENDER.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(ORIGINAL_SENDER));
+        defaultResponse.addHeaderObject(ORIGINAL_SENDER_TOKEN.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(ORIGINAL_SENDER_TOKEN));
         defaultResponse.addHeaderObject(FINAL_RECIPIENT.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(FINAL_RECIPIENT));
         defaultResponse.addHeaderObject(TIMESTAMP.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(TIMESTAMP));
 
@@ -315,6 +316,7 @@ public class MessagingReader {
                 messageOperation.responsePayloads());
 
         defaultResponse.addHeaderObject(ORIGINAL_SENDER.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(ORIGINAL_SENDER));
+        defaultResponse.addHeaderObject(ORIGINAL_SENDER_TOKEN.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(ORIGINAL_SENDER_TOKEN));
         defaultResponse.addHeaderObject(FINAL_RECIPIENT.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(FINAL_RECIPIENT));
         defaultResponse.addHeaderObject(TIMESTAMP.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(TIMESTAMP));
 

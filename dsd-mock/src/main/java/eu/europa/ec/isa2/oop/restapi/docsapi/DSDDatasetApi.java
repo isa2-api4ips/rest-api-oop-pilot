@@ -18,11 +18,11 @@ import static eu.europa.ec.isa2.oop.restapi.docsapi.DSDDatasetApi.*;
 
 
 @Path("/v1/messaging/")
-@Tag(name = TAG_DSD_DATASET, description = "DSD dataset REST Interface")
-@Tag(name = TAG_GET_MESSAGE_LIST, description = "Services for returning list of ready message to pull")
-@Tag(name = TAG_GET_RESPONSE_MESSAGE_LIST, description = "Services for returning list of ready response message to pull")
-@Tag(name = TAG_GET_MESSAGE, description = "Services for pulling ready messages ")
-@Tag(name = TAG_GET_RESPONSE_MESSAGE, description = "Services for pulling ready response messages ")
+@Tag(name = TAG_DSD_DATASET, description = "DSD dataset REST Interface.")
+@Tag(name = TAG_GET_MESSAGE_LIST, description = "Services for returning list of ready message to pull.")
+@Tag(name = TAG_GET_RESPONSE_MESSAGE_LIST, description = "Services for returning list of ready response message to pull.")
+@Tag(name = TAG_GET_MESSAGE, description = "Services for pulling ready messages.")
+@Tag(name = TAG_GET_RESPONSE_MESSAGE, description = "Services for pulling ready response messages.")
 
 @SecurityRequirements({
         @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})

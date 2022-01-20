@@ -63,7 +63,6 @@ public class DatabaseConfiguration {
 
         } catch (SQLException throwables) {
             LOG.error("Error initializing H2 database tables.", throwables);
-            throwables.printStackTrace();
         }
     }
 

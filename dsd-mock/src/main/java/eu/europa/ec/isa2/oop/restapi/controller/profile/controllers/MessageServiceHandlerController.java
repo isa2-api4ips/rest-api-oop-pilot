@@ -158,7 +158,16 @@ public class MessageServiceHandlerController extends GeneralOpenApi
         LOG.info("synchronousMessageSubmission service:[{}], action :[{}], messageId:[{}] request: [{}]", service, action, messageId, request);
 
         Object result = messageSubmissionPrivate(MessagingEndpointType.SUBMIT_MESSAGE_SYNC, request, service, action, messageId);
+
+        //TODO: This logic is ONLY for demo purposes!
+        String originalSender = request.getHeader(MessagingParameterType.ORIGINAL_SENDER.getName());
+        String finalRecipient = request.getHeader(MessagingParameterType.FINAL_RECIPIENT.getName());
+        response.setHeader(MessagingParameterType.ORIGINAL_SENDER.getName(), finalRecipient);
+        response.setHeader(MessagingParameterType.ORIGINAL_SENDER_TOKEN.getName(), jwsService.createOriginalSenderToken(finalRecipient));
+        response.setHeader(MessagingParameterType.FINAL_RECIPIENT.getName(), originalSender);
+
         respondMultipartFromJson(result, response);
+
     }
 
 
@@ -193,7 +202,6 @@ public class MessageServiceHandlerController extends GeneralOpenApi
 
     @Override
     public void webhookMessageSubmission(String messageId, String rService, String rAction, String rMessageId, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        LOG.info("*****************************************************************");
         LOG.info("webhookMessageSubmission, messageId:[{}],  rService:[{}], rAction :[{}], rMessageId:[{}], request: [{}],",
                 messageId, rService, rAction, rMessageId, request);
         messageSubmissionPrivate(MessagingEndpointType.SUBMIT_SIGNAL_WEBHOOK, request, null, null, messageId, rService, rAction, rMessageId);
@@ -262,8 +270,18 @@ public class MessageServiceHandlerController extends GeneralOpenApi
 
         LOG.info("getMessage service [{}], action [{}], messageId [{}], request [{}]", service, action, messageId, request);
         Object result = getResponseMessagePrivate(MessagingEndpointType.GET_MESSAGE, request, service, action, messageId, null, null, null);
+
+
+        //TODO: This logic is ONLY for demo purposes! Original sender and responder MUST be retrieved from "backedn!"
+        String originalSender = getMessageOriginalSender(messageId);
+        String finalRecipient = getMessageFinalRecipient(messageId);
+        response.setHeader(MessagingParameterType.ORIGINAL_SENDER.getName(), originalSender);
+        response.setHeader(MessagingParameterType.ORIGINAL_SENDER_TOKEN.getName(), jwsService.createOriginalSenderToken(originalSender));
+        response.setHeader(MessagingParameterType.FINAL_RECIPIENT.getName(), finalRecipient);
+
         respondMultipartFromJson(result, response);
     }
+
 
 
     @Override
@@ -272,6 +290,14 @@ public class MessageServiceHandlerController extends GeneralOpenApi
                 service, action, messageId, rService, rAction, rMessageId, request);
 
         Object result = getResponseMessagePrivate(MessagingEndpointType.GET_RESPONSE_MESSAGE, request, service, action, messageId, rService, rAction, rMessageId);
+        //TODO: This logic is ONLY for demo purposes! Original sender and responder MUST be retrieved from "backedn!"
+
+        String originalSender = getMessageOriginalSender(messageId);
+        String finalRecipient = getMessageFinalRecipient(messageId);
+        response.setHeader(MessagingParameterType.ORIGINAL_SENDER.getName(), originalSender);
+        response.setHeader(MessagingParameterType.ORIGINAL_SENDER_TOKEN.getName(), jwsService.createOriginalSenderToken(originalSender));
+        response.setHeader(MessagingParameterType.FINAL_RECIPIENT.getName(), finalRecipient);
+
         respondMultipartFromJson(result, response);
     }
 
@@ -367,6 +393,16 @@ public class MessageServiceHandlerController extends GeneralOpenApi
                     "Error occurred while processing the request",
                     request.getServletPath(), e);
         }
+    }
+
+    public String getMessageOriginalSender(String messageId){
+        // TODO implement logic for retrieving original sender per message id! This is just for DEMO
+        return  dsdMockProperties.getDemoDsdOriginalSender();
+    }
+
+    public String getMessageFinalRecipient(String messageId){
+        // TODO implement logic for retrieving final recipient  per message id! This is just for DEMO
+        return  dsdMockProperties.getDemoDsdFinalRecipient();
     }
 
     public void signalMessageSubmissionPrivate(MessagingEndpointType type, HttpServletRequest request, String messageId) throws IOException {

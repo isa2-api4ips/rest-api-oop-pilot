@@ -36,5 +36,5 @@ cp ${OOP_FOLDER}/national-broker/src/main/setup/config/wildfly/national-broker-c
 cp ${OOP_FOLDER}/national-broker/src/main/setup/database-scripts/h2-data.sql ${DOCKER}/resources/scripts/national-broker-h2-data.sql
 cp -r ${OOP_FOLDER}/national-broker/src/main/setup/config/national-broker ${DOCKER}/resources/config
 
-
+cd ${DOCKER}
 docker-compose -f docker-compose.build.yml build

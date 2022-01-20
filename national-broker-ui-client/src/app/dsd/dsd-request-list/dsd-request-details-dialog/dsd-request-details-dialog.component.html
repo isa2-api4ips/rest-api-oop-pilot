@@ -107,8 +107,7 @@
                                   >
                             <mat-icon>security</mat-icon>
                           </button>
-                          <button style="width:80px;flex-grow: 0" *ngIf="row.name.toLowerCase()=='original-sender'" mat-raised-button                                  (click)='showSignature(row)'
-                          >
+                          <button style="width:80px;flex-grow: 0" *ngIf="row.name.toLowerCase()=='original-sender-token'" mat-raised-button (click)='showSignature(row)'>
                             <mat-icon>security</mat-icon>
                           </button>
                           <button style="width:80px;flex-grow: 0" *ngIf="row.name.toLowerCase()=='authorization'" mat-raised-button                                  (click)='showSignature(row)'
@@ -194,11 +193,13 @@
                       <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                         <div style="display: flex;flex-direction: row;width: 100%">
                           <div [class]="'truncateLargeText'">{{value}}</div>
-                          <button *ngIf="row.name.toLowerCase()=='edel-message-sig'" mat-raised-button
-                                  (click)='showSignature(row)'
-                                  style="width:80px ">
+                          <button *ngIf="row.name.toLowerCase()=='edel-message-sig'" mat-raised-button  (click)='showSignature(row)' style="width:80px ">
                             <mat-icon>security</mat-icon>
                           </button>
+                          <button style="width:80px;flex-grow: 0" *ngIf="row.name.toLowerCase()=='original-sender-token'" mat-raised-button (click)='showSignature(row)'>
+                            <mat-icon>security</mat-icon>
+                          </button>
+
                         </div>
                       </ng-template>
                     </ngx-datatable-column>

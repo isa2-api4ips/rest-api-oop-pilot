@@ -16,8 +16,8 @@ import java.io.IOException;
 
 
 @RequestMapping("/v1")
-@Tag(name= PullMessageAPI.TAG_MESSAGE_REFERENCE, description = "The endpoints return a list of message references available for pulling")
-@Tag(name= PullMessageAPI.TAG_GET_MESSAGE, description = "The endpoint returns a message for a given service, action and message identifier")
+@Tag(name= PullMessageAPI.TAG_MESSAGE_REFERENCE, description = "The endpoints return a list of message references available for pulling.")
+@Tag(name= PullMessageAPI.TAG_GET_MESSAGE, description = "The endpoint returns a message for a given service, action and message identifier.")
 public interface PullMessageAPI {
 
     String TAG_MESSAGE_REFERENCE = "Message Reference List";
@@ -66,7 +66,7 @@ public interface PullMessageAPI {
             tags = {TAG_GET_MESSAGE},
             operationId = "GetMessageId",
             summary = "Get Message Endpoint",
-            description = "This endpoint returns the message filed under a specific service and action" +
+            description = "This endpoint returns the message filed under a specific service and action " +
                     "following the format for the User Message.")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_PROBLEM_JSON_VALUE,MediaType.MULTIPART_MIXED_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
             path = "/messaging/{service}/{action}/{messageId}")

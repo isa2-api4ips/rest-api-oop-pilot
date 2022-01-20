@@ -116,7 +116,8 @@ public class MultipartMimeDsDConverter
         try {
             return new MimeMultipart(new InputStreamDataSource(request.getBody(), MediaType.MULTIPART_MIXED_VALUE));
         } catch (MessagingException e) {
-            e.printStackTrace();
+            // for the demo just log!
+            LOG.error("Error occurred while parsing the mime input the payload", e);
         }
         return null;
     }

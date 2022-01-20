@@ -110,6 +110,49 @@ public class JADESSignature {
         return new String(baos.toByteArray());
     }
 
+    /**
+     * Method generates compact JADES signature for Sign type http://uri.etsi.org/19182/HttpHeaders
+     *
+     * @param documentToSign
+     * @param alias
+     * @param addChain
+     * @param signDigestAlgorithm
+     * @return
+     * @throws IOException
+     */
+    public String createCompactSignature(DSSDocument documentToSign, String alias, boolean addChain, DigestAlgorithm signDigestAlgorithm) throws IOException {
+
+        CertificateToken signCertToken = keystoreFileConnection.getCertificateToken(alias);
+
+        JAdESSignatureParameters signatureParameters = new JAdESSignatureParameters();
+        signatureParameters.bLevel().setSigningDate(Calendar.getInstance().getTime());
+        signatureParameters.setSigningCertificate(signCertToken);
+        if (addChain) {
+            signatureParameters.setCertificateChain(keystoreFileConnection.getCertificateTokenChain(alias));
+        } else {
+            signatureParameters.setCertificateChain(signCertToken);
+        }
+        signatureParameters.setBase64UrlEncodedPayload(true);
+        signatureParameters.setSignaturePackaging(SignaturePackaging.ENVELOPING);
+        signatureParameters.setSignatureLevel(SignatureLevel.JAdES_BASELINE_B);
+        signatureParameters.setDigestAlgorithm(signDigestAlgorithm);
+        signatureParameters.setJwsSerializationType(JWSSerializationType.COMPACT_SERIALIZATION);
+
+        CertificateVerifier commonCertificateVerifier = getOfflineCertificateVerifier();
+        JAdESService service = new JAdESService(commonCertificateVerifier);
+        ToBeSigned dataToSign = service.getDataToSign(documentToSign, signatureParameters);
+
+        SignatureValue signatureValue = keystoreFileConnection.sign(dataToSign, signatureParameters.getDigestAlgorithm(),
+                signatureParameters.getMaskGenerationFunction(), keystoreFileConnection.getKey(alias));
+
+        // We invoke the service to sign the document with the signature value obtained in
+        // the previous step.
+        DSSDocument signedDocument = service.signDocument(documentToSign, signatureParameters, signatureValue);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        signedDocument.writeTo(baos);
+        return new String(baos.toByteArray());
+    }
+
     public SignedMimeMultipart createSignedMimeMultipartFromJson(Object jsonPayload, String alias, boolean addChain, DigestAlgorithm signDigestAlgorithm, Map<String, String> mapHeaders) throws MessagingException, IOException {
 
         SignedMimeMultipart multipartResponse = new SignedMimeMultipart();

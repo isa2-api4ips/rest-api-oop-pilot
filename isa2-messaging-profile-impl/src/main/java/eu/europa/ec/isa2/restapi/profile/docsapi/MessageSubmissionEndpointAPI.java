@@ -25,7 +25,8 @@ public interface MessageSubmissionEndpointAPI {
             summary = "Asynchronous Message Submission Endpoint",
             description = "The Message submission endpoint is the main endpoint of the messaging API. " +
                     "It provides the endpoint to which a client sends the message, as created by the original sender.")
-    @PostMapping(produces = {"application/json; charset=UTF-8"},
+    @PostMapping(
+            produces = { MediaType.APPLICATION_PROBLEM_JSON_VALUE,  MediaType.APPLICATION_JSON_VALUE},
             consumes = {MediaType.MULTIPART_MIXED_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
             path = "/messaging/{service}/{action}/{messageId}")
     void asynchronousMessageSubmission(@PathVariable("service") String service,

@@ -23,20 +23,20 @@
     "url" : "https://joinup.ec.europa.eu/collection/api4dt/solution/..."
   },
   "tags" : [ {
-    "name" : "DSD Organization: Message Reference List",
-    "description" : "Services for returning list of ready message to pull"
-  }, {
-    "name" : "DSD Organization: Pull Message",
-    "description" : "Services for pulling ready messages "
-  }, {
     "name" : "DSD Organization: Response Message Reference List",
-    "description" : "Services for returning list of ready response message to pull"
-  }, {
-    "name" : "DSD Organization: Message submission",
-    "description" : "DSD Organization REST Interface"
+    "description" : "Services for returning list of ready response message to pull."
   }, {
     "name" : "DSD Organization: Pull Response Message",
-    "description" : "Services for pulling ready response messages "
+    "description" : "Services for pulling ready response messages."
+  }, {
+    "name" : "DSD Organization: Message Reference List",
+    "description" : "Services for returning list of ready message to pull."
+  }, {
+    "name" : "DSD Organization: Message submission",
+    "description" : "DSD Organization REST Interface."
+  }, {
+    "name" : "DSD Organization: Pull Message",
+    "description" : "Services for pulling ready messages."
   } ],
   "paths" : {
     "/v1/messaging" : {
@@ -60,15 +60,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "12f9178b-fa6a-4598-b496-afe0b8dcabe0",
+                    "messageId" : "1fed539b-5550-4db3-9ad6-ffc663ef6c1e",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/12f9178b-fa6a-4598-b496-afe0b8dcabe0"
+                    "href" : "/my-service/my-action/1fed539b-5550-4db3-9ad6-ffc663ef6c1e"
                   }, {
-                    "messageId" : "d4dc9c41-4efe-4c1a-8a91-232fa4cf268a",
+                    "messageId" : "2dec910e-a028-4a36-b2ae-fdbfb6a0e983",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/d4dc9c41-4efe-4c1a-8a91-232fa4cf268a"
+                    "href" : "/my-service/my-action/2dec910e-a028-4a36-b2ae-fdbfb6a0e983"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -180,15 +180,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "06dfaeb3-4743-400a-8fe5-c75cd17ff9de",
+                    "messageId" : "9a4401a0-38e3-42c1-91d1-5fcc58dd2856",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/06dfaeb3-4743-400a-8fe5-c75cd17ff9de"
+                    "href" : "/my-service/my-action/9a4401a0-38e3-42c1-91d1-5fcc58dd2856"
                   }, {
-                    "messageId" : "03ccbdea-bdb9-4fd5-b806-92df0ae806d0",
+                    "messageId" : "12236c93-aeab-4884-913b-9c78c7a07e99",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/03ccbdea-bdb9-4fd5-b806-92df0ae806d0"
+                    "href" : "/my-service/my-action/12236c93-aeab-4884-913b-9c78c7a07e99"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -298,6 +298,9 @@
               "Original-Sender" : {
                 "$ref" : "#/components/headers/Original-Sender"
               },
+              "Original-Sender-Token" : {
+                "$ref" : "#/components/headers/Original-Sender-Token"
+              },
               "Final-Recipient" : {
                 "$ref" : "#/components/headers/Final-Recipient"
               },
@@ -323,6 +326,12 @@
                     "headers" : {
                       "Edel-Payload-Sig" : {
                         "$ref" : "#/components/headers/Edel-Payload-Sig"
+                      },
+                      "Content-Disposition" : {
+                        "$ref" : "#/components/headers/Content-Disposition"
+                      },
+                      "Content-Type" : {
+                        "$ref" : "#/components/headers/Content-Type"
                       }
                     }
                   }
@@ -434,15 +443,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "2101478b-6a27-4d0a-b63a-4705167a686a",
+                    "messageId" : "7cc62d6d-1d1f-4572-875c-53a16f373b3f",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/2101478b-6a27-4d0a-b63a-4705167a686a"
+                    "href" : "/my-service/my-action/7cc62d6d-1d1f-4572-875c-53a16f373b3f"
                   }, {
-                    "messageId" : "115b76e5-621b-4be8-bbff-0c3c9be0729b",
+                    "messageId" : "3f3658c4-9096-4bd4-971a-176c7c055aa9",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/115b76e5-621b-4be8-bbff-0c3c9be0729b"
+                    "href" : "/my-service/my-action/3f3658c4-9096-4bd4-971a-176c7c055aa9"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -554,6 +563,9 @@
               "Original-Sender" : {
                 "$ref" : "#/components/headers/Original-Sender"
               },
+              "Original-Sender-Token" : {
+                "$ref" : "#/components/headers/Original-Sender-Token"
+              },
               "Final-Recipient" : {
                 "$ref" : "#/components/headers/Final-Recipient"
               },
@@ -579,6 +591,12 @@
                     "headers" : {
                       "Edel-Payload-Sig" : {
                         "$ref" : "#/components/headers/Edel-Payload-Sig"
+                      },
+                      "Content-Disposition" : {
+                        "$ref" : "#/components/headers/Content-Disposition"
+                      },
+                      "Content-Type" : {
+                        "$ref" : "#/components/headers/Content-Type"
                       }
                     }
                   }
@@ -693,15 +711,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "7bc004e1-f783-4e83-b781-397dd2258d4d",
+                    "messageId" : "5ce69cdb-0fa8-4150-a66f-1072bad05e09",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/7bc004e1-f783-4e83-b781-397dd2258d4d"
+                    "href" : "/my-service/my-action/5ce69cdb-0fa8-4150-a66f-1072bad05e09"
                   }, {
-                    "messageId" : "3500748f-a659-4558-9b4d-0941ef8b28e4",
+                    "messageId" : "1a0333cf-67c8-45d7-9315-1c063a7753c2",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/3500748f-a659-4558-9b4d-0941ef8b28e4"
+                    "href" : "/my-service/my-action/1a0333cf-67c8-45d7-9315-1c063a7753c2"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -816,15 +834,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "690d938c-90c8-4863-8c37-d85a81401fdb",
+                    "messageId" : "28e4afb6-3904-40b9-af74-efae39a83e69",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/690d938c-90c8-4863-8c37-d85a81401fdb"
+                    "href" : "/my-service/my-action/28e4afb6-3904-40b9-af74-efae39a83e69"
                   }, {
-                    "messageId" : "583f9157-ad07-43ee-9585-10a7163b9ecf",
+                    "messageId" : "e98c6203-f618-4ee4-b5d3-f7bfb35db790",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/583f9157-ad07-43ee-9585-10a7163b9ecf"
+                    "href" : "/my-service/my-action/e98c6203-f618-4ee4-b5d3-f7bfb35db790"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -939,15 +957,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "a82540c3-4b5b-4c58-b492-8090b0bef34f",
+                    "messageId" : "cc124ccd-df1d-4ea1-b7e4-bfed8db4046a",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/a82540c3-4b5b-4c58-b492-8090b0bef34f"
+                    "href" : "/my-service/my-action/cc124ccd-df1d-4ea1-b7e4-bfed8db4046a"
                   }, {
-                    "messageId" : "a532d43f-a0f8-4b85-9bda-502e6e37c530",
+                    "messageId" : "abbc9157-fac2-426c-a16e-9aaf23952d73",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/a532d43f-a0f8-4b85-9bda-502e6e37c530"
+                    "href" : "/my-service/my-action/abbc9157-fac2-426c-a16e-9aaf23952d73"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -1047,6 +1065,8 @@
         "parameters" : [ {
           "$ref" : "#/components/parameters/Original-Sender"
         }, {
+          "$ref" : "#/components/parameters/Original-Sender-Token"
+        }, {
           "$ref" : "#/components/parameters/Final-Recipient"
         }, {
           "$ref" : "#/components/parameters/Timestamp"
@@ -1074,6 +1094,12 @@
                   "headers" : {
                     "Edel-Payload-Sig" : {
                       "$ref" : "#/components/headers/Edel-Payload-Sig"
+                    },
+                    "Content-Disposition" : {
+                      "$ref" : "#/components/headers/Content-Disposition"
+                    },
+                    "Content-Type" : {
+                      "$ref" : "#/components/headers/Content-Type"
                     }
                   }
                 }
@@ -1107,6 +1133,12 @@
                     "headers" : {
                       "Edel-Payload-Sig" : {
                         "$ref" : "#/components/headers/Edel-Payload-Sig"
+                      },
+                      "Content-Disposition" : {
+                        "$ref" : "#/components/headers/Content-Disposition"
+                      },
+                      "Content-Type" : {
+                        "$ref" : "#/components/headers/Content-Type"
                       }
                     }
                   }
@@ -1348,6 +1380,8 @@
         "parameters" : [ {
           "$ref" : "#/components/parameters/Original-Sender"
         }, {
+          "$ref" : "#/components/parameters/Original-Sender-Token"
+        }, {
           "$ref" : "#/components/parameters/Final-Recipient"
         }, {
           "$ref" : "#/components/parameters/Timestamp"
@@ -1375,6 +1409,12 @@
                   "headers" : {
                     "Edel-Payload-Sig" : {
                       "$ref" : "#/components/headers/Edel-Payload-Sig"
+                    },
+                    "Content-Disposition" : {
+                      "$ref" : "#/components/headers/Content-Disposition"
+                    },
+                    "Content-Type" : {
+                      "$ref" : "#/components/headers/Content-Type"
                     }
                   }
                 }
@@ -1811,7 +1851,18 @@
       "Original-Sender" : {
         "name" : "Original-Sender",
         "in" : "header",
-        "description" : "The Original Sender represents the authenticated entity acting as the user that sends the message using the client. Following the API Core Profile, the original sender MUST be represented with an OpenID Connect token, in the form of Compact JWT Token.",
+        "description" : "The Original Sender is the entity that initiates the submission of the message. It is a single identifier and its representation is out of scope of the current specification.",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "example" : "9999::333222111"
+      },
+      "Original-Sender-Token" : {
+        "name" : "Original-Sender-Token",
+        "in" : "header",
+        "description" : "The Original Sender represents the authenticated entity acting as the user that sends the message using the client. Following the API Core Profile, the original sender MUST be represented with an OpenID Connect token or a signed JWT in both the form of Compact JWT Token, which is carried under the Original-Sender-Token HTTP Field",
+        "required" : true,
         "schema" : {
           "$ref" : "#/components/schemas/jws-compact"
         },
@@ -1821,15 +1872,17 @@
         "name" : "Final-Recipient",
         "in" : "header",
         "description" : "The Final Recipient is the entity for whom the message is sent. Can be a single identifier or a set of identifiers, as described in the Recipient Addressing Schemes section of the specification. The representation of the final recipient is out of scope of the current specification.",
+        "required" : true,
         "schema" : {
           "type" : "string"
         },
-        "example" : "9999::333222111"
+        "example" : "9999::333222112"
       },
       "Timestamp" : {
         "name" : "Timestamp",
         "in" : "header",
         "description" : "The Timestamp is the exact date and time at which the message was sent. It is provided by the client and verified by the server.",
+        "required" : true,
         "schema" : {
           "type" : "string",
           "format" : "date-time"
@@ -1840,6 +1893,7 @@
         "name" : "Edel-Message-Sig",
         "in" : "header",
         "description" : "The Edel-Message-Sig carries the signature of the HTTP Message following the API Core Profile on Message-Level Security. Following the light context constraints, the signature is optional for the client messages, but is RECOMMENDED for server messages.",
+        "required" : false,
         "schema" : {
           "$ref" : "#/components/schemas/jws-compact-detached"
         },
@@ -1849,6 +1903,7 @@
     "headers" : {
       "Edel-Message-Sig" : {
         "description" : "The Edel-Message-Sig carries the signature of the HTTP Message following the API Core Profile on Message-Level Security. Following the light context constraints, the signature is optional for the client messages, but is RECOMMENDED for server messages.",
+        "required" : false,
         "schema" : {
           "$ref" : "#/components/schemas/jws-compact-detached"
         },
@@ -1856,13 +1911,39 @@
       },
       "Edel-Payload-Sig" : {
         "description" : "The Edel-Payload-Sig carries the signature of a subpart of the Multipart message (see User Message section) following the API Core Profile on Payload Security.",
+        "required" : false,
         "schema" : {
           "$ref" : "#/components/schemas/jws-compact-detached"
         },
         "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9..SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       },
+      "Content-Disposition" : {
+        "description" : "The Content-Disposition header, declaring the subpart as an attachment. MUST be Attachment Type ",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "example" : "Attachment"
+      },
+      "Content-Type" : {
+        "description" : "The content type of the subpart of the multipart message. The value MUST be One of IANA Media Types!",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "example" : "application/json"
+      },
       "Original-Sender" : {
-        "description" : "The Original Sender represents the authenticated entity acting as the user that sends the message using the client. Following the API Core Profile, the original sender MUST be represented with an OpenID Connect token, in the form of Compact JWT Token.",
+        "description" : "The Original Sender is the entity that initiates the submission of the message. It is a single identifier and its representation is out of scope of the current specification.",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "example" : "9999::333222111"
+      },
+      "Original-Sender-Token" : {
+        "description" : "The Original Sender represents the authenticated entity acting as the user that sends the message using the client. Following the API Core Profile, the original sender MUST be represented with an OpenID Connect token or a signed JWT in both the form of Compact JWT Token, which is carried under the Original-Sender-Token HTTP Field",
+        "required" : true,
         "schema" : {
           "$ref" : "#/components/schemas/jws-compact"
         },
@@ -1870,13 +1951,15 @@
       },
       "Final-Recipient" : {
         "description" : "The Final Recipient is the entity for whom the message is sent. Can be a single identifier or a set of identifiers, as described in the Recipient Addressing Schemes section of the specification. The representation of the final recipient is out of scope of the current specification.",
+        "required" : true,
         "schema" : {
           "type" : "string"
         },
-        "example" : "9999::333222111"
+        "example" : "9999::333222112"
       },
       "Timestamp" : {
         "description" : "The Timestamp is the exact date and time at which the message was sent. It is provided by the client and verified by the server.",
+        "required" : true,
         "schema" : {
           "type" : "string",
           "format" : "date-time"

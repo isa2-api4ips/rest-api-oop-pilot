@@ -31,7 +31,7 @@ import java.util.UUID;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/dsd-lcm/v1")
-@Tag(name = "DSD LCM Broker services", description = "DSD LCM Broker services API")
+@Tag(name = "DSD LCM Broker services", description = "DSD LCM Broker services API.")
 
 @SecurityRequirements({
         @SecurityRequirement(name = "NationalBroker_Http_BearerTokenAuthorization")
@@ -83,8 +83,17 @@ public class OrganizationLCMController {
         jwsService.signJsonResponse(result, response);
         // call DSD mock
         String token = originalSenderTokenRetriever.getRequesterIdentityToken();
-        token = StringUtils.isBlank(token)?userId:token;
-        dsdOrganizationMessagingService.updateOrganization(result, messageIdentifier,userId,  token);
+        token = validatedAndGenerateOriginalSenderToken(userId, token);
+        dsdOrganizationMessagingService.updateOrganization(result, messageIdentifier,userId,userId, token);
         return result;
+    }
+    /**
+     * Method validates if token exists. If not it generates a simple JWT token - signed user:id
+     * @param token
+     * @param userId
+     * @return
+     */
+    public String validatedAndGenerateOriginalSenderToken(String token, String userId){
+        return  StringUtils.isBlank(token)||StringUtils.equalsIgnoreCase(token, userId) ?jwsService.createOriginalSenderToken(userId):token;
     }
 }
