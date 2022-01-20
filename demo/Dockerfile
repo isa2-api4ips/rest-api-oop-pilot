@@ -13,7 +13,7 @@ COPY ./resources/artefacts/national-broker-${VERSION}.war /opt/jboss/wildfly/sta
 COPY ./resources/artefacts/national-broker-ui-client-${VERSION}.war /opt/jboss/wildfly/standalone/deployments/
 COPY ./resources/config /opt/jboss/wildfly/standalone/data/
 # deploy ebsi client for the demo include this only for EBSI Demonstration !!
-COPY ./resources/artefacts/ebsi-webadmin.war /opt/jboss/wildfly/standalone/deployments/
+#COPY ./resources/artefacts/ebsi-webadmin.war /opt/jboss/wildfly/standalone/deployments/
 
 USER root
 RUN  chown -R $CURR_USER:$CURR_USER /opt/jboss/wildfly
