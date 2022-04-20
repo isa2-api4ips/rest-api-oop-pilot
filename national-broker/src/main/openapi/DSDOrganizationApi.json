@@ -60,15 +60,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "1fed539b-5550-4db3-9ad6-ffc663ef6c1e",
+                    "messageId" : "bb5cb0c7-8a0f-4abf-bf8c-2519dbef5b2d",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/1fed539b-5550-4db3-9ad6-ffc663ef6c1e"
+                    "href" : "/my-service/my-action/bb5cb0c7-8a0f-4abf-bf8c-2519dbef5b2d"
                   }, {
-                    "messageId" : "2dec910e-a028-4a36-b2ae-fdbfb6a0e983",
+                    "messageId" : "be497da9-ad42-4b1a-b395-dd7226b61cbe",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/2dec910e-a028-4a36-b2ae-fdbfb6a0e983"
+                    "href" : "/my-service/my-action/be497da9-ad42-4b1a-b395-dd7226b61cbe"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -180,15 +180,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "9a4401a0-38e3-42c1-91d1-5fcc58dd2856",
+                    "messageId" : "fe9b1681-3342-48c7-968b-69b279a23974",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/9a4401a0-38e3-42c1-91d1-5fcc58dd2856"
+                    "href" : "/my-service/my-action/fe9b1681-3342-48c7-968b-69b279a23974"
                   }, {
-                    "messageId" : "12236c93-aeab-4884-913b-9c78c7a07e99",
+                    "messageId" : "bcb5caa8-e755-49be-90f2-ace3abe1cd4b",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/12236c93-aeab-4884-913b-9c78c7a07e99"
+                    "href" : "/my-service/my-action/bcb5caa8-e755-49be-90f2-ace3abe1cd4b"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -443,15 +443,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "7cc62d6d-1d1f-4572-875c-53a16f373b3f",
+                    "messageId" : "9836c92f-8c8e-4978-b502-da4973b5df43",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/7cc62d6d-1d1f-4572-875c-53a16f373b3f"
+                    "href" : "/my-service/my-action/9836c92f-8c8e-4978-b502-da4973b5df43"
                   }, {
-                    "messageId" : "3f3658c4-9096-4bd4-971a-176c7c055aa9",
+                    "messageId" : "c6371917-3811-4b97-819a-220345757d16",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/3f3658c4-9096-4bd4-971a-176c7c055aa9"
+                    "href" : "/my-service/my-action/c6371917-3811-4b97-819a-220345757d16"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -711,15 +711,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "5ce69cdb-0fa8-4150-a66f-1072bad05e09",
+                    "messageId" : "2cd48c26-928a-4695-b36c-a0a3d127f587",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/5ce69cdb-0fa8-4150-a66f-1072bad05e09"
+                    "href" : "/my-service/my-action/2cd48c26-928a-4695-b36c-a0a3d127f587"
                   }, {
-                    "messageId" : "1a0333cf-67c8-45d7-9315-1c063a7753c2",
+                    "messageId" : "e533d298-e39f-4148-94d6-b1e95d4f91a7",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/1a0333cf-67c8-45d7-9315-1c063a7753c2"
+                    "href" : "/my-service/my-action/e533d298-e39f-4148-94d6-b1e95d4f91a7"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -834,15 +834,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "28e4afb6-3904-40b9-af74-efae39a83e69",
+                    "messageId" : "55cf1e5a-2080-4358-bc43-10eff69d1bd1",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/28e4afb6-3904-40b9-af74-efae39a83e69"
+                    "href" : "/my-service/my-action/55cf1e5a-2080-4358-bc43-10eff69d1bd1"
                   }, {
-                    "messageId" : "e98c6203-f618-4ee4-b5d3-f7bfb35db790",
+                    "messageId" : "73d0af1a-18d7-46bd-9842-35e12564721c",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/e98c6203-f618-4ee4-b5d3-f7bfb35db790"
+                    "href" : "/my-service/my-action/73d0af1a-18d7-46bd-9842-35e12564721c"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -957,15 +957,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "cc124ccd-df1d-4ea1-b7e4-bfed8db4046a",
+                    "messageId" : "80402d42-8279-4246-b70a-c53a74f39819",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/cc124ccd-df1d-4ea1-b7e4-bfed8db4046a"
+                    "href" : "/my-service/my-action/80402d42-8279-4246-b70a-c53a74f39819"
                   }, {
-                    "messageId" : "abbc9157-fac2-426c-a16e-9aaf23952d73",
+                    "messageId" : "022d1c7d-b67b-415a-92a9-920574320700",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/abbc9157-fac2-426c-a16e-9aaf23952d73"
+                    "href" : "/my-service/my-action/022d1c7d-b67b-415a-92a9-920574320700"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -1594,7 +1594,7 @@
         },
         "description" : "A Message Reference object to be used when multiple messages could be retrieved from an API operation"
       },
-      "jws-compact-detached" : {
+      "JwsCompactDetached" : {
         "title" : "The message-level and payload signature",
         "pattern" : "^[A-Za-z0-9_-]+(?:(\\.\\.)[A-Za-z0-9_-]+){1}",
         "type" : "string",
@@ -1703,7 +1703,7 @@
           }
         }
       },
-      "jws-compact" : {
+      "JwsCompact" : {
         "title" : "JWT token.",
         "pattern" : "^[A-Za-z0-9_-]+(?:\\.[A-Za-z0-9_-]+){2}$",
         "type" : "string",
@@ -1864,7 +1864,7 @@
         "description" : "The Original Sender represents the authenticated entity acting as the user that sends the message using the client. Following the API Core Profile, the original sender MUST be represented with an OpenID Connect token or a signed JWT in both the form of Compact JWT Token, which is carried under the Original-Sender-Token HTTP Field",
         "required" : true,
         "schema" : {
-          "$ref" : "#/components/schemas/jws-compact"
+          "$ref" : "#/components/schemas/JwsCompact"
         },
         "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9.eyJzdWIiOiIxM0NTY3ODkwIiwibmIiwiaWF0IoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       },
@@ -1895,7 +1895,7 @@
         "description" : "The Edel-Message-Sig carries the signature of the HTTP Message following the API Core Profile on Message-Level Security. Following the light context constraints, the signature is optional for the client messages, but is RECOMMENDED for server messages.",
         "required" : false,
         "schema" : {
-          "$ref" : "#/components/schemas/jws-compact-detached"
+          "$ref" : "#/components/schemas/JwsCompactDetached"
         },
         "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9..SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       }
@@ -1905,7 +1905,7 @@
         "description" : "The Edel-Message-Sig carries the signature of the HTTP Message following the API Core Profile on Message-Level Security. Following the light context constraints, the signature is optional for the client messages, but is RECOMMENDED for server messages.",
         "required" : false,
         "schema" : {
-          "$ref" : "#/components/schemas/jws-compact-detached"
+          "$ref" : "#/components/schemas/JwsCompactDetached"
         },
         "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9..SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       },
@@ -1913,7 +1913,7 @@
         "description" : "The Edel-Payload-Sig carries the signature of a subpart of the Multipart message (see User Message section) following the API Core Profile on Payload Security.",
         "required" : false,
         "schema" : {
-          "$ref" : "#/components/schemas/jws-compact-detached"
+          "$ref" : "#/components/schemas/JwsCompactDetached"
         },
         "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9..SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       },
@@ -1945,7 +1945,7 @@
         "description" : "The Original Sender represents the authenticated entity acting as the user that sends the message using the client. Following the API Core Profile, the original sender MUST be represented with an OpenID Connect token or a signed JWT in both the form of Compact JWT Token, which is carried under the Original-Sender-Token HTTP Field",
         "required" : true,
         "schema" : {
-          "$ref" : "#/components/schemas/jws-compact"
+          "$ref" : "#/components/schemas/JwsCompact"
         },
         "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9.eyJzdWIiOiIxM0NTY3ODkwIiwibmIiwiaWF0IoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       },

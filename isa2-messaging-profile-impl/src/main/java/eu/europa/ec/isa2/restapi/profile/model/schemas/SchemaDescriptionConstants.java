@@ -62,7 +62,7 @@ public class SchemaDescriptionConstants {
      * JWS COMPACT definition
      */
     final static public String JWS_COMPACT_ID = "https://raw.githubusercontent.com/isa2-api4ips/rest-api-profile/main/messaging-api-specification/components/schemas/jws-compact.json";
-    final static public String JWS_COMPACT_NAME = "jws-compact";
+    final static public String JWS_COMPACT_NAME = "JwsCompact";
     final static public String JWS_COMPACT_TITLE = "JWT token.";
     final static public String JWS_COMPACT_FORMAT = "jws-compact";
     final static public String JWS_COMPACT_PATTERN = "^[A-Za-z0-9_-]+(?:\\.[A-Za-z0-9_-]+){2}$";
@@ -73,7 +73,7 @@ public class SchemaDescriptionConstants {
      * JWS COMPACT DETACHED definition
      */
     final static public String JWS_COMPACT_DETACHED_ID = "https://raw.githubusercontent.com/isa2-api4ips/rest-api-profile/main/api-core-profile/components/schemas/jws-compact-detached.json";
-    final static public String JWS_COMPACT_DETACHED_NAME = "jws-compact-detached";
+    final static public String JWS_COMPACT_DETACHED_NAME = "JwsCompactDetached";
     final static public String JWS_COMPACT_DETACHED_TITLE = "The message-level and payload signature";
     final static public String JWS_COMPACT_DETACHED_FORMAT = "jws-compact-detached";
     final static public String JWS_COMPACT_DETACHED_PATTERN = "^[A-Za-z0-9_-]+(?:(\\.\\.)[A-Za-z0-9_-]+){1}";

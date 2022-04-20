@@ -390,15 +390,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "9900015c-50a5-4372-ad43-ec557e47e3ef",
+                    "messageId" : "e4072406-c876-491d-8899-f7fd9b432c5d",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/9900015c-50a5-4372-ad43-ec557e47e3ef"
+                    "href" : "/my-service/my-action/e4072406-c876-491d-8899-f7fd9b432c5d"
                   }, {
-                    "messageId" : "0b32198c-2d46-4ba3-8fe0-874bc7342a53",
+                    "messageId" : "46a29e8f-8733-4f77-8076-b4c9f413dcc2",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/0b32198c-2d46-4ba3-8fe0-874bc7342a53"
+                    "href" : "/my-service/my-action/46a29e8f-8733-4f77-8076-b4c9f413dcc2"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -653,15 +653,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "faeb517c-a38c-4764-acb0-6f061ea9d457",
+                    "messageId" : "185fca9b-7e63-4cfe-9726-e3f2576389cd",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/faeb517c-a38c-4764-acb0-6f061ea9d457"
+                    "href" : "/my-service/my-action/185fca9b-7e63-4cfe-9726-e3f2576389cd"
                   }, {
-                    "messageId" : "29519d4c-037b-4f05-99d8-7654205f56b0",
+                    "messageId" : "ba887ac7-825a-432a-af94-5835710924c8",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/29519d4c-037b-4f05-99d8-7654205f56b0"
+                    "href" : "/my-service/my-action/ba887ac7-825a-432a-af94-5835710924c8"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -921,15 +921,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "90fe0982-efc2-48ce-b112-00a89106c25a",
+                    "messageId" : "facd99e0-2c52-42f4-b181-c4a209daf096",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/90fe0982-efc2-48ce-b112-00a89106c25a"
+                    "href" : "/my-service/my-action/facd99e0-2c52-42f4-b181-c4a209daf096"
                   }, {
-                    "messageId" : "75c85c70-85f8-4e17-b992-900a84182ade",
+                    "messageId" : "ed57ff18-76ad-4ed8-8889-294e53bc5e60",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/75c85c70-85f8-4e17-b992-900a84182ade"
+                    "href" : "/my-service/my-action/ed57ff18-76ad-4ed8-8889-294e53bc5e60"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -1044,15 +1044,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "42c02bb9-b8b5-46bc-975d-4d3109ce7cf3",
+                    "messageId" : "fdc8b04c-780b-460e-aa5b-de68d4da13e0",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/42c02bb9-b8b5-46bc-975d-4d3109ce7cf3"
+                    "href" : "/my-service/my-action/fdc8b04c-780b-460e-aa5b-de68d4da13e0"
                   }, {
-                    "messageId" : "802f3871-0f68-4a98-91d2-f92feefe7c29",
+                    "messageId" : "4e2136ec-02f3-42c4-ac07-68c97ab6d69e",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/802f3871-0f68-4a98-91d2-f92feefe7c29"
+                    "href" : "/my-service/my-action/4e2136ec-02f3-42c4-ac07-68c97ab6d69e"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -1167,15 +1167,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "072f2261-5826-4581-b68c-b208844d26d7",
+                    "messageId" : "1580d07c-f2e2-4918-aeb8-401a1a1bd7b6",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/072f2261-5826-4581-b68c-b208844d26d7"
+                    "href" : "/my-service/my-action/1580d07c-f2e2-4918-aeb8-401a1a1bd7b6"
                   }, {
-                    "messageId" : "fe3e6aee-8821-4c8c-bdb3-482a08ca4b6f",
+                    "messageId" : "46f2c957-4e21-4fb9-a504-d1517b1ef3ea",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/fe3e6aee-8821-4c8c-bdb3-482a08ca4b6f"
+                    "href" : "/my-service/my-action/46f2c957-4e21-4fb9-a504-d1517b1ef3ea"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -1616,7 +1616,7 @@
   },
   "components" : {
     "schemas" : {
-      "jws-compact-detached" : {
+      "JwsCompactDetached" : {
         "title" : "The message-level and payload signature",
         "pattern" : "^[A-Za-z0-9_-]+(?:(\\.\\.)[A-Za-z0-9_-]+){1}",
         "type" : "string",
@@ -1862,7 +1862,7 @@
         },
         "description" : "A Problem Details object (RFC 7807) with ISA² IPS REST API extensions, used for signals (responses) to messages"
       },
-      "jws-compact" : {
+      "JwsCompact" : {
         "title" : "JWT token.",
         "pattern" : "^[A-Za-z0-9_-]+(?:\\.[A-Za-z0-9_-]+){2}$",
         "type" : "string",
@@ -2044,7 +2044,7 @@
         "description" : "The Original Sender represents the authenticated entity acting as the user that sends the message using the client. Following the API Core Profile, the original sender MUST be represented with an OpenID Connect token or a signed JWT in both the form of Compact JWT Token, which is carried under the Original-Sender-Token HTTP Field",
         "required" : true,
         "schema" : {
-          "$ref" : "#/components/schemas/jws-compact"
+          "$ref" : "#/components/schemas/JwsCompact"
         },
         "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9.eyJzdWIiOiIxM0NTY3ODkwIiwibmIiwiaWF0IoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       },
@@ -2075,7 +2075,7 @@
         "description" : "The Edel-Message-Sig carries the signature of the HTTP Message following the API Core Profile on Message-Level Security. Following the light context constraints, the signature is optional for the client messages, but is RECOMMENDED for server messages.",
         "required" : false,
         "schema" : {
-          "$ref" : "#/components/schemas/jws-compact-detached"
+          "$ref" : "#/components/schemas/JwsCompactDetached"
         },
         "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9..SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       },
@@ -2114,7 +2114,7 @@
         "description" : "The Edel-Payload-Sig carries the signature of a subpart of the Multipart message (see User Message section) following the API Core Profile on Payload Security.",
         "required" : false,
         "schema" : {
-          "$ref" : "#/components/schemas/jws-compact-detached"
+          "$ref" : "#/components/schemas/JwsCompactDetached"
         },
         "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9..SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       },
@@ -2138,7 +2138,7 @@
         "description" : "The Edel-Message-Sig carries the signature of the HTTP Message following the API Core Profile on Message-Level Security. Following the light context constraints, the signature is optional for the client messages, but is RECOMMENDED for server messages.",
         "required" : false,
         "schema" : {
-          "$ref" : "#/components/schemas/jws-compact-detached"
+          "$ref" : "#/components/schemas/JwsCompactDetached"
         },
         "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9..SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       },
@@ -2154,7 +2154,7 @@
         "description" : "The Original Sender represents the authenticated entity acting as the user that sends the message using the client. Following the API Core Profile, the original sender MUST be represented with an OpenID Connect token or a signed JWT in both the form of Compact JWT Token, which is carried under the Original-Sender-Token HTTP Field",
         "required" : true,
         "schema" : {
-          "$ref" : "#/components/schemas/jws-compact"
+          "$ref" : "#/components/schemas/JwsCompact"
         },
         "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9.eyJzdWIiOiIxM0NTY3ODkwIiwibmIiwiaWF0IoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       },

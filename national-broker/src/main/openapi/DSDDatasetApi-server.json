@@ -342,7 +342,7 @@
   },
   "components" : {
     "schemas" : {
-      "jws-compact-detached" : {
+      "JwsCompactDetached" : {
         "title" : "The message-level and payload signature",
         "pattern" : "^[A-Za-z0-9_-]+(?:(\\.\\.)[A-Za-z0-9_-]+){1}",
         "type" : "string",
@@ -588,7 +588,7 @@
         },
         "description" : "A Problem Details object (RFC 7807) with ISA² IPS REST API extensions, used for signals (responses) to messages"
       },
-      "jws-compact" : {
+      "JwsCompact" : {
         "title" : "JWT token.",
         "pattern" : "^[A-Za-z0-9_-]+(?:\\.[A-Za-z0-9_-]+){2}$",
         "type" : "string",
@@ -770,7 +770,7 @@
         "description" : "The Original Sender represents the authenticated entity acting as the user that sends the message using the client. Following the API Core Profile, the original sender MUST be represented with an OpenID Connect token or a signed JWT in both the form of Compact JWT Token, which is carried under the Original-Sender-Token HTTP Field",
         "required" : true,
         "schema" : {
-          "$ref" : "#/components/schemas/jws-compact"
+          "$ref" : "#/components/schemas/JwsCompact"
         },
         "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9.eyJzdWIiOiIxM0NTY3ODkwIiwibmIiwiaWF0IoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       },
@@ -801,7 +801,7 @@
         "description" : "The Edel-Message-Sig carries the signature of the HTTP Message following the API Core Profile on Message-Level Security. Following the light context constraints, the signature is optional for the client messages, but is RECOMMENDED for server messages.",
         "required" : false,
         "schema" : {
-          "$ref" : "#/components/schemas/jws-compact-detached"
+          "$ref" : "#/components/schemas/JwsCompactDetached"
         },
         "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9..SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       },
@@ -840,7 +840,7 @@
         "description" : "The Edel-Payload-Sig carries the signature of a subpart of the Multipart message (see User Message section) following the API Core Profile on Payload Security.",
         "required" : false,
         "schema" : {
-          "$ref" : "#/components/schemas/jws-compact-detached"
+          "$ref" : "#/components/schemas/JwsCompactDetached"
         },
         "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9..SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       },
@@ -864,7 +864,7 @@
         "description" : "The Edel-Message-Sig carries the signature of the HTTP Message following the API Core Profile on Message-Level Security. Following the light context constraints, the signature is optional for the client messages, but is RECOMMENDED for server messages.",
         "required" : false,
         "schema" : {
-          "$ref" : "#/components/schemas/jws-compact-detached"
+          "$ref" : "#/components/schemas/JwsCompactDetached"
         },
         "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9..SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       },
@@ -880,7 +880,7 @@
         "description" : "The Original Sender represents the authenticated entity acting as the user that sends the message using the client. Following the API Core Profile, the original sender MUST be represented with an OpenID Connect token or a signed JWT in both the form of Compact JWT Token, which is carried under the Original-Sender-Token HTTP Field",
         "required" : true,
         "schema" : {
-          "$ref" : "#/components/schemas/jws-compact"
+          "$ref" : "#/components/schemas/JwsCompact"
         },
         "example" : "eyJhbGciOiJIUzINiIsnRI6IkpXVCJ9.eyJzdWIiOiIxM0NTY3ODkwIiwibmIiwiaWF0IoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMePOk6yJV_adQssw5c"
       },
