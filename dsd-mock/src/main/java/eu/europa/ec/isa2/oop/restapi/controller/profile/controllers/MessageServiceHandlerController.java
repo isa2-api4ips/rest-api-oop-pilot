@@ -4,13 +4,14 @@ package eu.europa.ec.isa2.oop.restapi.controller.profile.controllers;
 import com.fasterxml.jackson.core.JsonParser;
 import eu.europa.ec.isa2.oop.dsd.property.DsdMockProperties;
 import eu.europa.ec.isa2.oop.restapi.APIRegistration;
+import eu.europa.ec.isa2.oop.restapi.config.OpenApiConfig;
 import eu.europa.ec.isa2.restapi.jws.SignedMimeMultipart;
 import eu.europa.ec.isa2.restapi.profile.GeneralOpenApi;
 import eu.europa.ec.isa2.restapi.profile.constants.MessagingConstants;
 import eu.europa.ec.isa2.restapi.profile.controllers.InputStreamDataSource;
+import eu.europa.ec.isa2.restapi.profile.docsapi.MessageSubmissionEndpointAPI;
 import eu.europa.ec.isa2.restapi.profile.docsapi.PullMessageAPI;
 import eu.europa.ec.isa2.restapi.profile.docsapi.PullResponseMessageAPI;
-import eu.europa.ec.isa2.restapi.profile.docsapi.MessageSubmissionEndpointAPI;
 import eu.europa.ec.isa2.restapi.profile.docsapi.ResponseMessageSubmissionEndpointAPI;
 import eu.europa.ec.isa2.restapi.profile.docsapi.exceptions.MessagingAPIException;
 import eu.europa.ec.isa2.restapi.profile.enums.APIProblemType;
@@ -53,8 +54,9 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import static eu.europa.ec.isa2.restapi.profile.enums.APIProblemType.*;
@@ -85,7 +87,7 @@ import static eu.europa.ec.isa2.restapi.profile.enums.APIProblemType.*;
 
 @SecurityRequirements({
         @SecurityRequirement(name = "DSD_ClientCredentials_OAuthSecurity", scopes = {"ROLE_DSD"})
-        , @SecurityRequirement(name="DSD_Http_BearerTokenAuthorization", scopes = {"ROLE_DSD"})
+        , @SecurityRequirement(name = "DSD_Http_BearerTokenAuthorization", scopes = {"ROLE_DSD"})
 })
 public class MessageServiceHandlerController extends GeneralOpenApi
         implements MessageSubmissionEndpointAPI,
@@ -99,10 +101,14 @@ public class MessageServiceHandlerController extends GeneralOpenApi
     JwsService jwsService;
     DsdMockProperties dsdMockProperties;
 
+    public static final List<MessagingParameterType> SIGN_HEADERS = Arrays.asList(MessagingParameterType.ORIGINAL_SENDER,
+            MessagingParameterType.ORIGINAL_SENDER_TOKEN,
+            MessagingParameterType.FINAL_RECIPIENT,
+            MessagingParameterType.MESSAGE_ID_HEADER);
 
     @Autowired
     public MessageServiceHandlerController(APIRegistration controller, JwsService jwsService, DsdMockProperties dsdMockProperties) {
-        super(MessageServiceHandlerController.class, "api");
+        super(MessageServiceHandlerController.class, OpenApiConfig.MESSAGING_API_GROUP);
         this.apiDocuments = controller;
         this.jwsService = jwsService;
         this.dsdMockProperties = dsdMockProperties;
@@ -165,6 +171,7 @@ public class MessageServiceHandlerController extends GeneralOpenApi
         response.setHeader(MessagingParameterType.ORIGINAL_SENDER.getName(), finalRecipient);
         response.setHeader(MessagingParameterType.ORIGINAL_SENDER_TOKEN.getName(), jwsService.createOriginalSenderToken(finalRecipient));
         response.setHeader(MessagingParameterType.FINAL_RECIPIENT.getName(), originalSender);
+        response.setHeader(MessagingParameterType.MESSAGE_ID_HEADER.getName(), UUID.randomUUID().toString());
 
         respondMultipartFromJson(result, response);
 
@@ -283,7 +290,6 @@ public class MessageServiceHandlerController extends GeneralOpenApi
     }
 
 
-
     @Override
     public void getResponseMessage(String service, String action, String messageId, String rService, String rAction, String rMessageId, HttpServletRequest request, HttpServletResponse response) throws IOException {
         LOG.info("getResponseMessage service [{}], action [{}], messageId [{}], rService [{}], rAction [{}], rMessageId [{}], request [{}]",
@@ -395,14 +401,14 @@ public class MessageServiceHandlerController extends GeneralOpenApi
         }
     }
 
-    public String getMessageOriginalSender(String messageId){
+    public String getMessageOriginalSender(String messageId) {
         // TODO implement logic for retrieving original sender per message id! This is just for DEMO
-        return  dsdMockProperties.getDemoDsdOriginalSender();
+        return dsdMockProperties.getDemoDsdOriginalSender();
     }
 
-    public String getMessageFinalRecipient(String messageId){
+    public String getMessageFinalRecipient(String messageId) {
         // TODO implement logic for retrieving final recipient  per message id! This is just for DEMO
-        return  dsdMockProperties.getDemoDsdFinalRecipient();
+        return dsdMockProperties.getDemoDsdFinalRecipient();
     }
 
     public void signalMessageSubmissionPrivate(MessagingEndpointType type, HttpServletRequest request, String messageId) throws IOException {
@@ -477,28 +483,58 @@ public class MessageServiceHandlerController extends GeneralOpenApi
 
 
     public void responseJsonObject(Object json, HttpServletResponse response) {
-        responseJsonObject(json, response, MediaType.APPLICATION_JSON);
+        Map<String, String> signIfExists = getHeadersToSign(response, true);
+        responseJsonObject(json, response, MediaType.APPLICATION_JSON, signIfExists);
     }
 
-    public void responseJsonObject(Object json, HttpServletResponse response, MediaType mediaType) {
-        jwsService.signJsonResponse(json, response, mediaType);
+    public void responseJsonObject(Object json, HttpServletResponse response, MediaType mediaType, Map<String, String> headers) {
+        jwsService.signJsonResponse(json, response, mediaType, headers);
     }
 
     public void respondProblem(APIProblemType type, HttpServletResponse response, String details, String instance) {
         // return problem
-        response.setStatus(type.getStatus());
 
+        response.setStatus(type.getStatus());
+        Map<String, String> signIfExists = getHeadersToSign(response, true);
         APIProblem problem = new APIProblem(type, details, instance);
-        responseJsonObject(problem, response, MediaType.APPLICATION_PROBLEM_JSON);
+        responseJsonObject(problem, response, MediaType.APPLICATION_PROBLEM_JSON, signIfExists);
     }
 
+    public Map<String, String> getHeadersToSign(HttpServletResponse response, boolean signal) {
+        Map<String, String> signIfExists = new HashMap<>();
+        // put all header from response if they exists
+        SIGN_HEADERS.forEach(parameterType -> {
+            if (response.containsHeader(parameterType.getName())) {
+                signIfExists.put(parameterType.getName(), response.getHeader(parameterType.getName()));
+            }
+        });
+
+        // set the right datetime format
+        if (!signIfExists.containsKey(MessagingParameterType.TIMESTAMP.getName())) {
+            signIfExists.put(MessagingParameterType.TIMESTAMP.getName(), OffsetDateTime.now().truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_DATE_TIME));
+        } else {
+            // just for demo reformat the timestamp to truncate ms  -:)
+            String strTimestamp = signIfExists.get(MessagingParameterType.TIMESTAMP.getName());
+            OffsetDateTime dateTime = OffsetDateTime.parse(strTimestamp, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            signIfExists.put(MessagingParameterType.TIMESTAMP.getName(),
+                    dateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_DATE_TIME));
+        }
+        // json signal or reference message must have message id header!
+        if (signal && !signIfExists.containsKey(MessagingParameterType.MESSAGE_ID_HEADER.getName())) {
+
+            signIfExists.put(MessagingParameterType.MESSAGE_ID_HEADER.getName(), UUID.randomUUID().toString());
+        }
+
+        return signIfExists;
+    }
 
     public void respondMultipartFromJson(Object jsonPayload, HttpServletResponse response) {
         try {
+            Map<String, String> signIfExists = getHeadersToSign(response, false);
 
-            SignedMimeMultipart signedMimeMultipart = jwsService.createSignedMimeMultipartFromJson(jsonPayload);
+            SignedMimeMultipart signedMimeMultipart = jwsService.createSignedMimeMultipartFromJson(jsonPayload, signIfExists);
             // set headers
-            signedMimeMultipart.getHttpHeaders().forEach((header, value) -> response.addHeader(header, value));
+            signedMimeMultipart.getHttpHeaders().forEach((header, value) -> response.setHeader(header, value));
             // write to
             signedMimeMultipart.writeTo(response.getOutputStream());
 
@@ -519,7 +555,7 @@ public class MessageServiceHandlerController extends GeneralOpenApi
 
 
         response.addHeader(MessagingParameterType.EDEL_MESSAGE_SIG.getName(), jwsService.signMessageHeaders(headersToSign));
-        response.addHeader(MessagingParameterType.TIMESTAMP.getName(), LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
+
         headersToSign.forEach(header -> response.addHeader(header.getName(), ((HTTPHeader) header).getValue()));
 
         document.writeTo(response.getOutputStream());
@@ -563,7 +599,7 @@ public class MessageServiceHandlerController extends GeneralOpenApi
     public List<Object> getParameters(MimeMultipart multipart, Class[] paramTypes, MessagingAPIOperation operation) throws MessagingException, IOException {
         List<Object> params = new ArrayList<>();
         // skip first 3 parameters
-        int defaultParameterCount  =3; //service, action, messageOd
+        int defaultParameterCount = 3; //service, action, messageOd
         if (operation.isUseMessageWebhook()) {
             defaultParameterCount++;
         }
@@ -590,7 +626,7 @@ public class MessageServiceHandlerController extends GeneralOpenApi
     public Class[] validateParameterCount(MessagingAPIOperation operation, Multipart multipart) {
         // validate parameter count
         Class[] paramTypes = operation.getMethod().getParameterTypes();
-        int defaultParameterCount  =3; //service, action, messageOd
+        int defaultParameterCount = 3; //service, action, messageOd
         if (operation.isUseMessageWebhook()) {
             defaultParameterCount++;
         }

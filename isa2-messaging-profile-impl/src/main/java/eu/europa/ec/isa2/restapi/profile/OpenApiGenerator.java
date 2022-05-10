@@ -18,10 +18,7 @@ public class OpenApiGenerator {
         HashMap extensions = new java.util.LinkedHashMap<>();
         //put summary here because there is no summary annotation
         extensions.put("summary", "Generic Messaging API");
-        extensions.put("x-edel-lifecycle", new EDelApiExtensionLifecycle());
-        extensions.put("x-edel-publisher",
-                new EDelApiExtensionPublisher("European Commission",
-                        new URL("https://joinup.ec.europa.eu/collection/api4dt")));
+        extensions.put("x-edelivery", generateEDeliveryExtension());
 
         // not sure why is generating http://localhost:8080/dsd-mock/v3/a"
         Server server = new Server();
@@ -43,8 +40,15 @@ public class OpenApiGenerator {
 
 
         openAPI.setOpenapi("3.1.0");
-
-
         return openAPI;
+    }
+
+    public EDeliveryAPIExtension generateEDeliveryExtension() throws MalformedURLException {
+        EDeliveryAPIExtension eDeliveryAPIExtension = new EDeliveryAPIExtension();
+        eDeliveryAPIExtension.setLifecycle(new EDeliveryAPIExtension.EDelApiExtensionLifecycle());
+        eDeliveryAPIExtension.setPublisher(
+                new EDeliveryAPIExtension.EDelApiExtensionPublisher("European Commission",
+                        new URL("https://joinup.ec.europa.eu/collection/api4dt")));
+        return eDeliveryAPIExtension;
     }
 }

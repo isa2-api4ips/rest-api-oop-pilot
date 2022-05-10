@@ -46,7 +46,7 @@ public class DSDWebhookController implements MessagingWebhookApi {
     }
 
     @Override
-    public ResponseEntity<SignalMessage> datasetSubmitSignalWebhookMethodId(String messageId, String edelMessageSig, @Valid SignalMessage body) {
+    public ResponseEntity<SignalMessage> datasetSubmitSignalWebhookMethodId(OffsetDateTime timestamp, String originalSender, String originalSenderToken, String finalRecipient, String messageId, String edelMessageSig, @Valid SignalMessage body) {
         LOG.info("Got signal to pull:" + body.getInstance());
         DatasetStatusResult result = dsdDatasetMessagingService.getStatusMessage(body.getInstance());
         updateDatasetStatus(result, body.getInstance());
@@ -55,7 +55,7 @@ public class DSDWebhookController implements MessagingWebhookApi {
     }
 
     @Override
-    public ResponseEntity<SignalMessage> submitStatusResponseWebhookMessageOperation(String originalSender, String originalSenderToken, String finalRecipient, OffsetDateTime timestamp, String messageId, String rMessageId, String edelMessageSig, @Valid StatusRMessageIdBody body) {
+    public ResponseEntity<SignalMessage> submitStatusResponseWebhookMessageOperation(OffsetDateTime timestamp, String originalSender, String originalSenderToken, String finalRecipient, String messageId, String rMessageId, String edelMessageSig, @Valid StatusRMessageIdBody body) {
         updateDatasetStatus(mapper.serverRoToMessaging(body.getMessageWebhookStatusResponse()), rMessageId);
         return createMessageAcceptedSignal(rMessageId);
     }

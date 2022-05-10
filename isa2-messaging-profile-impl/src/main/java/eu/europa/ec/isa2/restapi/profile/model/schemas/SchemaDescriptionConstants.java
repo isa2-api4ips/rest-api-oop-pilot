@@ -63,18 +63,18 @@ public class SchemaDescriptionConstants {
      */
     final static public String JWS_COMPACT_ID = "https://raw.githubusercontent.com/isa2-api4ips/rest-api-profile/main/messaging-api-specification/components/schemas/jws-compact.json";
     final static public String JWS_COMPACT_NAME = "JwsCompact";
-    final static public String JWS_COMPACT_TITLE = "JSON Web Token (JWT)";
+    final static public String JWS_COMPACT_TITLE = "JWT token";
     final static public String JWS_COMPACT_FORMAT = "jws-compact";
     final static public String JWS_COMPACT_PATTERN = "^[A-Za-z0-9_-]+(?:\\.[A-Za-z0-9_-]+){2}$";
-    final static public String JWS_COMPACT_DESCRIPTION = "Defines the string pattern as a regular expression that MUST be followed to represent JWS compact tokens. " +
-            "It is used for defining the value of the Original-Sender-Token.";
+    final static public String JWS_COMPACT_DESCRIPTION = "The JWS compact representation schema defines the string pattern as a regular expression, " +
+            "denoting the structure a JWS compact token MUST follow to be a valid compact JWS Representation. It is used for defining the value of the Original-Sender token.";
     /**
      * JWS COMPACT DETACHED definition
      */
     final static public String JWS_COMPACT_DETACHED_ID = "https://raw.githubusercontent.com/isa2-api4ips/rest-api-profile/main/api-core-profile/components/schemas/jws-compact-detached.json";
     final static public String JWS_COMPACT_DETACHED_NAME = "JwsCompactDetached";
-    final static public String JWS_COMPACT_DETACHED_TITLE = "The format for the message-level and payload signature";
+    final static public String JWS_COMPACT_DETACHED_TITLE = "The message-level and payload signature";
     final static public String JWS_COMPACT_DETACHED_FORMAT = "jws-compact-detached";
     final static public String JWS_COMPACT_DETACHED_PATTERN = "^[A-Za-z0-9_-]+(?:(\\.\\.)[A-Za-z0-9_-]+){1}";
-    final static public String JWS_COMPACT_DETACHED_DESCRIPTION = "Defines the string pattern as a regular expression that MUST be followed to represent detached JWS compact tokens";
+    final static public String JWS_COMPACT_DETACHED_DESCRIPTION = "The JWS compact representation schema defines the string pattern as a regular expression, denoting the structure a JWS compact token MUST follow to be a valid compact JWS Representation. It is used for defining the value of the message-level signature and of the payload signature";
 }

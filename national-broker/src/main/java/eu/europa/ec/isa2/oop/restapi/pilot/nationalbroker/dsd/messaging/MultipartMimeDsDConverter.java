@@ -30,6 +30,9 @@ import javax.mail.Multipart;
 import javax.mail.internet.MimeMultipart;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -140,13 +143,23 @@ public class MultipartMimeDsDConverter
         if (outputMessage.getHeaders().containsKey(MessagingParameterType.EDEL_MESSAGE_SIG.getName())) {
             outputMessage.getHeaders().remove(MessagingParameterType.EDEL_MESSAGE_SIG.getName());
         }
-
         // remove Request-Target because it is just internal header for signing!
         // Find better approach for non pilot project!!
         List<String> requestTargetList = null;
         if (outputMessage.getHeaders().containsKey("Request-Target-PRIVATE")) {
             requestTargetList = outputMessage.getHeaders().remove("Request-Target-PRIVATE");
         }
+
+        // parse datetime make sure to write it without ms
+        OffsetDateTime dateTime = OffsetDateTime.now();
+        if (outputMessage.getHeaders().containsKey(MessagingParameterType.TIMESTAMP.getName())) {
+            // just for demo  -:)
+            String strTimestamp = outputMessage.getHeaders().get(MessagingParameterType.TIMESTAMP.getName()).get(0);
+            dateTime = OffsetDateTime.parse(strTimestamp, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            outputMessage.getHeaders().remove(MessagingParameterType.TIMESTAMP.getName());
+        }
+        outputMessage.getHeaders().add(MessagingParameterType.TIMESTAMP.getName(),
+                dateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_DATE_TIME));
 
 
         Map<String, String> headers = new HashMap<>();
@@ -157,11 +170,13 @@ public class MultipartMimeDsDConverter
                 headers.put(header, value.get(0));
             }
         });
+
         if (requestTargetList != null && !requestTargetList.isEmpty()) {
             String requestTarget = requestTargetList.get(0);
             headers.put(MessagingConstants.HEADER_REQUEST_TARGET, requestTarget);
             LOG.warn("ADD  to sign (Request-Target) [{}]", requestTarget);
         }
+
 
         Object jsonObject = null;
         if (request instanceof SearchParameters) {
@@ -174,7 +189,7 @@ public class MultipartMimeDsDConverter
             jsonObject = ((DatasetRequest) request).getDatasetUpdate();
         } else if (request instanceof DatasetCreateRequest) {
             jsonObject = ((DatasetCreateRequest) request).getDatasetCreate();
-        }else if (request instanceof DatasetDeleteRequest) {
+        } else if (request instanceof DatasetDeleteRequest) {
             jsonObject = ((DatasetDeleteRequest) request).getDatasetDelete();
         }
 

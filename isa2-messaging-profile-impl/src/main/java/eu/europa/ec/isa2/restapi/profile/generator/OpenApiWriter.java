@@ -1,7 +1,6 @@
 package eu.europa.ec.isa2.restapi.profile.generator;
 
-import eu.europa.ec.isa2.restapi.profile.EDelApiExtensionLifecycle;
-import eu.europa.ec.isa2.restapi.profile.EDelApiExtensionPublisher;
+import eu.europa.ec.isa2.restapi.profile.EDeliveryAPIExtension;
 import eu.europa.ec.isa2.restapi.profile.OpenApiGenerator;
 import eu.europa.ec.isa2.restapi.profile.constants.JSONConstants;
 import eu.europa.ec.isa2.restapi.profile.enums.*;
@@ -232,13 +231,35 @@ public class OpenApiWriter {
         File documentFolder = createFolder(profileFolder,
                 specificationPartType.getName());
 
+        File eDeliveryFilePath = new File(documentFolder, "x-edelivery.json");
+        ResolvedSchema resolvedSchema = ModelConverters.getInstance().readAllAsResolvedSchema(EDeliveryAPIExtension.class);
+        ResolvedSchema lifeCycle = ModelConverters.getInstance().readAllAsResolvedSchema(EDeliveryAPIExtension.EDelApiExtensionLifecycle.class);
+        ResolvedSchema publisher = ModelConverters.getInstance().readAllAsResolvedSchema(EDeliveryAPIExtension.EDelApiExtensionPublisher.class);
+        resolvedSchema.schema.getProperties().clear();
+        resolvedSchema.schema.getProperties().put("publisher", publisher.schema);
+        resolvedSchema.schema.getProperties().put("lifecycle", lifeCycle.schema);
+       /* resolvedSchema.schema.getProperties().forEach( (name, scheme)->{
+
+            File eDelSubScheme = new File(documentFolder, "x-edelivery-"+name+".json");
+            try {
+                writeObjectToFile(resolvedSchema.referencedSchemas.get(name), eDelSubScheme);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+*/
+        writeObjectToFile(resolvedSchema.schema, eDeliveryFilePath);
+
+
+
+        /*
         File lifecycleFilePath = new File(documentFolder, "x-edel-lifecycle.json");
         ResolvedSchema resolvedSchema = ModelConverters.getInstance().readAllAsResolvedSchema(EDelApiExtensionLifecycle.class);
         writeObjectToFile(resolvedSchema.schema, lifecycleFilePath);
 
         File publisherFilePath = new File(documentFolder, "x-edel-publisher.json");
         ResolvedSchema publisherSchema = ModelConverters.getInstance().readAllAsResolvedSchema(EDelApiExtensionPublisher.class);
-        writeObjectToFile(publisherSchema.schema, publisherFilePath);
+        writeObjectToFile(publisherSchema.schema, publisherFilePath);*/
     }
 
     public static void writeSignalDefinitionsForMessagingApi(SpecificationPartType specificationPartType, File profileFolder) throws IOException {

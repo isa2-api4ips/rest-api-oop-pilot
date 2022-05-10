@@ -10,12 +10,14 @@
     },
     "version" : "v1.0",
     "summary" : "Generic Messaging API",
-    "x-edel-lifecycle" : {
-      "maturity" : "development"
-    },
-    "x-edel-publisher" : {
-      "name" : "European Commission",
-      "url" : "https://joinup.ec.europa.eu/collection/api4dt"
+    "x-edelivery" : {
+      "publisher" : {
+        "name" : "European Commission",
+        "url" : "https://joinup.ec.europa.eu/collection/api4dt"
+      },
+      "lifecycle" : {
+        "maturity" : "development"
+      }
     }
   },
   "externalDocs" : {
@@ -46,6 +48,8 @@
         "description" : "This endpoint returns status message for dataset update actionfollowing the format for the dataset Message. ",
         "operationId" : "SubmitStatusResponseWebhookMessageOperation",
         "parameters" : [ {
+          "$ref" : "#/components/parameters/Timestamp"
+        }, {
           "$ref" : "#/components/parameters/Edel-Message-Sig"
         }, {
           "$ref" : "#/components/parameters/Original-Sender"
@@ -53,8 +57,6 @@
           "$ref" : "#/components/parameters/Original-Sender-Token"
         }, {
           "$ref" : "#/components/parameters/Final-Recipient"
-        }, {
-          "$ref" : "#/components/parameters/Timestamp"
         }, {
           "$ref" : "#/components/parameters/messageId"
         }, {
@@ -94,6 +96,12 @@
           "202" : {
             "description" : "Sent when the message is properly validated and received.",
             "headers" : {
+              "Message-Id" : {
+                "$ref" : "#/components/headers/Message-Id"
+              },
+              "Timestamp" : {
+                "$ref" : "#/components/headers/Timestamp"
+              },
               "Edel-Message-Sig" : {
                 "$ref" : "#/components/headers/Edel-Message-Sig"
               }
@@ -119,6 +127,12 @@
             "headers" : {
               "Edel-Message-Sig" : {
                 "$ref" : "#/components/headers/Edel-Message-Sig"
+              },
+              "Timestamp" : {
+                "$ref" : "#/components/headers/Timestamp"
+              },
+              "Message-Id" : {
+                "$ref" : "#/components/headers/Message-Id"
               }
             },
             "content" : {
@@ -172,10 +186,16 @@
             }
           },
           "500" : {
-            "description" : "The server encountered an unexpected condition that prevented it from fulfilling the request",
+            "description" : "Sent when a server error occurred that does not affect the signalling process",
             "headers" : {
               "Edel-Message-Sig" : {
                 "$ref" : "#/components/headers/Edel-Message-Sig"
+              },
+              "Timestamp" : {
+                "$ref" : "#/components/headers/Timestamp"
+              },
+              "Message-Id" : {
+                "$ref" : "#/components/headers/Message-Id"
               }
             },
             "content" : {
@@ -184,12 +204,12 @@
                   "$ref" : "#/components/schemas/Problem"
                 },
                 "examples" : {
-                  "InternalServerError" : {
+                  "ServerError" : {
                     "value" : {
-                      "title" : "Internal Server Error",
-                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#internal-server-error",
+                      "title" : "Server Error",
+                      "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#server-error",
                       "status" : 500,
-                      "detail" : "The server encountered an unexpected condition that prevented it from fulfilling the request"
+                      "detail" : "Sent when a server error occurred that does not affect the signalling process"
                     }
                   }
                 }
@@ -211,9 +231,17 @@
         "description" : "Asynchronous DSD dataset update request submission. Service returns message acknowledgment signal. Request status can be obtained via pull dataset/status operation",
         "operationId" : "datasetSubmitSignalWebhookMethodId",
         "parameters" : [ {
+          "$ref" : "#/components/parameters/Timestamp"
+        }, {
           "$ref" : "#/components/parameters/Edel-Message-Sig"
         }, {
           "$ref" : "#/components/parameters/messageId"
+        }, {
+          "$ref" : "#/components/parameters/Original-Sender"
+        }, {
+          "$ref" : "#/components/parameters/Original-Sender-Token"
+        }, {
+          "$ref" : "#/components/parameters/Final-Recipient"
         } ],
         "requestBody" : {
           "content" : {
@@ -225,7 +253,7 @@
                 "title" : "Message Response is ready",
                 "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#message-ready",
                 "status" : 201,
-                "detail" : "An HTTP Request following [RFC7807] MUST be sent when a message response is ready to be retrieve",
+                "detail" : "An HTTP Request following [RFC7807] MUST be sent when a message response is ready to be retrieved",
                 "instance" : "/my-service/my-action/dde12f67-c391-4851-8fa2-c07dd8532efd",
                 "digest" : "sha-256=eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ"
               }
@@ -236,6 +264,12 @@
           "202" : {
             "description" : "Sent when the message is properly validated and received.",
             "headers" : {
+              "Message-Id" : {
+                "$ref" : "#/components/headers/Message-Id"
+              },
+              "Timestamp" : {
+                "$ref" : "#/components/headers/Timestamp"
+              },
               "Edel-Message-Sig" : {
                 "$ref" : "#/components/headers/Edel-Message-Sig"
               }
@@ -261,6 +295,12 @@
             "headers" : {
               "Edel-Message-Sig" : {
                 "$ref" : "#/components/headers/Edel-Message-Sig"
+              },
+              "Timestamp" : {
+                "$ref" : "#/components/headers/Timestamp"
+              },
+              "Message-Id" : {
+                "$ref" : "#/components/headers/Message-Id"
               }
             },
             "content" : {
@@ -271,7 +311,7 @@
                 "examples" : {
                   "NoFinalRecipient" : {
                     "value" : {
-                      "title" : "No final recipient configured for the pulling user",
+                      "title" : "Pull Error: No final recipient configured for the pulling user",
                       "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#pull/no-final-recipient",
                       "status" : 400,
                       "detail" : "Sent when the server cannot resolve/match the pulling user to a final recipient"
@@ -286,6 +326,12 @@
             "headers" : {
               "Edel-Message-Sig" : {
                 "$ref" : "#/components/headers/Edel-Message-Sig"
+              },
+              "Timestamp" : {
+                "$ref" : "#/components/headers/Timestamp"
+              },
+              "Message-Id" : {
+                "$ref" : "#/components/headers/Message-Id"
               }
             },
             "content" : {
@@ -296,7 +342,7 @@
                 "examples" : {
                   "NoMessageFound" : {
                     "value" : {
-                      "title" : "No Message Found",
+                      "title" : "Pull Error: No Message Found",
                       "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#pull/no-message-found",
                       "status" : 404,
                       "detail" : "Sent when no message is found that maps to the pull request"
@@ -311,6 +357,12 @@
             "headers" : {
               "Edel-Message-Sig" : {
                 "$ref" : "#/components/headers/Edel-Message-Sig"
+              },
+              "Timestamp" : {
+                "$ref" : "#/components/headers/Timestamp"
+              },
+              "Message-Id" : {
+                "$ref" : "#/components/headers/Message-Id"
               }
             },
             "content" : {
@@ -321,7 +373,7 @@
                 "examples" : {
                   "Unauthorized" : {
                     "value" : {
-                      "title" : "Unauthorized",
+                      "title" : "Pull Error: Unauthorized",
                       "type" : "https://github.com/isa2-api4ips/rest-api-profile/blob/main/messaging-api-specification/signal.md#pull/unauthorized",
                       "status" : 401,
                       "detail" : "Sent when the pull request is unauthorized"
@@ -589,7 +641,7 @@
         "description" : "A Problem Details object (RFC 7807) with ISA² IPS REST API extensions, used for signals (responses) to messages"
       },
       "JwsCompact" : {
-        "title" : "JWT token.",
+        "title" : "JWT token",
         "pattern" : "^[A-Za-z0-9_-]+(?:\\.[A-Za-z0-9_-]+){2}$",
         "type" : "string",
         "description" : "The JWS compact representation schema defines the string pattern as a regular expression, denoting the structure a JWS compact token MUST follow to be a valid compact JWS Representation. It is used for defining the value of the Original-Sender token.",
@@ -860,6 +912,23 @@
         },
         "example" : "application/json"
       },
+      "Message-Id" : {
+        "description" : "When the rMessageId URL parameter can't be used for providing the identifier of the response message, e.g. in synchronous responses, the Message-Id header field can be used instead. It identifies either a response or a signal message received synchronously.",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "example" : "dde12f67-c391-4851-8fa2-c07dd8532efd"
+      },
+      "Timestamp" : {
+        "description" : "The Timestamp is the exact date and time at which the message was sent. It is provided by the client and verified by the server.",
+        "required" : true,
+        "schema" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "example" : "2021-06-17T08:30:00Z"
+      },
       "Edel-Message-Sig" : {
         "description" : "The Edel-Message-Sig carries the signature of the HTTP Message following the API Core Profile on Message-Level Security. Following the light context constraints, the signature is optional for the client messages, but is RECOMMENDED for server messages.",
         "required" : false,
@@ -891,15 +960,6 @@
           "type" : "string"
         },
         "example" : "9999::333222112"
-      },
-      "Timestamp" : {
-        "description" : "The Timestamp is the exact date and time at which the message was sent. It is provided by the client and verified by the server.",
-        "required" : true,
-        "schema" : {
-          "type" : "string",
-          "format" : "date-time"
-        },
-        "example" : "2021-06-17T08:30:00Z"
       }
     },
     "securitySchemes" : {

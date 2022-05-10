@@ -1,9 +1,10 @@
 package eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.application.config;
 
 import eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.application.docsapi.JwsCompactDetachedHeader;
-import eu.europa.ec.isa2.restapi.profile.EDelApiExtensionLifecycle;
-import eu.europa.ec.isa2.restapi.profile.EDelApiExtensionPublisher;
-import io.swagger.v3.oas.models.*;
+import eu.europa.ec.isa2.restapi.profile.EDeliveryAPIExtension;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.ExternalDocumentation;
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
@@ -15,11 +16,13 @@ import org.springframework.context.annotation.Configuration;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
 
 @Configuration
 public class OpenApiConfig {
     private static final Logger LOG = LoggerFactory.getLogger(OpenApiConfig.class);
+
     @Bean
     public OpenAPI customOpenAPI() {
 
@@ -35,15 +38,17 @@ public class OpenApiConfig {
         HashMap extensions = new java.util.LinkedHashMap<>();
         //put summary here because there is no summary annotation
         extensions.put("summary", "DSD messaging rest service");
-        extensions.put("x-edel-lifecycle", new EDelApiExtensionLifecycle());
+        EDeliveryAPIExtension eDeliveryAPIExtension = new EDeliveryAPIExtension();
         try {
-            extensions.put("x-edel-publisher",
-                    new EDelApiExtensionPublisher("European Commission",
-                            new URL("https://joinup.ec.europa.eu/collection/api4dt")));
+            eDeliveryAPIExtension.setPublisher(new EDeliveryAPIExtension.EDelApiExtensionPublisher("European Commission",
+                    new URL("https://joinup.ec.europa.eu/collection/api4dt")));
         } catch (MalformedURLException e) {
             // for the demo just log
-            LOG.error("Error occired while reading the URL",e);
+            LOG.error("Error occurred while reading the URL", e);
         }
+        eDeliveryAPIExtension.setLifecycle(new EDeliveryAPIExtension.EDelApiExtensionLifecycle());
+        extensions.put("x-edelivery", eDeliveryAPIExtension);
+
 
         return new OpenAPI()
                 .components(new Components()
@@ -60,9 +65,9 @@ public class OpenApiConfig {
                         ))
 
                 .servers(Arrays.asList(serverDemo, serverLocalhost))
-              .externalDocs(new ExternalDocumentation()
-                .description("ISA2 REST Pilot")
-                .url("https://ec.europa.eu/cefdigital/wiki/pages/viewpage.action?pageId=254313406"));
+                .externalDocs(new ExternalDocumentation()
+                        .description("ISA2 REST Pilot")
+                        .url("https://ec.europa.eu/cefdigital/wiki/pages/viewpage.action?pageId=254313406"));
     }
 
 }

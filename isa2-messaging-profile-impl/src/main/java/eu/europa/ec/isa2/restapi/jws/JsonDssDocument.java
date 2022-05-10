@@ -66,6 +66,10 @@ public class JsonDssDocument extends CommonDocument implements DataSource{
         }
     }
 
+    public Object getJsonObject() {
+        return jsonObject;
+    }
+
     public boolean isPrettyPrint() {
         return prettyPrint;
     }
