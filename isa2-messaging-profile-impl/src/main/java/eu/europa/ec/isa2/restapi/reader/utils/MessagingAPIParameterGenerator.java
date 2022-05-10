@@ -21,13 +21,13 @@ import static eu.europa.ec.isa2.restapi.profile.constants.MessagingConstants.OPE
 
 /**
  * Rest API pilot project: Purpose of the class is to build parameters for operation types:
- *  - MessageSubmissionOperation
- *  - ResponseMessageReferencePullOperation
- *  - ResponseMessageSubmissionOperation
- *  - SignalSubmissionOperation
- *  - GetMessageOperation
- *  - GetResponseMessageOperation
- *  - MessageReferenceListOperation
+ * - MessageSubmissionOperation
+ * - ResponseMessageReferencePullOperation
+ * - ResponseMessageSubmissionOperation
+ * - SignalSubmissionOperation
+ * - GetMessageOperation
+ * - GetResponseMessageOperation
+ * - MessageReferenceListOperation
  *
  * @author Joze Rihtarsic
  */
@@ -38,8 +38,9 @@ public class MessagingAPIParameterGenerator {
     Components components;
     MessagingAPIDefinitionsLocation messagingAPIDefinitionsLocation;
     String messagingAPIURL;
+
     public MessagingAPIParameterGenerator(Components components) {
-        this(components, MessagingAPIDefinitionsLocation.DOCUMENT_COMPONENTS,null);
+        this(components, MessagingAPIDefinitionsLocation.DOCUMENT_COMPONENTS, null);
     }
 
     public MessagingAPIParameterGenerator(Components components, MessagingAPIDefinitionsLocation messagingAPIDefinitionsLocation, String messagingAPIURL) {
@@ -50,15 +51,16 @@ public class MessagingAPIParameterGenerator {
 
     /**
      * Creates parameters according to MessageSubmissionOperation configuration
+     *
      * @param annotatedOperation
      * @return List of operational parameters
      */
     public List<Parameter> createOperationParameters(SubmitMessageOperation annotatedOperation) {
         // --------------------------
         // create parameter
-        List<Parameter> methodParameters = createMessagingParameters(true, true,false);
+        List<Parameter> methodParameters = createMessagingParameters(true, true, false);
         // creates message id parameter
-        Parameter pathParameterMessageId = createMessagingParameterForTypeWithName(MessagingParameterType.MESSAGE_ID,annotatedOperation.messageIdParamName() );
+        Parameter pathParameterMessageId = createMessagingParameterForTypeWithName(MessagingParameterType.MESSAGE_ID, annotatedOperation.messageIdParamName());
         methodParameters.add(pathParameterMessageId);
 
         createServiceAndActionParameters(annotatedOperation.service(), annotatedOperation.action(), methodParameters);
@@ -75,6 +77,7 @@ public class MessagingAPIParameterGenerator {
 
     /**
      * Creates parameters according to ResponseMessageReferencePullOperation configuration
+     *
      * @param annotatedOperation
      * @return List of operational parameters
      */
@@ -83,7 +86,7 @@ public class MessagingAPIParameterGenerator {
         // create parameter
         List<Parameter> methodParameters = new ArrayList<>();
         // creates message id parameter
-        Parameter pathParameterMessageId = createMessagingParameterForTypeWithName(MessagingParameterType.MESSAGE_ID,annotatedOperation.messageIdParamName() );
+        Parameter pathParameterMessageId = createMessagingParameterForTypeWithName(MessagingParameterType.MESSAGE_ID, annotatedOperation.messageIdParamName());
         methodParameters.add(pathParameterMessageId);
 
         createServiceAndActionParameters(annotatedOperation.service(), annotatedOperation.action(), methodParameters);
@@ -105,32 +108,31 @@ public class MessagingAPIParameterGenerator {
 
     /**
      * Creates parameters according to ResponseMessageSubmissionOperation configuration
+     *
      * @param annotatedOperation
      * @return List of operational parameters
      */
     public List<Parameter> createOperationParameters(SubmitResponseMessageOperation annotatedOperation) {
         // --------------------------
         // create parameter
-        List<Parameter> methodParameters = createMessagingParameters(true, false,false);
+        List<Parameter> methodParameters = createMessagingParameters(true, false, false);
         // create response original-sender and final-recipient
-        Parameter originalSender = createMessagingParameterForType(MessagingParameterType.ORIGINAL_SENDER );
-        Parameter originalSenderToken = createMessagingParameterForType(MessagingParameterType.ORIGINAL_SENDER_TOKEN );
-        Parameter finalRecipient = createMessagingParameterForType(MessagingParameterType.FINAL_RECIPIENT );
-        Parameter timestamp = createMessagingParameterForType(MessagingParameterType.TIMESTAMP );
+        Parameter originalSender = createMessagingParameterForType(MessagingParameterType.ORIGINAL_SENDER);
+        Parameter originalSenderToken = createMessagingParameterForType(MessagingParameterType.ORIGINAL_SENDER_TOKEN);
+        Parameter finalRecipient = createMessagingParameterForType(MessagingParameterType.FINAL_RECIPIENT);
         methodParameters.add(originalSender);
         methodParameters.add(originalSenderToken);
         methodParameters.add(finalRecipient);
-        methodParameters.add(timestamp);
 
         // creates message id parameter. The object must be created inline if named does not match the definition
-        Parameter pathParameterMessageId = createMessagingParameterForTypeWithName(MessagingParameterType.MESSAGE_ID,annotatedOperation.messageIdParamName() );
+        Parameter pathParameterMessageId = createMessagingParameterForTypeWithName(MessagingParameterType.MESSAGE_ID, annotatedOperation.messageIdParamName());
         methodParameters.add(pathParameterMessageId);
 
-        Parameter pathParameterResponseMessageId = createMessagingParameterForTypeWithName(MessagingParameterType.RESPONSE_MESSAGE_ID,annotatedOperation.responseMessageIdParamName() );
+        Parameter pathParameterResponseMessageId = createMessagingParameterForTypeWithName(MessagingParameterType.RESPONSE_MESSAGE_ID, annotatedOperation.responseMessageIdParamName());
         methodParameters.add(pathParameterResponseMessageId);
 
         if (!annotatedOperation.isWebhook()) {
-            createServiceAndActionParameters(annotatedOperation.service(), annotatedOperation.action(),  methodParameters);
+            createServiceAndActionParameters(annotatedOperation.service(), annotatedOperation.action(), methodParameters);
         }
 
         createResponseServiceAndActionParameters(annotatedOperation.responseService(), annotatedOperation.responseAction(), methodParameters);
@@ -140,6 +142,7 @@ public class MessagingAPIParameterGenerator {
 
     /**
      * Creates parameters according to SignalSubmissionOperation configuration
+     *
      * @param annotatedOperation
      * @return List of operational parameters
      */
@@ -148,14 +151,19 @@ public class MessagingAPIParameterGenerator {
         // create parameter
         List<Parameter> methodParameters = createMessagingParameters(true, false, false);
         // creates message id parameter
-        Parameter pathParameterMessageId = createMessagingParameterForTypeWithName(MessagingParameterType.MESSAGE_ID,annotatedOperation.messageIdParamName() );
-        methodParameters.add(pathParameterMessageId);
+        methodParameters.add(createMessagingParameterForTypeWithName(MessagingParameterType.MESSAGE_ID, annotatedOperation.messageIdParamName()));
 
+        if (annotatedOperation.isWebhook()) {
+            methodParameters.add(createMessagingParameterForTypeWithName(MessagingParameterType.ORIGINAL_SENDER, MessagingParameterType.ORIGINAL_SENDER.getName()));
+            methodParameters.add(createMessagingParameterForTypeWithName(MessagingParameterType.ORIGINAL_SENDER_TOKEN, MessagingParameterType.ORIGINAL_SENDER_TOKEN.getName()));
+            methodParameters.add(createMessagingParameterForTypeWithName(MessagingParameterType.FINAL_RECIPIENT, MessagingParameterType.FINAL_RECIPIENT.getName()));
+        }
         return methodParameters;
     }
 
     /**
      * Creates parameters according to GetMessageOperation configuration
+     *
      * @param annotatedOperation
      * @return List of operational parameters
      */
@@ -164,7 +172,7 @@ public class MessagingAPIParameterGenerator {
         // create parameter
         List<Parameter> methodParameters = new ArrayList<>();
         // creates message id parameter
-        Parameter pathParameterMessageId = createMessagingParameterForTypeWithName(MessagingParameterType.MESSAGE_ID,annotatedOperation.messageIdParamName() );
+        Parameter pathParameterMessageId = createMessagingParameterForTypeWithName(MessagingParameterType.MESSAGE_ID, annotatedOperation.messageIdParamName());
         methodParameters.add(pathParameterMessageId);
 
         createServiceAndActionParameters(annotatedOperation.service(), annotatedOperation.action(), methodParameters);
@@ -174,6 +182,7 @@ public class MessagingAPIParameterGenerator {
 
     /**
      * Creates parameters according to GetResponseMessageOperation configuration
+     *
      * @param annotatedOperation
      * @return List of operational parameters
      */
@@ -182,10 +191,10 @@ public class MessagingAPIParameterGenerator {
         // create parameter
         List<Parameter> methodParameters = new ArrayList<>();
         // creates message id parameter
-        Parameter pathParameterMessageId = createMessagingParameterForTypeWithName(MessagingParameterType.MESSAGE_ID,annotatedOperation.messageIdParamName() );
+        Parameter pathParameterMessageId = createMessagingParameterForTypeWithName(MessagingParameterType.MESSAGE_ID, annotatedOperation.messageIdParamName());
         methodParameters.add(pathParameterMessageId);
 
-        Parameter pathParameterResponseMessageId = createMessagingParameterForTypeWithName(MessagingParameterType.RESPONSE_MESSAGE_ID,annotatedOperation.responseMessageIdParamName() );
+        Parameter pathParameterResponseMessageId = createMessagingParameterForTypeWithName(MessagingParameterType.RESPONSE_MESSAGE_ID, annotatedOperation.responseMessageIdParamName());
         methodParameters.add(pathParameterResponseMessageId);
 
         createServiceAndActionParameters(annotatedOperation.service(), annotatedOperation.action(), methodParameters);
@@ -196,6 +205,7 @@ public class MessagingAPIParameterGenerator {
 
     /**
      * Creates parameters according to MessageReferenceListOperation configuration
+     *
      * @param annotatedOperation
      * @return List of operational parameters
      */
@@ -254,6 +264,7 @@ public class MessagingAPIParameterGenerator {
 
     /**
      * Method validates of parameter name matches the definition. if not then parameter is generated INLINE
+     *
      * @param parameterType
      * @param parameterName
      * @return
@@ -261,11 +272,12 @@ public class MessagingAPIParameterGenerator {
     private Parameter createMessagingParameterForTypeWithName(MessagingParameterType parameterType, String parameterName) {
         // creates message id parameter. The object must be created inline if named does not match the definition
         Parameter parameter
-                = StringUtils.equals(parameterName,parameterType.getName() )?
-                createMessagingParameterForType(parameterType): createMessagingParameterForTypePrivate(parameterType);
+                = StringUtils.equals(parameterName, parameterType.getName()) ?
+                createMessagingParameterForType(parameterType) : createMessagingParameterForTypePrivate(parameterType);
         parameter.setName(parameterName);
         return parameter;
     }
+
     /**
      * Method returns messaging api parameter according to parameterDefinitionLocation. If parameterDefinitionLocation is set to document
      * then Parameter is added to #/components/parameters/ in case MESSAGING_API then parameter reference is set to
@@ -276,17 +288,17 @@ public class MessagingAPIParameterGenerator {
      */
     private Parameter createMessagingParameterForType(MessagingParameterType parameterType) {
 
-        String definitionURI = pathUtils.getDefinitionURI(messagingAPIDefinitionsLocation, parameterType.getMessagingReferenceType(), MessagingConstants.OPENAPI_SUBPATH_PARAMETERS, messagingAPIURL );
+        String definitionURI = pathUtils.getDefinitionURI(messagingAPIDefinitionsLocation, parameterType.getMessagingReferenceType(), MessagingConstants.OPENAPI_SUBPATH_PARAMETERS, messagingAPIURL);
         Parameter parameter;
-        switch (messagingAPIDefinitionsLocation){
-            case DOCUMENT_COMPONENTS:{
+        switch (messagingAPIDefinitionsLocation) {
+            case DOCUMENT_COMPONENTS: {
                 if (!components.getParameters().containsKey(parameterType.getMessagingReferenceType().getName())) {
                     Parameter parameterSchema = createMessagingParameterForTypePrivate(parameterType);
                     components.getParameters().put(parameterType.getMessagingReferenceType().getName(), parameterSchema);
                 }
             }
             case MESSAGING_API_OBJECT:
-            case MESSAGING_API_COMPONENTS:{
+            case MESSAGING_API_COMPONENTS: {
                 // this part is common to DOCUMENT_COMPONENTS, MESSAGING_API_OBJECT and MESSAGING_API_COMPONENTS!
                 parameter = new Parameter()
                         .$ref(definitionURI);

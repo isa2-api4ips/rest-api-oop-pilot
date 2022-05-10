@@ -8,7 +8,9 @@ import eu.europa.ec.isa2.oop.dsd.dao.entities.PullMessagePayloadEntity;
 import eu.europa.ec.isa2.oop.dsd.model.*;
 import eu.europa.ec.isa2.oop.dsd.model.enums.DSDRequestStatus;
 import eu.europa.ec.isa2.oop.dsd.model.enums.PullStatus;
+import eu.europa.ec.isa2.oop.dsd.property.DsdMockProperties;
 import eu.europa.ec.isa2.oop.dsd.utils.StoragesService;
+import eu.europa.ec.isa2.oop.restapi.config.OpenApiConfig;
 import eu.europa.ec.isa2.oop.restapi.docsapi.DSDDatasetApi;
 import eu.europa.ec.isa2.oop.restapi.utils.DaoQueryUtils;
 import eu.europa.ec.isa2.oop.restapi.webhook.DSDWebhookClient;
@@ -38,17 +40,19 @@ public class DSDDatasetController extends MessagingOpenApi implements DSDDataset
     PullMessageDao pullMessageDao;
     StoragesService storagesService;
     DSDWebhookClient dsdWebhookClient;
+    DsdMockProperties dsdMockProperties;
 
-    @Autowired
     public DSDDatasetController(DatasetDao datasetDao,
                                 PullMessageDao pullMessageDao,
                                 StoragesService storagesService,
-                                DSDWebhookClient dsdWebhookClient) {
-        super(DSDDatasetApi.class, "dataset");
+                                DSDWebhookClient dsdWebhookClient,
+                                DsdMockProperties dsdMockProperties) {
+        super(DSDDatasetApi.class, OpenApiConfig.DATASET_API_GROUP);
         this.datasetDao = datasetDao;
         this.pullMessageDao = pullMessageDao;
         this.storagesService = storagesService;
         this.dsdWebhookClient = dsdWebhookClient;
+        this.dsdMockProperties = dsdMockProperties;
     }
 
     @Override
@@ -117,7 +121,10 @@ public class DSDDatasetController extends MessagingOpenApi implements DSDDataset
 
         pullMessageDao.persistFlushDetach(pullMessage);
 
-        dsdWebhookClient.submitMessageReadySignal(webhookUrl, pullMessage.getIdentifier(), "dsd-application");
+        // just one final recipient for the demo. Make it message dependant if needed for the future!
+        dsdWebhookClient.submitMessageReadySignal(webhookUrl, pullMessage.getIdentifier(),
+                dsdMockProperties.getDemoDsdOriginalSender(),
+                dsdMockProperties.getDemoDsdFinalRecipient());
     }
 
     @Override

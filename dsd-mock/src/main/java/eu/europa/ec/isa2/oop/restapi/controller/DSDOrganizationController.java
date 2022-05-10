@@ -10,6 +10,7 @@ import eu.europa.ec.isa2.oop.dsd.model.OrganizationSearchResult;
 import eu.europa.ec.isa2.oop.dsd.model.StatusResult;
 import eu.europa.ec.isa2.oop.dsd.model.enums.DSDRequestStatus;
 import eu.europa.ec.isa2.oop.dsd.model.enums.PullStatus;
+import eu.europa.ec.isa2.oop.restapi.config.OpenApiConfig;
 import eu.europa.ec.isa2.oop.restapi.docsapi.DSDOrganizationApi;
 import eu.europa.ec.isa2.restapi.profile.docsapi.exceptions.MessagingAPIException;
 import eu.europa.ec.isa2.restapi.utils.StorageException;
@@ -44,7 +45,7 @@ public class DSDOrganizationController extends MessagingOpenApi implements DSDOr
     public DSDOrganizationController(OrganizationDao organizationDao,
                                      PullMessageDao pullMessageDao,
                                      StoragesService storagesService) {
-        super(DSDOrganizationApi.class, "organization");
+        super(DSDOrganizationApi.class, OpenApiConfig.ORGANIZATION_API_GROUP);
         this.organizationDao = organizationDao;
         this.pullMessageDao = pullMessageDao;
         this.storagesService = storagesService;

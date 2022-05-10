@@ -18,6 +18,7 @@ public enum MessagingReferenceType {
     RESPONSE_WEBHOOK("Response-Webhook", MESSAGING_PROFILE,"response-webhook.json"),
     SIGNAL_WEBHOOK("Signal-Webhook", MESSAGING_PROFILE,"signal-webhook.json"),
     MESSAGE_ID("messageId", MESSAGING_PROFILE,"message-id.json"),
+    MESSAGE_ID_HEADER("Message-Id", MESSAGING_PROFILE,"message-id.json"), // it can be message-id.json because it is in header folder
     SERVICE("service", MESSAGING_PROFILE,"service.json"),
     ACTION("action", MESSAGING_PROFILE,"action.json"),
     RESPONSE_MESSAGE_ID("rMessageId", MESSAGING_PROFILE,"response-message-id.json"),

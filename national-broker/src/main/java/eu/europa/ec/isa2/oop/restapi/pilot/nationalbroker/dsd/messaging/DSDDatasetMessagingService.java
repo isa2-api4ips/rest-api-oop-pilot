@@ -1,5 +1,6 @@
 package eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.dsd.messaging;
 
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.application.model.ServiceResult;
 import eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.application.property.NationalBrokerProperties;
 import eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.application.security.JwsService;
@@ -62,6 +63,8 @@ public class DSDDatasetMessagingService {
 
         RestTemplate restTemplate = new DSDRestTemplate(jwsService, interceptor);
         ApiClient apiClient = new ApiClient(restTemplate);
+        // add iso format without miliseconds
+        apiClient.setDateFormat(new ISO8601DateFormat());
         if (nationalBrokerProperties.isOAuthSecurityEnabled()) {
             OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId("DSDOAuthClient")
                     .principal("NationalBrokerDSDClient")
@@ -70,10 +73,12 @@ public class DSDDatasetMessagingService {
             OAuth2AccessToken accessToken = Objects.requireNonNull(authorizedClient).getAccessToken();
             apiClient.setAccessToken(accessToken.getTokenValue());
         }
+        apiClient.setBasePath(nationalBrokerProperties.getDsdUrl());
 
         dsdDatasetMessageSubmissionApi = new DsdDatasetMessageSubmissionApi(apiClient);
         dsdDatasetPullMessageApi = new DsdDatasetPullMessageApi(apiClient);
         dsdDatasetMessageReferenceListApi = new DsdDatasetMessageReferenceListApi(apiClient);
+
     }
 
 

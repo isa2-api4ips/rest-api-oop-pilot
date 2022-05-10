@@ -33,7 +33,7 @@
 
         <!-- plugins -->
         <frontend-maven-plugin.version>1.9.1</frontend-maven-plugin.version>
-        <swagger-codegen-maven-plugin.version>3.0.27</swagger-codegen-maven-plugin.version>
+        <swagger-codegen-maven-plugin.version>3.0.34</swagger-codegen-maven-plugin.version>
         <!-- dependencies -->
         <bouncycastle.version>1.68</bouncycastle.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>

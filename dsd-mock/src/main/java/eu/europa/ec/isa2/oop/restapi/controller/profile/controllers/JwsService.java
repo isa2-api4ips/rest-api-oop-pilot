@@ -19,6 +19,7 @@ import eu.europa.esig.dss.validation.reports.Reports;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
@@ -35,11 +36,10 @@ import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 
 @Component
 public class JwsService implements KeystoreDataProvider {
@@ -62,10 +62,14 @@ public class JwsService implements KeystoreDataProvider {
         jadesSignature = new JADESSignature(keystoreFileConnection, truststoreFileConnection);
     }
 
-    public void signJsonResponse(Object json, HttpServletResponse response, MediaType type) {
+    public void signJsonResponse(Object json, HttpServletResponse response, MediaType type, Map<String, String> headers) {
+
+
         try (OutputStream sos = response.getOutputStream()) {
-            Map<String, String>  headers = signAndWriteJsonResponse(json, sos, type);
-            headers.forEach((header, value) -> response.addHeader(header, value) );
+
+            Map<String, String>  signedHeaders = signAndWriteJsonResponse(json, sos, type, headers);
+
+            signedHeaders.forEach((header, value) -> response.addHeader(header, value) );
         } catch (IOException e) {
             throw new MessagingAPIException(APIProblemType.INTERNAL_SERVER_ERROR, "Error occurred while reading signing the JSON object", null, e);
         }
@@ -82,11 +86,15 @@ public class JwsService implements KeystoreDataProvider {
         }
     }
 
-    public Map<String, String> signAndWriteJsonResponse(Object json, OutputStream outputStream, MediaType mimeType) {
+    public Map<String, String> signAndWriteJsonResponse(Object json, OutputStream outputStream, MediaType mimeType, Map<String, String> headers) {
 
         DigestAlgorithm algorithm = DigestAlgorithm.forName(dsdMockProperties.getPayloadDigestAlgorithm());
         JsonDssDocument inMemoryDocument = new JsonDssDocument(json);
         List<DSSDocument> headersToSign = jadesSignature.generatedHeadersFromJsonObject(inMemoryDocument, algorithm, mimeType, false);
+        headers.forEach((key, value)->{
+            headersToSign.add(new HTTPHeader(key, value));
+        });
+
 
         String signature;
         try {
@@ -105,11 +113,10 @@ public class JwsService implements KeystoreDataProvider {
         } catch (IOException e) {
             throw new MessagingAPIException(APIProblemType.INTERNAL_SERVER_ERROR, "Error occurred while writing the JSON object to out stream", null, e);
         }
-        Map<String, String> headers = new HashMap<>();
-        headers.put(MessagingParameterType.EDEL_MESSAGE_SIG.getName(), signature);
-        headers.put(MessagingParameterType.TIMESTAMP.getName(), LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
-        headersToSign.forEach(header -> headers.put(header.getName(), ((HTTPHeader) header).getValue()));
-        return headers;
+        Map<String, String> signedHeaders = new HashMap<>();
+        signedHeaders.put(MessagingParameterType.EDEL_MESSAGE_SIG.getName(), signature);
+        headersToSign.forEach(header -> signedHeaders.put(header.getName(), ((HTTPHeader) header).getValue()));
+        return signedHeaders;
 
     }
 
@@ -119,17 +126,17 @@ public class JwsService implements KeystoreDataProvider {
         DigestAlgorithm algorithm = DigestAlgorithm.forName(dsdMockProperties.getPayloadDigestAlgorithm());
         return jadesSignature.createDetachedSignature(headersToSign,alias, false, algorithm);
     }
-
+/*
     public MimeBodyPart generateSignedMultipartPayloadFromJson(Object payload) throws MessagingException, IOException {
         String alias = dsdMockProperties.getSignatureKeyAlias();
         DigestAlgorithm algorithm = DigestAlgorithm.forName(dsdMockProperties.getPayloadDigestAlgorithm());
         return jadesSignature.createSignedMultipartPayloadFromJson(payload, alias, false, algorithm);
-    }
+    }*/
 
-    public SignedMimeMultipart createSignedMimeMultipartFromJson(Object payload) throws MessagingException, IOException {
+    public SignedMimeMultipart createSignedMimeMultipartFromJson(Object payload, Map<String, String> headers) throws MessagingException, IOException {
         String alias = dsdMockProperties.getSignatureKeyAlias();
         DigestAlgorithm algorithm = DigestAlgorithm.forName(dsdMockProperties.getPayloadDigestAlgorithm());
-        return jadesSignature.createSignedMimeMultipartFromJson(payload, alias, false, algorithm, null);
+        return jadesSignature.createSignedMimeMultipartFromJson(payload, alias, false, algorithm, headers);
     }
 
     public void validateSignature(String signatureValue, List<DSSDocument> headersToSign ){

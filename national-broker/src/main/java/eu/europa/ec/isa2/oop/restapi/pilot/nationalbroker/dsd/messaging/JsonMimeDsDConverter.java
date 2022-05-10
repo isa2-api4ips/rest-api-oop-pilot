@@ -2,11 +2,8 @@ package eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.dsd.messaging;
 
 
 import eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.application.security.JwsService;
-import eu.europa.ec.isa2.restapi.jws.SignedMimeMultipart;
 import eu.europa.ec.isa2.restapi.profile.constants.MessagingConstants;
 import eu.europa.ec.isa2.restapi.profile.enums.MessagingParameterType;
-import eu.europa.eu.dsd.messaging.gen.organization.model.SearchParameters;
-import eu.europa.eu.dsd.messaging.gen.organization.model.UpdateOrganizationRequest;
 import io.swagger.v3.core.util.Json;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -19,12 +16,15 @@ import org.springframework.http.converter.AbstractHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 
 public class JsonMimeDsDConverter
@@ -80,10 +80,35 @@ public class JsonMimeDsDConverter
             requestTargetList = outputMessage.getHeaders().remove("Request-Target-PRIVATE");
         }
 
+        // parse datetime make sure to write it without ms
+        OffsetDateTime dateTime = OffsetDateTime.now();
+        if (outputMessage.getHeaders().containsKey(MessagingParameterType.TIMESTAMP.getName())) {
+            // just for demo  -:)
+            String strTimestamp = outputMessage.getHeaders().get(MessagingParameterType.TIMESTAMP.getName()).get(0);
+            dateTime = OffsetDateTime.parse(strTimestamp, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            outputMessage.getHeaders().remove(MessagingParameterType.TIMESTAMP.getName());
+        }
+        outputMessage.getHeaders().add(MessagingParameterType.TIMESTAMP.getName(),
+                dateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_DATE_TIME));
+
+        Map<String, String> headers = new HashMap<>();
+        outputMessage.getHeaders().forEach((header, value) -> {
+            LOG.info("Add existing header: [{}], [{}]", header, value);
+            // sign only headers which occurred only once!
+            if (value.size() == 1) {
+                headers.put(header, value.get(0));
+            }
+        });
+
+        if (!headers.containsKey(MessagingParameterType.MESSAGE_ID_HEADER.getName())) {
+            // al signals and message reference jsons must have messageID
+            headers.put(MessagingParameterType.MESSAGE_ID_HEADER.getName(), UUID.randomUUID().toString());
+        }
+
         // set headers
         Map<String, String> httpHeaders;
         try (OutputStream outputStream = outputMessage.getBody()) {
-            httpHeaders = jwsService.signAndWriteJsonResponse(request, outputStream, outputMessage.getHeaders().getContentType());
+            httpHeaders = jwsService.signAndWriteJsonResponse(request, outputStream, outputMessage.getHeaders().getContentType(), headers);
         } catch (IOException e) {
             throw new HttpMessageNotWritableException("Error occurred while signing json response!", e);
         }

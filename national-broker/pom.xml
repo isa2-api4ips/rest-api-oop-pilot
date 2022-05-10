@@ -289,6 +289,7 @@
                                 <library>resttemplate</library>
                                 <java8>true</java8>
                                 <dateLibrary>java8</dateLibrary>
+
                                 <licenseName>Apache 2.0</licenseName>
                                 <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
                             </configOptions>

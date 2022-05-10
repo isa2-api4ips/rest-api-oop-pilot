@@ -1,5 +1,6 @@
 package eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.dsd.messaging;
 
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.application.property.NationalBrokerProperties;
 import eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.application.security.JwsService;
 import eu.europa.ec.isa2.oop.restapi.pilot.nationalbroker.dsd.dao.DSDRequestLoggerDao;
@@ -62,6 +63,9 @@ public class DSDOrganizationMessagingService {
 
         RestTemplate restTemplate = new DSDRestTemplate(jwsService, interceptor);
         ApiClient apiClient = new ApiClient(restTemplate);
+
+        // add iso format without miliseconds
+        apiClient.setDateFormat(new ISO8601DateFormat());
         // this is for the DEMO
         apiClient.setBasePath(nationalBrokerProperties.getDsdUrl());
         apiClient.setUserAgent("NationalBroker");
@@ -126,12 +130,14 @@ public class DSDOrganizationMessagingService {
 
         // set call properties
         dsdOrganizationRestClient.getApiClient().setBasePath(nationalBrokerProperties.getDsdUrl());
-
+        OffsetDateTime dateTime = OffsetDateTime.now();
+        String eDelMessageSig = null;
 
         SignalMessage response = dsdOrganizationRestClient.organizationSignalSubmissionId(
+                dateTime,
                 messageId,
                 signalMessage,
-                null);
+                eDelMessageSig);
 
         LOG.info("notifyMessageReceived for id: [{}] gor response: [{}]", messageId, response);
 

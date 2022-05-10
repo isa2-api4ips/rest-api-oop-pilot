@@ -26,7 +26,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.KeyStore;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Component
@@ -91,19 +93,23 @@ public class JwsService implements KeystoreDataProvider {
 
     public void signJsonResponse(Object json, HttpServletResponse response) {
         try (OutputStream sos = response.getOutputStream()) {
-            Map<String, String>  headers = signAndWriteJsonResponse(json, sos, MediaType.APPLICATION_JSON);
+            Map<String, String>  headers = signAndWriteJsonResponse(json, sos, MediaType.APPLICATION_JSON, null);
             headers.forEach((header, value) -> response.addHeader(header, value) );
         } catch (IOException e) {
             throw new MessagingAPIException(APIProblemType.INTERNAL_SERVER_ERROR, "Error occurred while reading signing the JSON object", null, e);
         }
     }
 
-    public Map<String, String> signAndWriteJsonResponse(Object json, OutputStream outputStream, MediaType mimeType) {
+    public Map<String, String> signAndWriteJsonResponse(Object json, OutputStream outputStream, MediaType mimeType, Map<String, String> headers ) {
 
         DigestAlgorithm algorithm = DigestAlgorithm.forName(nationalBrokerProperties.getPayloadDigestAlgorithm());
         JsonDssDocument inMemoryDocument = new JsonDssDocument(json);
         List<DSSDocument> headersToSign = jadesSignature.generatedHeadersFromJsonObject(inMemoryDocument, algorithm, mimeType, false);
-
+        if (headers!=null) {
+            headers.forEach( (key, val) -> {
+                headersToSign.add(new HTTPHeader(key, val));
+            });
+        }
         String signature;
         try {
             signature = signMessageHeaders(headersToSign);
@@ -121,11 +127,10 @@ public class JwsService implements KeystoreDataProvider {
         } catch (IOException e) {
             throw new MessagingAPIException(APIProblemType.INTERNAL_SERVER_ERROR, "Error occurred while streaming the JSON object!", null, e);
         }
-        Map<String, String> headers = new HashMap<>();
-        headers.put(MessagingParameterType.EDEL_MESSAGE_SIG.getName(), signature);
-        headers.put(MessagingParameterType.TIMESTAMP.getName(), LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
-        headersToSign.forEach(header -> headers.put(header.getName(), ((HTTPHeader) header).getValue()));
-        return headers;
+        Map<String, String> signedHeaders = new HashMap<>();
+        signedHeaders.put(MessagingParameterType.EDEL_MESSAGE_SIG.getName(), signature);
+        headersToSign.forEach(header -> signedHeaders.put(header.getName(), ((HTTPHeader) header).getValue()));
+        return signedHeaders;
     }
 
     /**

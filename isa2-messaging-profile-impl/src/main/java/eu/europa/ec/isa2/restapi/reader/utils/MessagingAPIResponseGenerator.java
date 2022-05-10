@@ -23,8 +23,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static eu.europa.ec.isa2.restapi.profile.enums.APIProblemType.MESSAGE_ACCEPTED;
-import static eu.europa.ec.isa2.restapi.profile.enums.MessagingParameterType.EDEL_MESSAGE_SIG;
-import static eu.europa.ec.isa2.restapi.profile.enums.MessagingParameterType.EDEL_PAYLOAD_SIG;
+import static eu.europa.ec.isa2.restapi.profile.enums.MessagingParameterType.*;
 
 
 /**
@@ -70,7 +69,7 @@ public class MessagingAPIResponseGenerator {
         p.setDescription(description);
         // always add headers for signal - that is Edel-Message-Sig
         // the Original-Sender and Final recipient are added manually for pull and webhook endpoint!
-        addCommonHeaders(p, true);
+        addCommonHeaders(p, false);
         return p;
     }
 
@@ -83,8 +82,8 @@ public class MessagingAPIResponseGenerator {
 
     public RequestBody createSignalMessageRequest(APIProblemType messageType) {
         //MESSAGE_ACCEPTED
-        Content multipartContent = createSignalMessageContent(messageType);
-        RequestBody p = new RequestBody().content(multipartContent);
+        Content signalContent = createSignalMessageContent(messageType);
+        RequestBody p = new RequestBody().content(signalContent);
         return p;
     }
 
@@ -94,7 +93,6 @@ public class MessagingAPIResponseGenerator {
         List<MessagingParameterType> headerParameters = Arrays.asList(MessagingParameterType.values()).stream()
                 .filter(parameterType -> !parameterType.isPayloadPart()
                         && (parameterType.getLocation() == MessagingParameterLocationType.HEADER)
-                        && !parameterType.isPayloadPart()
                         && !parameterType.isWebhookParameters()
                         && headersForSignal != parameterType.isUserMessageParameter()
                         && parameterType.getMessagingParameterUsageType() != MessagingParameterUsageType.MESSAGE_REQUEST_ONLY
@@ -110,7 +108,7 @@ public class MessagingAPIResponseGenerator {
                 .filter(parameterType -> parameterType.isPayloadPart()
                         && (parameterType.getLocation() == MessagingParameterLocationType.HEADER)
                         && parameterType.isPayloadPart()
-                        ).collect(Collectors.toList());
+                ).collect(Collectors.toList());
         for (MessagingParameterType parameterType : headerParameters) {
             headerMap.put(parameterType.getName(), createMessagingHeaderForType(parameterType));
         }
@@ -128,7 +126,7 @@ public class MessagingAPIResponseGenerator {
     public Content createMultipartContent(String title, String description, MultipartPayload[] payloads) {
         MediaType mediaType = new MediaType();
         Schema requestBody;
-        Map<String, Header> headerMap = getPayloadHeaders();
+        Map<String, Header> payloadHeaders = getPayloadHeaders();
         if (payloads == null || payloads.length == 0) {
             String simpleName = PayloadBody.class.getSimpleName();
             if (!components.getSchemas().containsKey(simpleName)) {
@@ -137,7 +135,7 @@ public class MessagingAPIResponseGenerator {
                 payloadPart.referencedSchemas.forEach(components::addSchemas);
             }
             requestBody = new Schema().$ref(MessagingConstants.OPENAPI_REF_PATH_SCHEMAS + simpleName);
-            mediaType.addEncoding(simpleName, new Encoding().headers(headerMap));
+            mediaType.addEncoding(simpleName, new Encoding().headers(payloadHeaders));
 
         } else {
             requestBody = new Schema()
@@ -153,7 +151,7 @@ public class MessagingAPIResponseGenerator {
                         }
                         mediaType.addEncoding(multipartPayload.name(),
                                 new Encoding().contentType(multipartPayload.contentType())
-                                        .headers(headerMap));
+                                        .headers(payloadHeaders));
                     }
             );
         }
@@ -260,6 +258,8 @@ public class MessagingAPIResponseGenerator {
         response.setDescription(type.getDetail());
         // add only signature header
         response.addHeaderObject(EDEL_MESSAGE_SIG.getName(), createMessagingHeaderForType(EDEL_MESSAGE_SIG));
+        response.addHeaderObject(TIMESTAMP.getName(), createMessagingHeaderForType(TIMESTAMP));
+        response.addHeaderObject(MESSAGE_ID_HEADER.getName(), createMessagingHeaderForType(MESSAGE_ID_HEADER));
         return response;
     }
 
@@ -389,6 +389,8 @@ public class MessagingAPIResponseGenerator {
         response.setDescription("Sent when the message is properly validated and received.");
         // add only signature header
         response.addHeaderObject(EDEL_MESSAGE_SIG.getName(), createMessagingHeaderForType(EDEL_MESSAGE_SIG));
+        response.addHeaderObject(TIMESTAMP.getName(), createMessagingHeaderForType(TIMESTAMP));
+        response.addHeaderObject(MESSAGE_ID_HEADER.getName(), createMessagingHeaderForType(MESSAGE_ID_HEADER));
         return response;
     }
 

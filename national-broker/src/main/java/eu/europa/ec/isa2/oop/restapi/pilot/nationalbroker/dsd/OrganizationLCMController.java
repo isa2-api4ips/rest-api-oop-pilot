@@ -83,7 +83,7 @@ public class OrganizationLCMController {
         jwsService.signJsonResponse(result, response);
         // call DSD mock
         String token = originalSenderTokenRetriever.getRequesterIdentityToken();
-        token = validatedAndGenerateOriginalSenderToken(userId, token);
+        token = validatedAndGenerateOriginalSenderToken(token, userId);
         dsdOrganizationMessagingService.updateOrganization(result, messageIdentifier,userId,userId, token);
         return result;
     }

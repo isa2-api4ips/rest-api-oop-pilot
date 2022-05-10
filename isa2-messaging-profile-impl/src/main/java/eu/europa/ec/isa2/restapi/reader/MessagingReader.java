@@ -58,7 +58,6 @@ public class MessagingReader {
         this.components.setResponses(new LinkedHashMap<>());
         this.components.setParameters(new LinkedHashMap<>());
         this.components.setHeaders(new LinkedHashMap<>());
-
         this.openAPI.setComponents(components);
         this.messagingAPIParameterGenerator = new MessagingAPIParameterGenerator(components, messagingAPIDefinitionsLocation, parameterUrl);
         this.messagingAPIResponseGenerator = new MessagingAPIResponseGenerator(components, messagingAPIDefinitionsLocation, parameterUrl);
@@ -209,6 +208,8 @@ public class MessagingReader {
         defaultResponse.addHeaderObject(ORIGINAL_SENDER_TOKEN.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(ORIGINAL_SENDER_TOKEN));
         defaultResponse.addHeaderObject(FINAL_RECIPIENT.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(FINAL_RECIPIENT));
         defaultResponse.addHeaderObject(TIMESTAMP.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(TIMESTAMP));
+        defaultResponse.addHeaderObject(MESSAGE_ID_HEADER.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(MESSAGE_ID_HEADER));
+        defaultResponse.addHeaderObject(EDEL_MESSAGE_SIG.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(EDEL_MESSAGE_SIG));
 
         responses.addApiResponse(MESSAGE_ACCEPTED.getStatus().toString(),defaultResponse);
 
@@ -319,7 +320,8 @@ public class MessagingReader {
         defaultResponse.addHeaderObject(ORIGINAL_SENDER_TOKEN.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(ORIGINAL_SENDER_TOKEN));
         defaultResponse.addHeaderObject(FINAL_RECIPIENT.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(FINAL_RECIPIENT));
         defaultResponse.addHeaderObject(TIMESTAMP.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(TIMESTAMP));
-
+        defaultResponse.addHeaderObject(MESSAGE_ID_HEADER.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(MESSAGE_ID_HEADER));
+        defaultResponse.addHeaderObject(EDEL_MESSAGE_SIG.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(EDEL_MESSAGE_SIG));
 
         responses.addApiResponse(MESSAGE_ACCEPTED.getStatus().toString(),
                 defaultResponse);
@@ -523,11 +525,17 @@ public class MessagingReader {
                 annotatedOperation.requestPayloads());
         ApiResponses responses = new ApiResponses();
         if (annotatedOperation.sync()) {
-            responses.addApiResponse(MESSAGE_ACCEPTED.getStatus().toString(),
-                    messagingAPIResponseGenerator.createMultipartResponse(
-                            annotatedOperation.responseTitle(),
-                            annotatedOperation.responseDescription(),
-                            annotatedOperation.responsePayloads()));
+            ApiResponse multipartResponse =  messagingAPIResponseGenerator.createMultipartResponse(
+                    annotatedOperation.responseTitle(),
+                    annotatedOperation.responseDescription(),
+                    annotatedOperation.responsePayloads());
+
+            multipartResponse.addHeaderObject(TIMESTAMP.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(TIMESTAMP));
+            multipartResponse.addHeaderObject(MESSAGE_ID_HEADER.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(MESSAGE_ID_HEADER));
+            multipartResponse.addHeaderObject(EDEL_MESSAGE_SIG.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(EDEL_MESSAGE_SIG));
+
+           responses.addApiResponse(MESSAGE_ACCEPTED.getStatus().toString(),multipartResponse );
+
         } else {
             responses.addApiResponse(MESSAGE_ACCEPTED.getStatus().toString(),
                     messagingAPIResponseGenerator.createSignalMessageResponse());

@@ -190,6 +190,7 @@ public class JADESSignature {
     public MimeBodyPart createSignedMultipartPayloadFromJson(Object payload, String alias, boolean addChain, DigestAlgorithm signDigestAlgorithm) throws MessagingException, IOException {
 
         JsonDssDocument jsonDssDocument = new JsonDssDocument(payload);
+
         List<DSSDocument> headersToSign = generatedHeadersFromJsonObject(jsonDssDocument, signDigestAlgorithm, true);
 
         MimeBodyPart part = new MimeBodyPart();
@@ -207,10 +208,11 @@ public class JADESSignature {
     }
 
     public List<DSSDocument> generatedHeadersFromJsonObject(JsonDssDocument payload, DigestAlgorithm signDigestAlgorithm, MediaType mimeType, boolean attachment) {
-        HTTPHeaderDigest httpHeaderDigest = new HTTPHeaderDigest(payload, signDigestAlgorithm);
+
         List<DSSDocument> headersToSign = new ArrayList<>();
+        Class payloadClass = payload.getJsonObject().getClass();
         headersToSign.add(new HTTPHeader(HttpHeaders.CONTENT_DISPOSITION, (attachment?"Attachment;":"")+"name=\""
-                + payload.getClass().getName() + "\"; filename=\"" + payload.getClass().getName() + ".json\""));
+                + payloadClass.getName() + "\"; filename=\"" +payloadClass.getClass().getName() + ".json\""));
 
         headersToSign.add(new HTTPHeader(HttpHeaders.CONTENT_TYPE, mimeType==null?MediaType.APPLICATION_JSON_VALUE: mimeType.toString()));
         headersToSign.add(new HTTPHeader(HttpHeaders.CONTENT_LENGTH, payload.getSize()+""));
