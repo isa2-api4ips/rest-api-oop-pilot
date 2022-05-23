@@ -101,10 +101,17 @@ public class MessageServiceHandlerController extends GeneralOpenApi
     JwsService jwsService;
     DsdMockProperties dsdMockProperties;
 
-    public static final List<MessagingParameterType> SIGN_HEADERS = Arrays.asList(MessagingParameterType.ORIGINAL_SENDER,
+    /**
+     * Sign headers if exits
+     */
+    public static final List<MessagingParameterType> SIGN_HEADERS = Arrays.asList(
+            MessagingParameterType.ORIGINAL_SENDER,
             MessagingParameterType.ORIGINAL_SENDER_TOKEN,
             MessagingParameterType.FINAL_RECIPIENT,
-            MessagingParameterType.MESSAGE_ID_HEADER);
+            MessagingParameterType.MESSAGE_ID_HEADER,
+            MessagingParameterType.SERVICE_HEADER,
+            MessagingParameterType.ACTION_HEADER
+    );
 
     @Autowired
     public MessageServiceHandlerController(APIRegistration controller, JwsService jwsService, DsdMockProperties dsdMockProperties) {
@@ -171,6 +178,10 @@ public class MessageServiceHandlerController extends GeneralOpenApi
         response.setHeader(MessagingParameterType.ORIGINAL_SENDER.getName(), finalRecipient);
         response.setHeader(MessagingParameterType.ORIGINAL_SENDER_TOKEN.getName(), jwsService.createOriginalSenderToken(finalRecipient));
         response.setHeader(MessagingParameterType.FINAL_RECIPIENT.getName(), originalSender);
+        //TODO: response service and action are part of business logic - defined by business message exchange.
+        // This implementation is just for DEMO!!
+        response.setHeader(MessagingParameterType.SERVICE_HEADER.getName(), service);
+        response.setHeader(MessagingParameterType.ACTION_HEADER.getName(), action + "-response");
         response.setHeader(MessagingParameterType.MESSAGE_ID_HEADER.getName(), UUID.randomUUID().toString());
 
         respondMultipartFromJson(result, response);

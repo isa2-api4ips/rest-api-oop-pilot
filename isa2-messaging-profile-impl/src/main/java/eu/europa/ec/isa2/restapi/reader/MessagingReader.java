@@ -534,6 +534,11 @@ public class MessagingReader {
             multipartResponse.addHeaderObject(MESSAGE_ID_HEADER.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(MESSAGE_ID_HEADER));
             multipartResponse.addHeaderObject(EDEL_MESSAGE_SIG.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(EDEL_MESSAGE_SIG));
 
+            if(annotatedOperation.sync()){
+                multipartResponse.addHeaderObject(SERVICE_HEADER.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(SERVICE_HEADER));
+                multipartResponse.addHeaderObject(ACTION_HEADER.getName(), messagingAPIResponseGenerator.createMessagingHeaderForType(ACTION_HEADER));
+            }
+
            responses.addApiResponse(MESSAGE_ACCEPTED.getStatus().toString(),multipartResponse );
 
         } else {
