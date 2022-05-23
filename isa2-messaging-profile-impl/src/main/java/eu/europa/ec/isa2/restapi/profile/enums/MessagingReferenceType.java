@@ -19,6 +19,8 @@ public enum MessagingReferenceType {
     SIGNAL_WEBHOOK("Signal-Webhook", MESSAGING_PROFILE,"signal-webhook.json"),
     MESSAGE_ID("messageId", MESSAGING_PROFILE,"message-id.json"),
     MESSAGE_ID_HEADER("Message-Id", MESSAGING_PROFILE,"message-id.json"), // it can be message-id.json because it is in header folder
+    SERVICE_HEADER("Service", MESSAGING_PROFILE,"service.json"), // it can be message-id.json because it in header folder and path parameter is in parameter folder
+    ACTION_HEADER("Action", MESSAGING_PROFILE,"action.json"), // it can be action.json because it is in header folder and path parameter is in parameter folder
     SERVICE("service", MESSAGING_PROFILE,"service.json"),
     ACTION("action", MESSAGING_PROFILE,"action.json"),
     RESPONSE_MESSAGE_ID("rMessageId", MESSAGING_PROFILE,"response-message-id.json"),

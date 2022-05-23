@@ -434,15 +434,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "fba76904-398e-4fa3-a79e-7093cc4d4006",
+                    "messageId" : "9b9a4c29-319d-4c7b-8f5c-61dd74d77b42",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/fba76904-398e-4fa3-a79e-7093cc4d4006"
+                    "href" : "/my-service/my-action/9b9a4c29-319d-4c7b-8f5c-61dd74d77b42"
                   }, {
-                    "messageId" : "e6f426b6-fd0a-4041-a000-9bc6acf9100c",
+                    "messageId" : "a1e7cfe1-1887-4130-be00-e6d115f2548d",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/e6f426b6-fd0a-4041-a000-9bc6acf9100c"
+                    "href" : "/my-service/my-action/a1e7cfe1-1887-4130-be00-e6d115f2548d"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -742,15 +742,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "f16d52b7-cc56-47d7-ac99-4db370fd8f78",
+                    "messageId" : "b2c0e57e-1dde-457e-a927-a8120f786936",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/f16d52b7-cc56-47d7-ac99-4db370fd8f78"
+                    "href" : "/my-service/my-action/b2c0e57e-1dde-457e-a927-a8120f786936"
                   }, {
-                    "messageId" : "ac884473-9f82-4e94-a541-85f7d300622b",
+                    "messageId" : "e8cabc6e-9f9d-4c79-86d9-5cf4ba811d06",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/ac884473-9f82-4e94-a541-85f7d300622b"
+                    "href" : "/my-service/my-action/e8cabc6e-9f9d-4c79-86d9-5cf4ba811d06"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -1055,15 +1055,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "e7d4f618-51d2-46a1-a75d-c177579b921d",
+                    "messageId" : "47e9a303-6344-497b-b37a-cd35766cdb1c",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/e7d4f618-51d2-46a1-a75d-c177579b921d"
+                    "href" : "/my-service/my-action/47e9a303-6344-497b-b37a-cd35766cdb1c"
                   }, {
-                    "messageId" : "1ba2f63b-4024-4413-8bf8-685fb101dc95",
+                    "messageId" : "2a9eefbd-fa85-436f-9d4c-4d061c6eda8c",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/1ba2f63b-4024-4413-8bf8-685fb101dc95"
+                    "href" : "/my-service/my-action/2a9eefbd-fa85-436f-9d4c-4d061c6eda8c"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -1202,15 +1202,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "2df931a4-69b2-4153-aa05-959d0a24a539",
+                    "messageId" : "52790f57-bb5f-4bc0-aa14-3fda280f263e",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/2df931a4-69b2-4153-aa05-959d0a24a539"
+                    "href" : "/my-service/my-action/52790f57-bb5f-4bc0-aa14-3fda280f263e"
                   }, {
-                    "messageId" : "591d03dd-7174-4062-990b-fc83dcb499c1",
+                    "messageId" : "d4ae9021-b58f-41e7-90cb-dbe9614f0d5d",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/591d03dd-7174-4062-990b-fc83dcb499c1"
+                    "href" : "/my-service/my-action/d4ae9021-b58f-41e7-90cb-dbe9614f0d5d"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -1349,15 +1349,15 @@
                 },
                 "example" : {
                   "messageReferenceList" : [ {
-                    "messageId" : "e06e27b4-4b7c-4b13-8576-d1f5c74f81dc",
+                    "messageId" : "c2c1def8-1a7c-455d-b0a7-419d056f1390",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/e06e27b4-4b7c-4b13-8576-d1f5c74f81dc"
+                    "href" : "/my-service/my-action/c2c1def8-1a7c-455d-b0a7-419d056f1390"
                   }, {
-                    "messageId" : "afc03dbc-cce2-404b-9c69-47575808c612",
+                    "messageId" : "4e1dbff1-022c-4693-84ae-9aaf6f2cb29c",
                     "service" : "my-service",
                     "action" : "my-action",
-                    "href" : "/my-service/my-action/afc03dbc-cce2-404b-9c69-47575808c612"
+                    "href" : "/my-service/my-action/4e1dbff1-022c-4693-84ae-9aaf6f2cb29c"
                   } ],
                   "limit" : -1,
                   "offset" : 0
@@ -1538,6 +1538,12 @@
               },
               "Edel-Message-Sig" : {
                 "$ref" : "#/components/headers/Edel-Message-Sig"
+              },
+              "Service" : {
+                "$ref" : "#/components/headers/Service"
+              },
+              "Action" : {
+                "$ref" : "#/components/headers/Action"
               }
             },
             "content" : {
@@ -2427,6 +2433,22 @@
           "type" : "string"
         },
         "example" : "9999::333222112"
+      },
+      "Service" : {
+        "description" : "When, in synchronous responses, the rService URL parameter cannot be used for providing the service of the response message, the Service header field can be used instead for the purpose. It is combined with the action from the Action header field to provide a complete domain-level message target.",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "example" : "dsd-service"
+      },
+      "Action" : {
+        "description" : "When, in synchronous responses, the rAction URL parameter cannot be used for providing the action of the service of the response message, the Action header field can be used instead for the purpose. It is combined with the service from the Service header field to provide a complete domain-level message target.",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "example" : "dsd-action"
       }
     },
     "securitySchemes" : {
